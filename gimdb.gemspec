@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{gimdb}
-  s.version = "0.0.4"
+  s.version = "0.0.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Enrico Pilotto"]
@@ -19,12 +19,16 @@ Gem::Specification.new do |s|
      "README.rdoc"
   ]
   s.files = [
-    "LICENSE",
+    ".gitignore",
+     "LICENSE",
      "README.rdoc",
      "Rakefile",
+     "VERSION",
+     "bin/gimdb",
      "controller.rb",
      "db.sql",
      "db.sqlite3",
+     "gimdb.gemspec",
      "gimdb.glade",
      "gimdb.rb",
      "icons/favourites.png",
@@ -54,11 +58,14 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<hpricot>, [">= 0"])
+      s.add_runtime_dependency(%q<activerecord>, [">= 0"])
     else
       s.add_dependency(%q<hpricot>, [">= 0"])
+      s.add_dependency(%q<activerecord>, [">= 0"])
     end
   else
     s.add_dependency(%q<hpricot>, [">= 0"])
+    s.add_dependency(%q<activerecord>, [">= 0"])
   end
 end
 

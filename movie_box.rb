@@ -1,6 +1,3 @@
-require 'round_image.rb'
-
-
 module GtkGimdb
 
   class MovieBox < Gtk::HBox

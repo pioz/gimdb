@@ -1,4 +1,27 @@
-require 'libglade2'
+begin
+  require 'gtk2'
+rescue LoadError => e
+  puts "Error: #{e.to_s}"
+  puts ""
+  puts "You must install 'gtk2' to run this program."
+  puts "If you are using Debian/GNU Linux you can install it with:"
+  puts ""
+  puts "  apt-get install libgnome2-ruby"
+  puts ""
+  exit -1
+end
+begin
+  require 'libglade2'
+rescue LoadError => e
+  puts "Error: #{e.to_s}"
+  puts ""
+  puts "You must install 'libglade2' to run this program."
+  puts "If you are using Debian/GNU Linux you can install it with:"
+  puts ""
+  puts "  apt-get install libglade2-ruby"
+  puts ""
+  exit -1
+end
 require 'controller.rb'
 require 'imdb.rb'
 require 'movie_box.rb'
