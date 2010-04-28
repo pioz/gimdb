@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require 'gimdb.rb'
+
+GimdbGlade.new('gimdb.glade', nil, 'gimdb')
+Gtk.main

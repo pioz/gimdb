@@ -1,6 +1,6 @@
 = gimbd
 
-GTK graphics interface for Internet Movies DataBase
+GTK graphics interface for Internet Movies DataBase.
 
 == Note on Patches/Pull Requests
  

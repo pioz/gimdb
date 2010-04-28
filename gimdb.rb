@@ -1,5 +1,3 @@
-#!/usr/bin/env ruby
-
 require 'libglade2'
 require 'controller.rb'
 require 'imdb.rb'
@@ -275,13 +273,4 @@ class GimdbGlade
     @dialog_users.hide
   end
 
-end
-
-# Main program
-if __FILE__ == $0
-  # Set values as your own application. 
-  PROG_PATH = "gimdb.glade"
-  PROG_NAME = "YOUR_APPLICATION_NAME"
-  GimdbGlade.new(PROG_PATH, nil, PROG_NAME)
-  Gtk.main
 end
