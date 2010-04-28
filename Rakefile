@@ -12,6 +12,7 @@ begin
     gem.authors = [ 'Enrico Pilotto' ]
     gem.add_dependency 'nokogiri'
     gem.add_dependency 'activerecord'
+    gem.add_dependency 'sqlite3-ruby'
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
