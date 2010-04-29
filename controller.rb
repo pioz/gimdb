@@ -1,5 +1,5 @@
-require 'model.rb'
-require 'imdb.rb'
+require 'model'
+require 'libimdb'
 
 
 module Controller

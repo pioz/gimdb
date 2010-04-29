@@ -39,6 +39,7 @@ Gem::Specification.new do |s|
      "icons/users.png",
      "icons/users_edit.png",
      "imdb.rb",
+     "lib/imdb.rb",
      "model.rb",
      "movie_box.rb"
   ]

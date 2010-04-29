@@ -1,1 +1,1 @@
-require 'imdb'
+require 'libimdb'
