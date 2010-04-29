@@ -20,6 +20,7 @@ _gimdb_ may be useful if you don't know what movie see.
 
 For your purposes, you can use the IMDB class.
 
+  require 'rubygems'
   require 'imdb'
   require 'pp'
 

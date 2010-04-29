@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.authors = ["Enrico Pilotto"]
   s.date = %q{2010-04-29}
   s.default_executable = %q{gimdb}
-  s.description = %q{}
+  s.description = %q{GTK graphical interface for Internet Movies DataBase}
   s.email = %q{enrico@megiston.it}
   s.executables = ["gimdb"]
   s.extra_rdoc_files = [
@@ -26,8 +26,6 @@ Gem::Specification.new do |s|
      "VERSION",
      "bin/gimdb",
      "controller.rb",
-     "db.sql",
-     "db.sqlite3",
      "gimdb.gemspec",
      "gimdb.glade",
      "gimdb.rb",
@@ -41,31 +39,32 @@ Gem::Specification.new do |s|
      "icons/users.png",
      "icons/users_edit.png",
      "imdb.rb",
-     "interface.rb",
      "model.rb",
-     "movie_box.rb",
-     "round_image.rb"
+     "movie_box.rb"
   ]
   s.homepage = %q{http://github.com/pioz/gimdb}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.5}
-  s.summary = %q{GTK graphics interface for Internet Movies DataBase}
+  s.summary = %q{GTK graphical interface for Internet Movies DataBase}
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<hpricot>, [">= 0"])
+      s.add_runtime_dependency(%q<nokogiri>, [">= 0"])
       s.add_runtime_dependency(%q<activerecord>, [">= 0"])
+      s.add_runtime_dependency(%q<sqlite3-ruby>, [">= 0"])
     else
-      s.add_dependency(%q<hpricot>, [">= 0"])
+      s.add_dependency(%q<nokogiri>, [">= 0"])
       s.add_dependency(%q<activerecord>, [">= 0"])
+      s.add_dependency(%q<sqlite3-ruby>, [">= 0"])
     end
   else
-    s.add_dependency(%q<hpricot>, [">= 0"])
+    s.add_dependency(%q<nokogiri>, [">= 0"])
     s.add_dependency(%q<activerecord>, [">= 0"])
+    s.add_dependency(%q<sqlite3-ruby>, [">= 0"])
   end
 end
 

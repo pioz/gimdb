@@ -22,9 +22,9 @@ rescue LoadError => e
   puts ""
   exit -1
 end
-require 'controller.rb'
-require 'imdb.rb'
-require 'movie_box.rb'
+require 'controller'
+require 'imdb'
+require 'movie_box'
 
 
 class GimdbGlade
