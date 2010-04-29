@@ -1,11 +1,53 @@
 require 'rubygems'
 require 'active_record'
+require 'etc'
+
+
+$GIMDB_PATH = "#{Etc.getpwuid.dir}/.gimdb"
+Dir.mkdir($GIMDB_PATH) unless File.exist?($GIMDB_PATH)
+Dir.mkdir("#{$GIMDB_PATH}/posters") unless File.exist?("#{$GIMDB_PATH}/posters")
 
 
 ActiveRecord::Base.establish_connection(
   :adapter => "sqlite3",
-  :database => "db.sqlite3"
+  :database => "#{$GIMDB_PATH}/db.sqlite3"
 )
+
+
+if(!ActiveRecord::Base.connection.tables.include?('movies') ||
+   !ActiveRecord::Base.connection.tables.include?('users') ||
+   !ActiveRecord::Base.connection.tables.include?('populars'))
+  ActiveRecord::Schema.define do
+    create_table :movies do |t|
+      t.string   :code,       :unique => true, :null => false
+      t.string   :title,      :null => false
+      t.string   :image_url
+      t.string   :image_path
+      t.integer  :year,       :limit => 4
+      t.integer  :votes
+      t.float    :rating
+      t.text     :outline
+      t.string   :credit
+      t.string   :genre
+      t.float    :runtime
+      t.datetime :updated_at, :null => false, :default => Time.now
+    end
+    
+    create_table :users do |t|
+      t.string  :name,     :unique => true, :null => :false
+      t.integer :selected, :limit => 1, :default => 0
+    end
+
+    create_table :populars, :id => false do |t|
+      t.references :movie
+      t.references :user
+      t.integer    :kind, :null => false, :limit => 3
+    end
+
+    add_index :movies, :id, :unique
+    add_index :populars, [:movie_id, :user_id, :kind], :unique
+  end
+end
 
 
 class Popular < ActiveRecord::Base

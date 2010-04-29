@@ -196,8 +196,8 @@ class GimdbGlade
   
   # Events
   def on_search_clicked(widget, arg = nil)
-    Thread.new{get_movies} if @b_search.sensitive?
-    #get_movies if @b_search.sensitive?
+    #Thread.new{get_movies} if @b_search.sensitive?
+    get_movies if @b_search.sensitive?
   end
 
   def on_get_more_movies_clicked(widget, arg = nil)

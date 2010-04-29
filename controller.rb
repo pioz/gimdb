@@ -22,7 +22,7 @@ module Controller
         record = Movie.find(:first, :conditions => "code = '#{v[:code]}'")
         if record.nil?
           record = Movie.new(v)
-          options[:path] ||= 'posters/'
+          options[:path] ||= "#{$GIMDB_PATH}/posters/"
           image_path = "#{options[:path]}#{record.code}.jpg"
           if imdb.get_image(record.image_url, image_path)
             record.image_path = image_path
