@@ -22,8 +22,8 @@ rescue LoadError => e
   puts ""
   exit -1
 end
+require 'lib/imdb'
 require 'controller'
-require 'libimdb'
 require 'movie_box'
 
 
