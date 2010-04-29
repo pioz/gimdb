@@ -15,7 +15,7 @@ ActiveRecord::Base.establish_connection(
 
 
 if(!ActiveRecord::Base.connection.tables.include?('movies') ||
-   !ActiveRecord::Base.connection.tables.include?('users') ||
+   !ActiveRecord::Base.connection.tables.include?('users')  ||
    !ActiveRecord::Base.connection.tables.include?('populars'))
   ActiveRecord::Schema.define do
     create_table :movies do |t|

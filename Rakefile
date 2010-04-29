@@ -5,8 +5,8 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = 'gimdb'
-    gem.summary = 'GTK graphics interface for Internet Movies DataBase'
-    gem.description = ''
+    gem.summary = 'GTK graphical interface for Internet Movies DataBase'
+    gem.description = 'GTK graphical interface for Internet Movies DataBase'
     gem.email = 'enrico@megiston.it'
     gem.homepage = 'http://github.com/pioz/gimdb'
     gem.authors = [ 'Enrico Pilotto' ]

@@ -1,6 +1,69 @@
-= gimbd
+= GIMDB
 
-GTK graphics interface for Internet Movies DataBase.
+GTK graphical interface for the Internet Movies DataBase.
+
+== Description
+
+_gimdb_ is a program that can browse the {Internet Movie DataBase}[http://www.imdb.com/] of Amazon.
+It is write in Ruby programming language and use the graphics library GTK[http://www.gtk.org/].
+_gimdb_ download the movies info that you request and save them in a local sqlite3[http://www.sqlite.org/] database.
+
+You can create users and save for each of them the movies to see, movies seen and favourites movies.
+_gimdb_ can also work in offline mode searching movies in the local database.
+
+{Screenshot}[http://www.istartedsomething.com/wp-content/uploads/2007/07/printscreen.jpg]
+
+_gimdb_ may be useful if you don't know what movie see.
+
+
+== imdb.rb
+
+For your purposes, you can use the IMDB class.
+
+  require 'imdb'
+  require 'pp'
+
+  # Get a IMDB object to perform queries
+  searcher = IMDB.new
+
+  # Query the database
+  results = searcher.get_list()
+
+  # Query the database with options
+  results = searcher.get_list(:release_date => '2007,2010', :user_rating => '7,10')
+
+  # Print the results
+  pp results
+
+  # Get more movies with same query
+  results = searcher.next
+
+Avaiable options are:
+
+* title
+* release_date
+* user_rating
+* num_votes
+* genres
+* sort
+* start
+
+== Requirements
+
+* ruby
+* activerecord
+* sqlite3-ruby[http://github.com/jamis/sqlite3-ruby]
+* nokogiri[http://github.com/tenderlove/nokogiri]
+* libgnome2 <tt>(sudo apt-get install libgnome2-ruby)</tt>
+* libglade2 <tt>(sudo apt-get install libglade2-ruby)</tt>
+
+== Install
+
+* sudo gem install gimdb
+
+== Support
+
+You can use this email address for any questions or help: mailto:enrico@megiston.it.
 
 == Note on Patches/Pull Requests
  
@@ -14,4 +77,4 @@ GTK graphics interface for Internet Movies DataBase.
 
 == Copyright
 
-Copyright (c) 2010 Enrico Pilotto. See LICENSE for details.
+Copyright (c) 2010 Enrico Pilotto. See LICENSE[http://github.com/pioz/gimdb/blob/master/LICENSE] for details.
