@@ -945,7 +945,6 @@ Year</property>
             <child>
               <widget class="GtkLabel" id="label_status">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">label</property>
               </widget>
               <packing>
                 <property name="expand">False</property>
