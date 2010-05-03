@@ -14,7 +14,9 @@ module GtkGimdb
 
 
     def setting_up
-      self.pack_start(Gtk::Image.new(@movie.image_path.nil? ? 'icons/no_poster.png' : @movie.image_path), false)
+      img = Gtk::Image.new((@movie.image_path.nil? || !File.exists?(@movie.image_path)) ? 'icons/no_poster.png' : @movie.image_path)
+      img.set_tooltip_text("Code: #{@movie.code}")
+      self.pack_start(img, false)
 
       vbox = Gtk::VBox.new
       vbox.spacing = 10
@@ -25,7 +27,7 @@ module GtkGimdb
 
       title = Gtk::Label.new
       year = (@movie.year.nil? || @movie.year == 0) ? '' : "(#{@movie.year})"
-      title.markup = "<span size='large' weight='ultrabold'>#{@movie.title}</span> #{year}"
+      title.markup = "<a href='http://www.imdb.it/title/#{@movie.code}/'><span color='#000' underline='none' size='large' weight='ultrabold'>#{@movie.title}</span></a> #{year}"
       hbox1.pack_start(title, false)
 
       rating = Gtk::Label.new
@@ -49,7 +51,7 @@ module GtkGimdb
       vbox.pack_start(credit, false)
 
       genre = Gtk::Label.new
-      genre.text = 'Genres: ' + @movie.genre.gsub('|', ' | ') || ''
+      genre.text = @movie.genre.nil? ? '' : 'Genres: ' + @movie.genre.gsub('|', ' | ') 
       hbox2.pack_start(genre, false)
 
       runtime = Gtk::Label.new

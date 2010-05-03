@@ -28,9 +28,12 @@ module Controller
             record.image_path = image_path
           end
           record.save!
-        elsif (Time.now - record.updated_at) > 1.day
-          record.update_attributes(v.merge(:updated_at => Time.now))
-          record.save!
+        else
+          imdb.get_image(record.image_url, record.image_path) if !record.image_path.nil? && !File.exists?(record.image_path)
+          if (Time.now - record.updated_at) > 1.day
+            record.update_attributes(v.merge(:updated_at => Time.now))
+            record.save!
+          end
         end
         movies << record
       end

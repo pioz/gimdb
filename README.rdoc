@@ -1,6 +1,6 @@
 = GIMDB
 
-GTK graphical interface for the Internet Movies DataBase.
+GTK graphical interface for the Internet Movie DataBase.
 
 == Description
 

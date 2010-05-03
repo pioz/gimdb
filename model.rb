@@ -101,14 +101,13 @@ class Movie < ActiveRecord::Base
     end
     c += " AND genre LIKE '%#{options[:genre]}%'" if options[:genre]
     c = c[5..-1]
-    puts c
     @movies = Movie.find(:all, :conditions => c, :order => 'title ASC')#, :limit => 50)
     return @movies[@start-1..@start+48]
   end
 
   def self.next
     @start = @start + 50
-    return @movies[@start-1..@start+48]
+    return @movies[@start-1..@start+48] || []
   end
 
   def self.get_kind(users, kind)
@@ -116,7 +115,6 @@ class Movie < ActiveRecord::Base
     users.each { |u| c += "populars.user_id = #{u.id} OR " }
     c  = '(' + c[0..-5] + ') AND ' unless c.empty?
     c += "populars.kind = #{Movie.get_code(kind)}"
-    puts c
     Movie.find(:all, :joins => :populars, :conditions => c, :order => 'title ASC', :group => 'movies.id')
   end
   

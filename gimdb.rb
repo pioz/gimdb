@@ -55,18 +55,33 @@ class GimdbGlade
     @combo_rating_from = @glade.get_widget('combo_rating_from')
     @combo_rating_to   = @glade.get_widget('combo_rating_to')
     @b_search          = @glade.get_widget('b_search')
+    @combo_sort        = @glade.get_widget('combo_sort')
+    @toggle_sort       = @glade.get_widget('toggle_sort')
     @check_hide_seen   = @glade.get_widget('check_hide_seen')
     @check_only_see    = @glade.get_widget('check_only_see')
-    @spinner           = @glade.get_widget('spinner')
-    @spinner_space     = @glade.get_widget('spinner_space')
-    @statusbar         = @glade.get_widget('statusbar')
+    @label_status      = @glade.get_widget('label_status')
+    @image_connection  = @glade.get_widget('image_connection')
+    @image_spinner     = @glade.get_widget('image_spinner')
     @scrolled          = @glade.get_widget('scrolled')
     @vbox_movies       = Gtk::VBox.new
     @dialog_users      = @glade.get_widget('dialog_users')
     @entry_user        = @glade.get_widget('entry_user')
     @combo_del_users   = @glade.get_widget('combo_del_users')
     @table_combo       = @glade.get_widget('table_combo')
-    
+
+    @check_genres_all  =  @glade.get_widget('check_genres_all')
+    @genres = [
+     :action,:adventure,:animation,:biography,:comedy,
+     :crime,:documentary,:drama,:family,:fantasy,:film_noir,
+     :game_show,:history,:horror,:music,:musical,:mystery,:news,
+     :romance,:sci_fi,:sport,:thriller,:war,:western
+    ]
+    @genres.each do |genre|
+      instance_variable_set("@check_genres_#{genre}", @glade.get_widget("check_genres_#{genre}")).signal_connect('clicked') do
+        @check_genres_all.active = false
+      end
+    end
+
     # Some stuffs
     @users = User.find(:all, :conditions => 'selected = 1')
     @all_users = User.all
@@ -74,15 +89,15 @@ class GimdbGlade
     @spin_year_to.value = Time.now.year.to_i
     @combo_rating_from.active = 0
     @combo_rating_to.active = 9
-    @statusbar.push(0, '')
-    @spinner.pixbuf_animation = Gdk::PixbufAnimation.new('icons/spinner32x32.gif')
+    @combo_sort.active = 0
+    @image_spinner.pixbuf_animation = Gdk::PixbufAnimation.new('icons/spinner16x16.gif')
     @scrolled.add_with_viewport(@vbox_movies)
     @scrolled.vscrollbar.signal_connect('value-changed') do |s|
       x = (s.adjustment.upper * 90.0)/100.0
       vadj = s.value + s.adjustment.page_size
       if (vadj > x && vadj > @vadj && @b_search.sensitive?)
-        Thread.new{get_more_movies} if @b_search.sensitive?
-        #get_more_movies if @b_search.sensitive?
+        #Thread.new{get_more_movies} if @b_search.sensitive?
+        get_more_movies if @b_search.sensitive?
       end
       @vadj = vadj
     end
@@ -92,7 +107,8 @@ class GimdbGlade
     # Window startup
     @window.signal_connect('delete_event') { Gtk.main_quit }
     @window.show_all
-    @spinner.hide
+    @image_spinner.hide
+    @image_connection.hide
   end
 
 
@@ -106,19 +122,39 @@ class GimdbGlade
     if rating_from != '1' && rating_to != '10'
       options[:user_rating]  = "#{rating_from},#{rating_to}"
     end
-    #options[:sort]         = 
+    unless @check_genres_all.active?
+      options[:genres] = ''
+      @genres.each do |genre|
+        options[:genres] += "#{genre}," if instance_variable_get("@check_genres_#{genre}").active?
+      end
+      options[:genres].chop!
+    end
+    case @combo_sort.active
+    when 0
+      sort = 'moviemeter'
+    when 1
+      sort = 'alpha'
+    when 2
+      sort = 'user_rating'
+    when 3
+      sort = 'num_votes'
+    when 4
+      sort = 'runtime'
+    when 5
+      sort = 'year'
+    end
+    options[:sort] = sort + (@toggle_sort.active? ? ',DESC' : '')
+    puts options.inspect
     return options
   end
 
 
   def searching(state)
     if state
-      @spinner.show
-      @spinner_space.hide
+      @image_spinner.show
       @b_search.sensitive = false
     else
-      @spinner.hide
-      @spinner_space.show
+      @image_spinner.hide
       @b_search.sensitive = true
     end
   end
@@ -126,6 +162,7 @@ class GimdbGlade
 
   def get_movies(kind = nil)
     if @b_search.sensitive?
+      clear_movies_list
       searching(true)
       if kind.nil?
         @movies = Controller::process_info(@searcher, build_options)
@@ -148,15 +185,19 @@ class GimdbGlade
     end
   end
 
+  
+  def clear_movies_list
+    @scrolled.each { |child| @scrolled.remove(child) }
+    @vbox_movies = Gtk::VBox.new
+    @vbox_movies.border_width = 10
+    @vbox_movies.spacing = 10    
+    @scrolled.add_with_viewport(@vbox_movies)
+    @scrolled.vscrollbar.adjustment.value = 0
+  end
+
 
   def update_movies_list
     unless @index.nil?
-      if @index == 0
-        @vbox_movies.each do |child|
-          @vbox_movies.remove(child)
-        end
-        @scrolled.vscrollbar.adjustment.value = 0
-      end
       @movies[@index..-1].each do |m|
         if ((!@check_hide_seen.active? || (m.get_users(:seen) & @users).empty?) &&
             (!@check_only_see.active? || !(m.get_users(:to_see) & @users).empty?))
@@ -193,11 +234,19 @@ class GimdbGlade
     @users_menu_item.show_all
   end
 
-  
-  # Events
+
+   ############
+  ### Events ###
+   ############
+
+
   def on_search_clicked(widget, arg = nil)
     #Thread.new{get_movies} if @b_search.sensitive?
     get_movies if @b_search.sensitive?
+  end
+
+  def on_key_press(widget, arg = nil)
+    on_search_clicked(widget) if arg.keyval == Gdk::Keyval::GDK_Return
   end
 
   def on_get_more_movies_clicked(widget, arg = nil)
@@ -223,14 +272,21 @@ class GimdbGlade
     @spin_year_to.value = Time.now.year.to_i
     @combo_rating_from.active = 0
     @combo_rating_to.active = 9
+    @combo_sort.active = 0
+    @genres.each do |genre|
+      instance_variable_get("@check_genres_#{genre}").active = false
+      @check_genres_all.active = true
+    end
   end
 
   def on_work_offline_clicked(widget, arg = nil)
     @offline = !widget.active?
     if @offline
       @window.title += ' (offline)'
+      @image_connection.show
     else
       @window.title = @window.title.gsub(' (offline)', '')
+      @image_connection.hide
     end
   end
 
@@ -240,10 +296,6 @@ class GimdbGlade
 
   def on_show_sidebar(widget, arg = nil)
     widget.active? ? @sidebar.show : @sidebar.hide
-  end
-
-  def on_key_press(widget, arg = nil)
-    on_search_clicked(widget) if arg.keyval == Gdk::Keyval::GDK_Return
   end
 
   def on_manage_users_clicked(widget, arg = nil)
@@ -266,7 +318,7 @@ class GimdbGlade
         @combo_del_users.append_text(u.name)
         @combo_del_users.active = 0
         @entry_user.text = ''
-        #@dialog_users.hide
+        @dialog_users.hide
       rescue
         nil
       end

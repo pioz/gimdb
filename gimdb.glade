@@ -10,7 +10,6 @@
     <child>
       <widget class="GtkVBox" id="vbox1">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <child>
           <widget class="GtkMenuBar" id="menubar">
             <property name="visible">True</property>
@@ -222,7 +221,6 @@
             <child>
               <widget class="GtkVBox" id="sidebar">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
                 <child>
                   <widget class="GtkEntry" id="entry_title">
                     <property name="visible">True</property>
@@ -382,11 +380,12 @@
                         <property name="n_rows">13</property>
                         <property name="n_columns">2</property>
                         <child>
-                          <widget class="GtkCheckButton" id="checkbutton25">
-                            <property name="label" translatable="yes">checkbutton</property>
+                          <widget class="GtkCheckButton" id="check_genres_all">
+                            <property name="label" translatable="yes">All</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
+                            <property name="active">True</property>
                             <property name="draw_indicator">True</property>
                           </widget>
                           <packing>
@@ -395,8 +394,8 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkCheckButton" id="checkbutton26">
-                            <property name="label" translatable="yes">checkbutton</property>
+                          <widget class="GtkCheckButton" id="check_genres_action">
+                            <property name="label" translatable="yes">Action</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -408,8 +407,8 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkCheckButton" id="checkbutton28">
-                            <property name="label" translatable="yes">checkbutton</property>
+                          <widget class="GtkCheckButton" id="check_genres_adventure">
+                            <property name="label" translatable="yes">Adventure</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -423,8 +422,8 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkCheckButton" id="checkbutton29">
-                            <property name="label" translatable="yes">checkbutton</property>
+                          <widget class="GtkCheckButton" id="check_genres_animation">
+                            <property name="label" translatable="yes">Animation</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -436,8 +435,8 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkCheckButton" id="checkbutton30">
-                            <property name="label" translatable="yes">checkbutton</property>
+                          <widget class="GtkCheckButton" id="check_genres_biography">
+                            <property name="label" translatable="yes">Biography</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -451,8 +450,8 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkCheckButton" id="checkbutton31">
-                            <property name="label" translatable="yes">checkbutton</property>
+                          <widget class="GtkCheckButton" id="check_genres_comedy">
+                            <property name="label" translatable="yes">Comedy</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -464,8 +463,8 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkCheckButton" id="checkbutton32">
-                            <property name="label" translatable="yes">checkbutton</property>
+                          <widget class="GtkCheckButton" id="check_genres_crime">
+                            <property name="label" translatable="yes">Crime</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -479,8 +478,8 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkCheckButton" id="checkbutton33">
-                            <property name="label" translatable="yes">checkbutton</property>
+                          <widget class="GtkCheckButton" id="check_genres_documentary">
+                            <property name="label" translatable="yes">Documentary</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -492,8 +491,8 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkCheckButton" id="checkbutton34">
-                            <property name="label" translatable="yes">checkbutton</property>
+                          <widget class="GtkCheckButton" id="check_genres_drama">
+                            <property name="label" translatable="yes">Drama</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -507,8 +506,8 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkCheckButton" id="checkbutton35">
-                            <property name="label" translatable="yes">checkbutton</property>
+                          <widget class="GtkCheckButton" id="check_genres_family">
+                            <property name="label" translatable="yes">Family</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -520,8 +519,8 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkCheckButton" id="checkbutton36">
-                            <property name="label" translatable="yes">checkbutton</property>
+                          <widget class="GtkCheckButton" id="check_genres_fantasy">
+                            <property name="label" translatable="yes">Fantasy</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -535,8 +534,8 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkCheckButton" id="checkbutton37">
-                            <property name="label" translatable="yes">checkbutton</property>
+                          <widget class="GtkCheckButton" id="check_genres_film_noir">
+                            <property name="label" translatable="yes">Film-noir</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -548,8 +547,8 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkCheckButton" id="checkbutton38">
-                            <property name="label" translatable="yes">checkbutton</property>
+                          <widget class="GtkCheckButton" id="check_genres_game_show">
+                            <property name="label" translatable="yes">Game-show</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -563,8 +562,8 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkCheckButton" id="checkbutton39">
-                            <property name="label" translatable="yes">checkbutton</property>
+                          <widget class="GtkCheckButton" id="check_genres_history">
+                            <property name="label" translatable="yes">History</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -576,8 +575,8 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkCheckButton" id="checkbutton40">
-                            <property name="label" translatable="yes">checkbutton</property>
+                          <widget class="GtkCheckButton" id="check_genres_horror">
+                            <property name="label" translatable="yes">Horror</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -591,8 +590,8 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkCheckButton" id="checkbutton41">
-                            <property name="label" translatable="yes">checkbutton</property>
+                          <widget class="GtkCheckButton" id="check_genres_music">
+                            <property name="label" translatable="yes">Music</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -604,8 +603,8 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkCheckButton" id="checkbutton42">
-                            <property name="label" translatable="yes">checkbutton</property>
+                          <widget class="GtkCheckButton" id="check_genres_musical">
+                            <property name="label" translatable="yes">Musical</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -619,8 +618,8 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkCheckButton" id="checkbutton43">
-                            <property name="label" translatable="yes">checkbutton</property>
+                          <widget class="GtkCheckButton" id="check_genres_mystery">
+                            <property name="label" translatable="yes">Mystery</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -632,8 +631,8 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkCheckButton" id="checkbutton44">
-                            <property name="label" translatable="yes">checkbutton</property>
+                          <widget class="GtkCheckButton" id="check_genres_news">
+                            <property name="label" translatable="yes">News</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -647,8 +646,8 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkCheckButton" id="checkbutton45">
-                            <property name="label" translatable="yes">checkbutton</property>
+                          <widget class="GtkCheckButton" id="check_genres_romance">
+                            <property name="label" translatable="yes">Romance</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -660,8 +659,8 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkCheckButton" id="checkbutton46">
-                            <property name="label" translatable="yes">checkbutton</property>
+                          <widget class="GtkCheckButton" id="check_genres_sci_fi">
+                            <property name="label" translatable="yes">Sci-Fi</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -675,8 +674,8 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkCheckButton" id="checkbutton47">
-                            <property name="label" translatable="yes">checkbutton</property>
+                          <widget class="GtkCheckButton" id="check_genres_sport">
+                            <property name="label" translatable="yes">Sport</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -688,8 +687,8 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkCheckButton" id="checkbutton48">
-                            <property name="label" translatable="yes">checkbutton</property>
+                          <widget class="GtkCheckButton" id="check_genres_thriller">
+                            <property name="label" translatable="yes">Thriller</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -703,8 +702,8 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkCheckButton" id="checkbutton49">
-                            <property name="label" translatable="yes">checkbutton</property>
+                          <widget class="GtkCheckButton" id="check_genres_war">
+                            <property name="label" translatable="yes">War</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -716,8 +715,8 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkCheckButton" id="checkbutton50">
-                            <property name="label" translatable="yes">checkbutton</property>
+                          <widget class="GtkCheckButton" id="check_genres_western">
+                            <property name="label" translatable="yes">Western</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -754,9 +753,66 @@
                   </packing>
                 </child>
                 <child>
+                  <widget class="GtkVBox" id="vbox4">
+                    <property name="visible">True</property>
+                    <child>
+                      <widget class="GtkTable" id="table1">
+                        <property name="visible">True</property>
+                        <property name="n_columns">3</property>
+                        <child>
+                          <widget class="GtkLabel" id="label6">
+                            <property name="visible">True</property>
+                            <property name="label" translatable="yes">Sort </property>
+                          </widget>
+                          <packing>
+                            <property name="x_options">GTK_FILL</property>
+                            <property name="y_options">GTK_FILL</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkComboBox" id="combo_sort">
+                            <property name="visible">True</property>
+                            <property name="items" translatable="yes">Movie meter
+A-Z
+Rating
+Number of votes
+Runtime
+Year</property>
+                          </widget>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">2</property>
+                            <property name="y_options">GTK_FILL</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkToggleButton" id="toggle_sort">
+                            <property name="label" translatable="yes">DESC</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                            <property name="draw_indicator">True</property>
+                          </widget>
+                          <packing>
+                            <property name="left_attach">2</property>
+                            <property name="right_attach">3</property>
+                            <property name="x_options">GTK_FILL</property>
+                            <property name="y_options">GTK_FILL</property>
+                          </packing>
+                        </child>
+                      </widget>
+                      <packing>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="position">5</property>
+                  </packing>
+                </child>
+                <child>
                   <widget class="GtkVBox" id="vbox3">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <child>
                       <widget class="GtkCheckButton" id="check_hide_seen">
                         <property name="label" translatable="yes">Hide seen</property>
@@ -792,7 +848,7 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
-                    <property name="position">5</property>
+                    <property name="position">6</property>
                   </packing>
                 </child>
                 <child>
@@ -836,35 +892,6 @@
                         <property name="position">1</property>
                       </packing>
                     </child>
-                    <child>
-                      <widget class="GtkImage" id="spinner">
-                        <property name="width_request">32</property>
-                        <property name="height_request">32</property>
-                        <property name="visible">True</property>
-                        <property name="stock">gtk-missing-image</property>
-                      </widget>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">2</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="GtkVBox" id="spinner_space">
-                        <property name="width_request">32</property>
-                        <property name="height_request">32</property>
-                        <property name="visible">True</property>
-                        <property name="orientation">vertical</property>
-                        <child>
-                          <placeholder/>
-                        </child>
-                      </widget>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">3</property>
-                      </packing>
-                    </child>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
@@ -901,16 +928,67 @@
           </packing>
         </child>
         <child>
-          <widget class="GtkStatusbar" id="statusbar">
+          <widget class="GtkHSeparator" id="hseparator2">
             <property name="visible">True</property>
-            <property name="spacing">2</property>
-            <child>
-              <placeholder/>
-            </child>
           </widget>
           <packing>
             <property name="expand">False</property>
             <property name="position">2</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="GtkHBox" id="hbox3">
+            <property name="height_request">20</property>
+            <property name="visible">True</property>
+            <property name="border_width">2</property>
+            <property name="spacing">5</property>
+            <child>
+              <widget class="GtkLabel" id="label_status">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">label</property>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <widget class="GtkImage" id="image_connection">
+                <property name="width_request">16</property>
+                <property name="height_request">16</property>
+                <property name="visible">True</property>
+                <property name="stock">gtk-network</property>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="pack_type">end</property>
+                <property name="position">3</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkImage" id="image_spinner">
+                <property name="width_request">16</property>
+                <property name="height_request">16</property>
+                <property name="visible">True</property>
+                <property name="stock">gtk-missing-image</property>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="pack_type">end</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+          </widget>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">3</property>
           </packing>
         </child>
       </widget>
@@ -927,12 +1005,10 @@
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox1">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child>
           <widget class="GtkVBox" id="vbox2">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
             <child>
               <widget class="GtkTable" id="table_combo">
                 <property name="visible">True</property>
