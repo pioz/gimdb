@@ -14,11 +14,16 @@ module Controller
     else
       movies = []
       unless options[:next]
-        res = imdb.get_list(options)
+        res = imdb.get_list(options) { |step, max, text| yield(step, max, text) if block_given? }
       else
-        res = imdb.next
+        res = imdb.next { |step, max, text| yield(step, max, text) if block_given? }
       end
+      i = 0
       res.sort{|x,y| x[0] <=> y[0]}.each do |k,v|
+        if block_given?
+          yield(i, res.size, 'Downloading movie posters')
+          i = i + 1
+        end
         record = Movie.find(:first, :conditions => "code = '#{v[:code]}'")
         if record.nil?
           record = Movie.new(v)
@@ -37,6 +42,7 @@ module Controller
         end
         movies << record
       end
+      yield(res.size, res.size) if block_given?
       return movies
     end
   end

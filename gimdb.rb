@@ -60,6 +60,7 @@ class GimdbGlade
     @check_hide_seen   = @glade.get_widget('check_hide_seen')
     @check_only_see    = @glade.get_widget('check_only_see')
     @label_status      = @glade.get_widget('label_status')
+    @progress          = @glade.get_widget('progress')
     @image_connection  = @glade.get_widget('image_connection')
     @image_spinner     = @glade.get_widget('image_spinner')
     @scrolled          = @glade.get_widget('scrolled')
@@ -96,17 +97,20 @@ class GimdbGlade
       x = (s.adjustment.upper * 90.0)/100.0
       vadj = s.value + s.adjustment.page_size
       if (vadj > x && vadj > @vadj && @b_search.sensitive?)
-        #Thread.new{get_more_movies} if @b_search.sensitive?
-        get_more_movies if @b_search.sensitive?
+        Thread.new{get_more_movies} if @b_search.sensitive?
+        #get_more_movies if @b_search.sensitive?
       end
       @vadj = vadj
     end
     @vbox_movies.border_width = 10
     @vbox_movies.spacing = 10
 
+
     # Window startup
     @window.signal_connect('delete_event') { Gtk.main_quit }
     @window.show_all
+    @progress.hide
+    @label_status.hide
     @image_spinner.hide
     @image_connection.hide
   end
@@ -151,12 +155,26 @@ class GimdbGlade
 
   def searching(state)
     if state
-      @image_spinner.show
       @b_search.sensitive = false
+      update_progress_bar(0.0, 0.0, 'Searching')
+      @progress.show
+      @label_status.show
+      @image_spinner.show
     else
-      @image_spinner.hide
       @b_search.sensitive = true
+      @progress.hide
+      @label_status.hide
+      @image_spinner.hide
     end
+  end
+
+
+  def update_progress_bar(step, max, text = nil)
+    max = 80000 if max.nil? || max == 0
+    fraction = step.to_f / max.to_f
+    fraction = 1.0 if fraction > 1.0
+    @progress.fraction = fraction
+    @label_status.text = text + '...' unless text.nil?
   end
 
 
@@ -165,7 +183,9 @@ class GimdbGlade
       clear_movies_list
       searching(true)
       if kind.nil?
-        @movies = Controller::process_info(@searcher, build_options)
+        @movies = Controller::process_info(@searcher, build_options) do |step, max, text|
+          update_progress_bar(step, max, text)
+        end
       else
         @movies = Movie.get_kind(@users, kind)
       end
@@ -179,7 +199,9 @@ class GimdbGlade
   def get_more_movies
     if @b_search.sensitive?
       searching(true)
-      @movies += Controller::process_info(@searcher, :next => true, :offline => @offline)
+      @movies += Controller::process_info(@searcher, :next => true, :offline => @offline) do |step, max, text|
+        update_progress_bar(step, max, text)
+      end
       update_movies_list
       searching(false)
     end
@@ -197,13 +219,16 @@ class GimdbGlade
 
 
   def update_movies_list
+    @progress.fraction = 0
     unless @index.nil?
-      @movies[@index..-1].each do |m|
+      display_movies = @movies[@index..-1]
+      display_movies.each_with_index do |m, i|
         if ((!@check_hide_seen.active? || (m.get_users(:seen) & @users).empty?) &&
             (!@check_only_see.active? || !(m.get_users(:to_see) & @users).empty?))
           @vbox_movies.pack_start(GtkGimdb::MovieBox.new(m, @users), false)
           @vbox_movies.pack_start(Gtk::HSeparator.new, false)
         end
+        update_progress_bar(i, display_movies.size - 1, 'Building movie boxes')
       end
       @index = @movies.size
       @vbox_movies.show_all
@@ -241,8 +266,8 @@ class GimdbGlade
 
 
   def on_search_clicked(widget, arg = nil)
-    #Thread.new{get_movies} if @b_search.sensitive?
-    get_movies if @b_search.sensitive?
+    Thread.new{get_movies} if @b_search.sensitive?
+    #get_movies if @b_search.sensitive?
   end
 
   def on_key_press(widget, arg = nil)
@@ -318,7 +343,9 @@ class GimdbGlade
         @combo_del_users.append_text(u.name)
         @combo_del_users.active = 0
         @entry_user.text = ''
-        @dialog_users.hide
+        @label_status.text = 'New user added'
+        @label_status.show
+        # @dialog_users.hide
       rescue
         nil
       end
@@ -333,7 +360,9 @@ class GimdbGlade
       @all_users.delete(u)
       build_users_menu
       @combo_del_users.remove_text(@combo_del_users.active)
-      #@combo_del_users.active = 0
+      @label_status.text = 'User deleted'
+      @label_status.show
+      # @combo_del_users.active = 0
     end
   end
 
@@ -346,6 +375,7 @@ class GimdbGlade
 
   def on_close_manage_users_clicked(widget, arg = nil)
     @dialog_users.hide
+    @label_status.hide
   end
 
 end

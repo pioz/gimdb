@@ -943,8 +943,11 @@ Year</property>
             <property name="border_width">2</property>
             <property name="spacing">5</property>
             <child>
-              <widget class="GtkLabel" id="label_status">
+              <widget class="GtkProgressBar" id="progress">
+                <property name="width_request">200</property>
+                <property name="height_request">16</property>
                 <property name="visible">True</property>
+                <property name="show_text">True</property>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -953,7 +956,14 @@ Year</property>
               </packing>
             </child>
             <child>
-              <placeholder/>
+              <widget class="GtkLabel" id="label_status">
+                <property name="visible">True</property>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">3</property>
+              </packing>
             </child>
             <child>
               <widget class="GtkImage" id="image_connection">
@@ -966,7 +976,7 @@ Year</property>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
                 <property name="pack_type">end</property>
-                <property name="position">3</property>
+                <property name="position">2</property>
               </packing>
             </child>
             <child>
@@ -980,7 +990,7 @@ Year</property>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
                 <property name="pack_type">end</property>
-                <property name="position">2</property>
+                <property name="position">1</property>
               </packing>
             </child>
           </widget>
@@ -1001,6 +1011,7 @@ Year</property>
     <property name="destroy_with_parent">True</property>
     <property name="icon">icons/imdb_icon.png</property>
     <property name="type_hint">normal</property>
+    <signal name="delete_event" handler="on_close_manage_users_clicked"/>
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox1">
         <property name="visible">True</property>

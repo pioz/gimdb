@@ -1,11 +1,15 @@
 require 'rubygems'
 require 'nokogiri'
 require 'open-uri'
+require 'net/http'
 
 
 class IMDB
 
-  @@URL = 'http://www.imdb.com/search/title/'
+
+  @@URL      = 'http://www.imdb.com/search/title/'
+  @@BASE_URL = 'www.imdb.com'
+  @@PATH_URL = '/search/title/'
 
 
   module StringStripper
@@ -19,23 +23,20 @@ class IMDB
   def get_list(options = {})
     @start = options[:start] || 1
     set_request(options)
-    return perform_list_search
+    return perform_list_search { |step, max, text| yield(step, max, text) if block_given? }
   end
 
 
   def next
     return {} if @params.nil?
     @start = @start + 50
-    return perform_list_search
+    return perform_list_search { |step, max, text| yield(step, max, text) if block_given? }
   end
 
 
   def get_image(url, path, x = 160)
     # http://ia.media-imdb.com/images/*.jpg
     if url.match(/^http:\/\/ia\.media-imdb\.com\/images\/.*\.jpg/)
-      #at = 2
-      #at = 1 if url.include?('@')
-      #at = 2 if url.include?('@@')
       base  = url.split('._V1._')[0]
       style = "._V1._SX#{160}_.jpg"
       final = base + style
@@ -72,7 +73,17 @@ class IMDB
 
   def perform_list_search
     list = {}
-    doc = Nokogiri::HTML(open(@@URL + @params + "&start=#{@start}"))
+    doc = Nokogiri::HTML(open(@@URL + @params + "&start=#{@start}",
+                              :content_length_proc => lambda do |t|
+                                if block_given?
+                                  @max = t
+                                  yield(0, @max, 'Downloading movies info')
+                                end
+                              end,
+                              :progress_proc => lambda do |s|
+                                yield(s, @max) if block_given?
+                              end))
+    yield(@max, @max) if block_given?
     doc.css('table.results tr.detailed').each do |movie|
       info = {}
       number           = movie.css('td.number').first.content.stripper.to_i
