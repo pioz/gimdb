@@ -23,8 +23,8 @@ rescue LoadError => e
   exit -1
 end
 require 'lib/imdb'
-require 'controller'
-require 'movie_box'
+require 'src/controller'
+require 'src/movie_box'
 
 
 class GimdbGlade
@@ -32,9 +32,9 @@ class GimdbGlade
 
   attr :glade
   
-  def initialize(path_or_data, root = nil, domain = nil, localedir = nil, flag = GladeXML::FILE)
-    bindtextdomain(domain, localedir, nil, "UTF-8")
-    @glade = GladeXML.new(path_or_data, root, domain, localedir, flag) {|handler| method(handler)}
+  def initialize(path_or_data, root = nil, domain = $DOMAIN, localedir = $LOCALEDIR, flag = GladeXML::FILE)
+    bindtextdomain(domain, localedir, nil, 'UTF-8')
+    @glade = GladeXML.new(path_or_data, root, domain, localedir, flag) { |handler| method(handler) }
     @searcher = IMDB.new
     @movies = []
     setting_up
@@ -69,8 +69,8 @@ class GimdbGlade
     @entry_user        = @glade.get_widget('entry_user')
     @combo_del_users   = @glade.get_widget('combo_del_users')
     @table_combo       = @glade.get_widget('table_combo')
-
     @check_genres_all  =  @glade.get_widget('check_genres_all')
+
     @genres = [
      :action,:adventure,:animation,:biography,:comedy,
      :crime,:documentary,:drama,:family,:fantasy,:film_noir,
@@ -91,7 +91,7 @@ class GimdbGlade
     @combo_rating_from.active = 0
     @combo_rating_to.active = 9
     @combo_sort.active = 0
-    @image_spinner.pixbuf_animation = Gdk::PixbufAnimation.new('icons/spinner16x16.gif')
+    @image_spinner.pixbuf_animation = Gdk::PixbufAnimation.new('data/icons/spinner16x16.gif')
     @scrolled.add_with_viewport(@vbox_movies)
     @scrolled.vscrollbar.signal_connect('value-changed') do |s|
       x = (s.adjustment.upper * 90.0)/100.0
@@ -104,7 +104,6 @@ class GimdbGlade
     end
     @vbox_movies.border_width = 10
     @vbox_movies.spacing = 10
-
 
     # Window startup
     @window.signal_connect('delete_event') { Gtk.main_quit }
@@ -148,7 +147,6 @@ class GimdbGlade
       sort = 'year'
     end
     options[:sort] = sort + (@toggle_sort.active? ? ',DESC' : '')
-    puts options.inspect
     return options
   end
 
@@ -156,7 +154,7 @@ class GimdbGlade
   def searching(state)
     if state
       @b_search.sensitive = false
-      update_progress_bar(0.0, 0.0, 'Searching')
+      update_progress_bar(0.0, 0.0, _('Searching'))
       @progress.show
       @label_status.show
       @image_spinner.show
@@ -174,7 +172,7 @@ class GimdbGlade
     fraction = step.to_f / max.to_f
     fraction = 1.0 if fraction > 1.0
     @progress.fraction = fraction
-    @label_status.text = text + '...' unless text.nil?
+    @label_status.text = _(text) + '...' unless text.nil?
   end
 
 
@@ -343,7 +341,7 @@ class GimdbGlade
         @combo_del_users.append_text(u.name)
         @combo_del_users.active = 0
         @entry_user.text = ''
-        @label_status.text = 'New user added'
+        @label_status.text = _('New user added')
         @label_status.show
         # @dialog_users.hide
       rescue
@@ -360,7 +358,7 @@ class GimdbGlade
       @all_users.delete(u)
       build_users_menu
       @combo_del_users.remove_text(@combo_del_users.active)
-      @label_status.text = 'User deleted'
+      @label_status.text = _('User deleted')
       @label_status.show
       # @combo_del_users.active = 0
     end

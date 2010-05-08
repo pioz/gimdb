@@ -1,8 +1,11 @@
 module GtkGimdb
 
   class MovieBox < Gtk::HBox
+    include GetText
+
 
     def initialize(movie, users = [])
+      bindtextdomain($DOMAIN, $LOCALEDIR, nil, 'UTF-8')
       super()
       @movie = movie
       @users = users
@@ -14,7 +17,7 @@ module GtkGimdb
 
 
     def setting_up
-      img = Gtk::Image.new((@movie.image_path.nil? || !File.exists?(@movie.image_path)) ? 'icons/no_poster.png' : @movie.image_path)
+      img = Gtk::Image.new((@movie.image_path.nil? || !File.exists?(@movie.image_path)) ? 'data/icons/no_poster.png' : @movie.image_path)
       img.set_tooltip_text("Code: #{@movie.code}")
       self.pack_start(img, false)
 
@@ -51,7 +54,7 @@ module GtkGimdb
       vbox.pack_start(credit, false)
 
       genre = Gtk::Label.new
-      genre.text = @movie.genre.nil? ? '' : 'Genres: ' + @movie.genre.gsub('|', ' | ') 
+      genre.text = @movie.genre.nil? ? '' : _('Genres') + ': ' + @movie.genre.gsub('|', ' | ') 
       hbox2.pack_start(genre, false)
 
       runtime = Gtk::Label.new
@@ -74,9 +77,9 @@ module GtkGimdb
     def add_users_info
       table = Gtk::Table.new(@users.size + 1, 4)
       table.attach(Gtk::Label.new, 0,1, 0,1, Gtk::SHRINK)
-      table.attach(Gtk::Label.new.set_markup('<b>To see</b>'), 1,2, 0,1, Gtk::SHRINK, Gtk::EXPAND|Gtk::FILL, 10)
-      table.attach(Gtk::Label.new.set_markup('<b>Seen</b>'), 2,3, 0,1, Gtk::SHRINK, Gtk::EXPAND|Gtk::FILL, 10)
-      table.attach(Gtk::Label.new.set_markup('<b>Favourites</b>'), 3,4, 0,1, Gtk::SHRINK)
+      table.attach(Gtk::Label.new.set_markup(_('<b>To see</b>')), 1,2, 0,1, Gtk::SHRINK, Gtk::EXPAND|Gtk::FILL, 10)
+      table.attach(Gtk::Label.new.set_markup(_('<b>Seen</b>')), 2,3, 0,1, Gtk::SHRINK, Gtk::EXPAND|Gtk::FILL, 10)
+      table.attach(Gtk::Label.new.set_markup(_('<b>Favourites</b>')), 3,4, 0,1, Gtk::SHRINK)
       @users.each_with_index do |u, i|
         row = i + 1
         table.attach(Gtk::Label.new(u.name), 0,1, row,row+1, Gtk::SHRINK)
@@ -84,13 +87,11 @@ module GtkGimdb
         table.attach(UserCheckButton.new(u, @movie, :seen), 2,3, row,row+1, Gtk::SHRINK)
         table.attach(UserCheckButton.new(u, @movie, :favourites), 3,4, row,row+1, Gtk::SHRINK)
       end
-
       return table
     end
 
     
     class UserCheckButton < Gtk::CheckButton
-
       def initialize(user, movie, what)
         super()
         self.active = movie.get_users(what).include?(user)
@@ -101,8 +102,7 @@ module GtkGimdb
             movie.remove_user(user, what)
           end
         end
-      end
-      
+      end     
     end
 
   end

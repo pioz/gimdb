@@ -1,0 +1,233 @@
+# Italian translations for PACKAGE package
+# Traduzioni italiane per il pacchetto PACKAGE..
+# Copyright (C) 2010 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# pioz <enrico@megiston.it>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gimdb\n"
+"POT-Creation-Date: 2010-05-08 16:42+0200\n"
+"PO-Revision-Date: 2010-05-06 01:52+0200\n"
+"Last-Translator: pioz <enrico@megiston.it>\n"
+"Language-Team: Italian\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: movie_box.rb:53
+msgid "Genres"
+msgstr "Generi"
+
+#: movie_box.rb:75
+msgid "<b>To see</b>"
+msgstr "<b>Da vedere</b>"
+
+#: movie_box.rb:76
+msgid "<b>Seen</b>"
+msgstr "<b>Visto</b>"
+
+#: movie_box.rb:77
+msgid "<b>Favourites</b>"
+msgstr "<b>Preferito</b>"
+
+#: gimdb.rb:158
+msgid "Searching"
+msgstr "Ricerca in corso"
+
+#: gimdb.rb:345
+msgid "New user added"
+msgstr "Nuovo utente aggiunto"
+
+#: gimdb.rb:362
+msgid "User deleted"
+msgstr "Utente cancellato"
+
+msgid "Downloading movie posters"
+msgstr "Scarico le locandine dei film"
+
+msgid "Building movie boxes"
+msgstr "Costruisco i box dei film"
+
+msgid "Downloading movies info"
+msgstr "Scarico le informazioni dei film"
+
+msgid "GIMDB"
+msgstr "GIMDB"
+
+msgid "_File"
+msgstr "_File"
+
+msgid "Show movies to see"
+msgstr "Mostra i film da vedere"
+
+msgid "Show movies seen"
+msgstr "Mostra i film visti"
+
+msgid "Show favourites movies"
+msgstr "Mostra i film preferiti"
+
+msgid "Work offline"
+msgstr "Lavora scollegato"
+
+msgid "_View"
+msgstr "_Visualizza"
+
+msgid "Select users to manage"
+msgstr "Seleziona utenti da controllare"
+
+msgid "Select users"
+msgstr "Seleziona utenti"
+
+msgid "Edit users"
+msgstr "Modifica utenti"
+
+msgid "Add or remove users"
+msgstr "Aggiungi o rimuovi utenti"
+
+msgid "Show sidebar"
+msgstr "Mostra barra laterale"
+
+msgid "_Help"
+msgstr "A_iuto"
+
+msgid ""
+"1\n"
+"2\n"
+"3\n"
+"4\n"
+"5\n"
+"6\n"
+"7\n"
+"8\n"
+"9\n"
+"10"
+msgstr ""
+"1\n"
+"2\n"
+"3\n"
+"4\n"
+"5\n"
+"6\n"
+"7\n"
+"8\n"
+"9\n"
+"10"
+
+msgid "Year "
+msgstr "Anno "
+
+msgid " to "
+msgstr " a "
+
+msgid "Vote "
+msgstr "Voti "
+
+msgid "All"
+msgstr "Tutti"
+
+msgid "Action"
+msgstr "Azione"
+
+msgid "Adventure"
+msgstr "Avventura"
+
+msgid "Animation"
+msgstr "Animazione"
+
+msgid "Biography"
+msgstr "Biografia"
+
+msgid "Comedy"
+msgstr "Commedia"
+
+msgid "Crime"
+msgstr "Crimine"
+
+msgid "Documentary"
+msgstr "Documentario"
+
+msgid "Drama"
+msgstr "Dramma"
+
+msgid "Family"
+msgstr "Famiglia"
+
+msgid "Fantasy"
+msgstr "Fantasy"
+
+msgid "Film-noir"
+msgstr "Film-noir"
+
+msgid "Game-show"
+msgstr "Game-show"
+
+msgid "History"
+msgstr "Storico"
+
+msgid "Horror"
+msgstr "Horror"
+
+msgid "Music"
+msgstr "Musica"
+
+msgid "Musical"
+msgstr "Musical"
+
+msgid "Mystery"
+msgstr "Mistero"
+
+msgid "News"
+msgstr "News"
+
+msgid "Romance"
+msgstr "Romanzo"
+
+msgid "Sci-Fi"
+msgstr "Sci-Fi"
+
+msgid "Sport"
+msgstr "Sport"
+
+msgid "Thriller"
+msgstr "Thriller"
+
+msgid "War"
+msgstr "Guerra"
+
+msgid "Western"
+msgstr "Western"
+
+msgid "Sort "
+msgstr "Ordina "
+
+msgid ""
+"Movie meter\n"
+"A-Z\n"
+"Rating\n"
+"Number of votes\n"
+"Runtime\n"
+"Year"
+msgstr ""
+"Movie meter\n"
+"A-Z\n"
+"Votazione\n"
+"Numero di voti\n"
+"Durata\n"
+"Anno"
+
+msgid "DESC"
+msgstr "Inverso"
+
+msgid "Hide seen"
+msgstr "Nascondi film visti"
+
+msgid "Show only to see"
+msgstr "Mostra solo film da vedere"
+
+msgid "Manage users"
+msgstr "Gestisci utenti"
+
+msgid "Select all users"
+msgstr "Seleziona tutti gli utenti"

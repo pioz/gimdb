@@ -1,5 +1,5 @@
 require 'lib/imdb'
-require 'model'
+require 'src/model'
 
 
 module Controller

@@ -4,7 +4,7 @@
   <!-- interface-naming-policy project-wide -->
   <widget class="GtkWindow" id="window">
     <property name="visible">True</property>
-    <property name="title" translatable="yes">IMDB</property>
+    <property name="title" translatable="yes">GIMDB</property>
     <property name="window_position">center</property>
     <property name="icon">icons/imdb_icon.png</property>
     <child>
@@ -121,14 +121,14 @@
             <child>
               <widget class="GtkMenuItem" id="menuitem3">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">_Visualizza</property>
+                <property name="label" translatable="yes">_View</property>
                 <property name="use_underline">True</property>
                 <child>
                   <widget class="GtkMenu" id="menu4">
                     <property name="visible">True</property>
                     <child>
                       <widget class="GtkImageMenuItem" id="users_menu_item">
-                        <property name="label">Select users</property>
+                        <property name="label" translatable="yes">Select users</property>
                         <property name="visible">True</property>
                         <property name="tooltip" translatable="yes">Select users to manage</property>
                         <property name="use_stock">False</property>
@@ -143,7 +143,7 @@
                     </child>
                     <child>
                       <widget class="GtkImageMenuItem" id="manage_users_menu_item">
-                        <property name="label">Edit users</property>
+                        <property name="label" translatable="yes">Edit users</property>
                         <property name="visible">True</property>
                         <property name="tooltip" translatable="yes">Add or remove users</property>
                         <property name="use_stock">False</property>
@@ -188,7 +188,7 @@
             <child>
               <widget class="GtkMenuItem" id="menuitem4">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">A_iuto</property>
+                <property name="label" translatable="yes">_Help</property>
                 <property name="use_underline">True</property>
                 <child>
                   <widget class="GtkMenu" id="menu3">

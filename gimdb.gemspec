@@ -9,9 +9,9 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Enrico Pilotto"]
-  s.date = %q{2010-04-29}
+  s.date = %q{2010-05-08}
   s.default_executable = %q{gimdb}
-  s.description = %q{GTK graphical interface for Internet Movies DataBase}
+  s.description = %q{GTK graphical interface for Internet Movie DataBase. You can create users and save for each of them the movies to see, movies seen and favourites movies in a sqlite3 database.}
   s.email = %q{enrico@megiston.it}
   s.executables = ["gimdb"]
   s.extra_rdoc_files = [
@@ -34,6 +34,7 @@ Gem::Specification.new do |s|
      "icons/imdb_icon.png",
      "icons/no_poster.png",
      "icons/seen.png",
+     "icons/spinner16x16.gif",
      "icons/spinner32x32.gif",
      "icons/to_see.png",
      "icons/users.png",
@@ -46,7 +47,7 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.5}
-  s.summary = %q{GTK graphical interface for Internet Movies DataBase}
+  s.summary = %q{GTK graphical interface for Internet Movie DataBase}
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION

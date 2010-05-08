@@ -6,7 +6,6 @@ require 'net/http'
 
 class IMDB
 
-
   @@URL      = 'http://www.imdb.com/search/title/'
   @@BASE_URL = 'www.imdb.com'
   @@PATH_URL = '/search/title/'

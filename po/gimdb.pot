@@ -1,0 +1,217 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: gimdb\n"
+"POT-Creation-Date: 2010-05-08 16:42+0200\n"
+"PO-Revision-Date: 2010-05-06 01:50+0200\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: movie_box.rb:53
+msgid "Genres"
+msgstr ""
+
+#: movie_box.rb:75
+msgid "<b>To see</b>"
+msgstr ""
+
+#: movie_box.rb:76
+msgid "<b>Seen</b>"
+msgstr ""
+
+#: movie_box.rb:77
+msgid "<b>Favourites</b>"
+msgstr ""
+
+#: gimdb.rb:158
+msgid "Searching"
+msgstr ""
+
+#: gimdb.rb:345
+msgid "New user added"
+msgstr ""
+
+#: gimdb.rb:362
+msgid "User deleted"
+msgstr ""
+
+msgid "Downloading movie posters"
+msgstr ""
+
+msgid "Building movie boxes"
+msgstr ""
+
+msgid "Downloading movies info"
+msgstr ""
+
+msgid "GIMDB"
+msgstr ""
+
+msgid "_File"
+msgstr ""
+
+msgid "Show movies to see"
+msgstr ""
+
+msgid "Show movies seen"
+msgstr ""
+
+msgid "Show favourites movies"
+msgstr ""
+
+msgid "Work offline"
+msgstr ""
+
+msgid "_View"
+msgstr ""
+
+msgid "Select users to manage"
+msgstr ""
+
+msgid "Select users"
+msgstr ""
+
+msgid "Edit users"
+msgstr ""
+
+msgid "Add or remove users"
+msgstr ""
+
+msgid "Show sidebar"
+msgstr ""
+
+msgid "_Help"
+msgstr ""
+
+msgid ""
+"1\n"
+"2\n"
+"3\n"
+"4\n"
+"5\n"
+"6\n"
+"7\n"
+"8\n"
+"9\n"
+"10"
+msgstr ""
+
+msgid "Year "
+msgstr ""
+
+msgid " to "
+msgstr ""
+
+msgid "Vote "
+msgstr ""
+
+msgid "All"
+msgstr ""
+
+msgid "Action"
+msgstr ""
+
+msgid "Adventure"
+msgstr ""
+
+msgid "Animation"
+msgstr ""
+
+msgid "Biography"
+msgstr ""
+
+msgid "Comedy"
+msgstr ""
+
+msgid "Crime"
+msgstr ""
+
+msgid "Documentary"
+msgstr ""
+
+msgid "Drama"
+msgstr ""
+
+msgid "Family"
+msgstr ""
+
+msgid "Fantasy"
+msgstr ""
+
+msgid "Film-noir"
+msgstr ""
+
+msgid "Game-show"
+msgstr ""
+
+msgid "History"
+msgstr ""
+
+msgid "Horror"
+msgstr ""
+
+msgid "Music"
+msgstr ""
+
+msgid "Musical"
+msgstr ""
+
+msgid "Mystery"
+msgstr ""
+
+msgid "News"
+msgstr ""
+
+msgid "Romance"
+msgstr ""
+
+msgid "Sci-Fi"
+msgstr ""
+
+msgid "Sport"
+msgstr ""
+
+msgid "Thriller"
+msgstr ""
+
+msgid "War"
+msgstr ""
+
+msgid "Western"
+msgstr ""
+
+msgid "Sort "
+msgstr ""
+
+msgid ""
+"Movie meter\n"
+"A-Z\n"
+"Rating\n"
+"Number of votes\n"
+"Runtime\n"
+"Year"
+msgstr ""
+
+msgid "DESC"
+msgstr ""
+
+msgid "Hide seen"
+msgstr ""
+
+msgid "Show only to see"
+msgstr ""
+
+msgid "Manage users"
+msgstr ""
+
+msgid "Select all users"
+msgstr ""

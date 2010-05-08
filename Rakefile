@@ -30,3 +30,17 @@ Rake::RDocTask.new do |rdoc|
   rdoc.title = "gimdb #{version}"
   rdoc.rdoc_files.include('README*')
 end
+
+namespace :gettext do
+  desc "Update pot/po files"
+  task :updatepo do
+    require 'gettext/tools'
+    GetText.update_pofiles('gimdb', Dir.glob("{.,lib,bin}/**/*.rb"), 'gimdb')
+  end
+
+  desc "Create mo-files"
+  task :makemo do
+    require 'gettext/tools'
+    GetText.create_mofiles
+  end
+end

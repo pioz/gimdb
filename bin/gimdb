@@ -1,6 +1,9 @@
 #!/usr/bin/env ruby
 
-require 'gimdb.rb'
+require 'src/gimdb.rb'
 
-GimdbGlade.new('gimdb.glade', nil, 'gimdb')
+$DOMAIN = 'gimdb'
+$LOCALEDIR = 'data/locale'
+
+GimdbGlade.new('data/gimdb.glade')
 Gtk.main
