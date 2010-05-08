@@ -22,9 +22,9 @@ rescue LoadError => e
   puts ""
   exit -1
 end
-require 'lib/imdb'
-require 'src/controller'
-require 'src/movie_box'
+require "#{$GIMDB_PATH}/lib/imdb"
+require "#{$GIMDB_PATH}/src/controller"
+require "#{$GIMDB_PATH}/src/movie_box"
 
 
 class GimdbGlade
@@ -91,7 +91,7 @@ class GimdbGlade
     @combo_rating_from.active = 0
     @combo_rating_to.active = 9
     @combo_sort.active = 0
-    @image_spinner.pixbuf_animation = Gdk::PixbufAnimation.new('data/icons/spinner16x16.gif')
+    @image_spinner.pixbuf_animation = Gdk::PixbufAnimation.new("#{$GIMDB_PATH}/data/icons/spinner16x16.gif")
     @scrolled.add_with_viewport(@vbox_movies)
     @scrolled.vscrollbar.signal_connect('value-changed') do |s|
       x = (s.adjustment.upper * 90.0)/100.0

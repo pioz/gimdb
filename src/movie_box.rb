@@ -17,7 +17,7 @@ module GtkGimdb
 
 
     def setting_up
-      img = Gtk::Image.new((@movie.image_path.nil? || !File.exists?(@movie.image_path)) ? 'data/icons/no_poster.png' : @movie.image_path)
+      img = Gtk::Image.new((@movie.image_path.nil? || !File.exists?(@movie.image_path)) ? "#{$GIMDB_PATH}/data/icons/no_poster.png" : @movie.image_path)
       img.set_tooltip_text("Code: #{@movie.code}")
       self.pack_start(img, false)
 

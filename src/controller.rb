@@ -1,5 +1,5 @@
-require 'lib/imdb'
-require 'src/model'
+require "#{$GIMDB_PATH}/lib/imdb"
+require "#{$GIMDB_PATH}/src/model"
 
 
 module Controller
