@@ -60,6 +60,11 @@ Avaiable options are:
 
 == Install
 
+* sudo apt-get install ruby1.8-dev
+* sudo apt-get install libxml2-dev
+* sudo apt-get install libxslt1-dev
+* sudo apt-get install libsqlite3-dev
+* sudo apt-get install rubygems
 * sudo gem install gimdb
 
 == Support

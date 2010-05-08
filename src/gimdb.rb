@@ -6,7 +6,7 @@ rescue LoadError => e
   puts "You must install 'gtk2' to run this program."
   puts "If you are using Debian/GNU Linux you can install it with:"
   puts ""
-  puts "  apt-get install libgnome2-ruby"
+  puts "  apt-get install libgtk2-ruby"
   puts ""
   exit -1
 end
