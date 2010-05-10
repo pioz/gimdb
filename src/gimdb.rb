@@ -69,7 +69,7 @@ class GimdbGlade
     @entry_user        = @glade.get_widget('entry_user')
     @combo_del_users   = @glade.get_widget('combo_del_users')
     @table_combo       = @glade.get_widget('table_combo')
-    @check_genres_all  =  @glade.get_widget('check_genres_all')
+    @check_genres_all  = @glade.get_widget('check_genres_all')
 
     @genres = [
      :action,:adventure,:animation,:biography,:comedy,
@@ -374,6 +374,38 @@ class GimdbGlade
   def on_close_manage_users_clicked(widget, arg = nil)
     @dialog_users.hide
     @label_status.hide
+  end
+
+  def on_about_clicked(widget, arg = nil)
+    @about_dialog = Gtk::AboutDialog.new
+    begin
+      f = File.open("#{$GIMDB_PATH}/VERSION", 'r')
+      version = ''
+      f.each_line { |line| version += line }
+      @about_dialog.version = version
+    rescue
+      nil
+    end
+    begin
+      f = File.open("#{$GIMDB_PATH}/LICENSE", 'r')
+      license = ''
+      f.each_line { |line| license += line }
+      @about_dialog.license = license
+    rescue
+      nil
+    end
+    @about_dialog.program_name = 'GIMDB'
+    @about_dialog.logo = Gdk::Pixbuf.new("#{$GIMDB_PATH}/data/icons/imdb.png")
+    @about_dialog.comments = 'GTK graphical interface for the Internet Movie DataBase.'
+    @about_dialog.copyright = "Copyright © #{Time.now.year} Enrico Pilotto"
+    @about_dialog.website = 'http://github.com/pioz/gimdb'
+    @about_dialog.website_label = 'Website'
+    @about_dialog.authors = ['Enrico Pilotto <enrico@megiston.it>']
+    @about_dialog.translator_credits = 'Italian: Enrico Pilotto <enrico@megiston.it>'
+    @about_dialog.modal = true
+    @about_dialog.skip_taskbar_hint = true
+    @about_dialog.signal_connect('response') { @about_dialog.hide }
+    @about_dialog.run
   end
 
 end
