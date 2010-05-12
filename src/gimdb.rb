@@ -237,6 +237,7 @@ class GimdbGlade
 
 
   def build_users_menu
+    @users = User.find(:all, :conditions => 'selected = 1')
     submenu = Gtk::Menu.new
     User.all.sort{|x,y| x.name <=> y.name}.each do |u|
       m = Gtk::CheckMenuItem.new(u.name)
