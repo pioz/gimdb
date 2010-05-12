@@ -16,31 +16,36 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: movie_box.rb:53
 msgid "Genres"
 msgstr ""
 
-#: movie_box.rb:75
 msgid "<b>To see</b>"
 msgstr ""
 
-#: movie_box.rb:76
 msgid "<b>Seen</b>"
 msgstr ""
 
-#: movie_box.rb:77
 msgid "<b>Favourites</b>"
 msgstr ""
 
-#: gimdb.rb:158
 msgid "Searching"
 msgstr ""
 
-#: gimdb.rb:345
+msgid "Add"
+msgstr ""
+
+msgid "Edit"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
 msgid "New user added"
 msgstr ""
 
-#: gimdb.rb:362
+msgid "User edited"
+msgstr ""
+
 msgid "User deleted"
 msgstr ""
 

@@ -25,6 +25,7 @@ end
 require "#{$GIMDB_PATH}/lib/imdb"
 require "#{$GIMDB_PATH}/src/controller"
 require "#{$GIMDB_PATH}/src/movie_box"
+require "#{$GIMDB_PATH}/src/manager_box"
 
 
 class GimdbGlade
@@ -66,9 +67,11 @@ class GimdbGlade
     @scrolled          = @glade.get_widget('scrolled')
     @vbox_movies       = Gtk::VBox.new
     @dialog_users      = @glade.get_widget('dialog_users')
-    @entry_user        = @glade.get_widget('entry_user')
-    @combo_del_users   = @glade.get_widget('combo_del_users')
-    @table_combo       = @glade.get_widget('table_combo')
+    @dialog_users_box  = @glade.get_widget('dialog_users_box').pack_start(GtkGimdb::ManagerBox.new(:users, :name) do |t|
+                                                                            @label_status.text = _(t)
+                                                                            @label_status.show
+                                                                            build_users_menu
+                                                                          end)
     @check_genres_all  = @glade.get_widget('check_genres_all')
 
     @genres = [
@@ -85,7 +88,6 @@ class GimdbGlade
 
     # Some stuffs
     @users = User.find(:all, :conditions => 'selected = 1')
-    @all_users = User.all
     build_users_menu
     @spin_year_to.value = Time.now.year.to_i
     @combo_rating_from.active = 0
@@ -236,7 +238,7 @@ class GimdbGlade
 
   def build_users_menu
     submenu = Gtk::Menu.new
-    @all_users.sort{|x,y| x.name <=> y.name}.each do |u|
+    User.all.sort{|x,y| x.name <=> y.name}.each do |u|
       m = Gtk::CheckMenuItem.new(u.name)
       m.active = true if @users.include?(u)
       submenu.append(m)
@@ -322,46 +324,7 @@ class GimdbGlade
   end
 
   def on_manage_users_clicked(widget, arg = nil)
-    @combo_del_users = Gtk::ComboBox.new
-    @table_combo.attach(@combo_del_users, 0,1, 1,2)
-    @all_users.sort{|x,y| x.name <=> y.name}.each do |u|
-      @combo_del_users.append_text(u.name)
-    end
-    @combo_del_users.active = 0
     @dialog_users.show_all
-  end
-
-  def on_add_users_clicked(widget, arg = nil)
-    unless @entry_user.text.empty?
-      u = User.new(:name => @entry_user.text)
-      begin
-        u.save
-        @all_users << u
-        build_users_menu
-        @combo_del_users.append_text(u.name)
-        @combo_del_users.active = 0
-        @entry_user.text = ''
-        @label_status.text = _('New user added')
-        @label_status.show
-        # @dialog_users.hide
-      rescue
-        nil
-      end
-    end
-  end
-
-  def on_del_users_clicked(widget, arg = nil)
-    name = @combo_del_users.active_text
-    u = User.find_by_name(name)
-    unless u.nil? 
-      u.destroy
-      @all_users.delete(u)
-      build_users_menu
-      @combo_del_users.remove_text(@combo_del_users.active)
-      @label_status.text = _('User deleted')
-      @label_status.show
-      # @combo_del_users.active = 0
-    end
   end
 
   def on_select_all_users_clicked(widget, arg = nil)
@@ -369,6 +332,7 @@ class GimdbGlade
       c.active = !c.active?
     end
     @dialog_users.hide
+    @label_status.hide
   end
 
   def on_close_manage_users_clicked(widget, arg = nil)
@@ -377,12 +341,12 @@ class GimdbGlade
   end
 
   def on_about_clicked(widget, arg = nil)
-    @about_dialog = Gtk::AboutDialog.new
+    @dialog_about = Gtk::AboutDialog.new
     begin
       f = File.open("#{$GIMDB_PATH}/VERSION", 'r')
       version = ''
       f.each_line { |line| version += line }
-      @about_dialog.version = version
+      @dialog_about.version = version
     rescue
       nil
     end
@@ -390,22 +354,22 @@ class GimdbGlade
       f = File.open("#{$GIMDB_PATH}/LICENSE", 'r')
       license = ''
       f.each_line { |line| license += line }
-      @about_dialog.license = license
+      @dialog_about.license = license
     rescue
       nil
     end
-    @about_dialog.program_name = 'GIMDB'
-    @about_dialog.logo = Gdk::Pixbuf.new("#{$GIMDB_PATH}/data/icons/imdb.png")
-    @about_dialog.comments = 'GTK graphical interface for the Internet Movie DataBase.'
-    @about_dialog.copyright = "Copyright © #{Time.now.year} Enrico Pilotto"
-    @about_dialog.website = 'http://github.com/pioz/gimdb'
-    @about_dialog.website_label = 'Website'
-    @about_dialog.authors = ['Enrico Pilotto <enrico@megiston.it>']
-    @about_dialog.translator_credits = 'Italian: Enrico Pilotto <enrico@megiston.it>'
-    @about_dialog.modal = true
-    @about_dialog.skip_taskbar_hint = true
-    @about_dialog.signal_connect('response') { @about_dialog.hide }
-    @about_dialog.run
+    @dialog_about.program_name = 'GIMDB'
+    @dialog_about.logo = Gdk::Pixbuf.new("#{$GIMDB_PATH}/data/icons/imdb.png")
+    @dialog_about.comments = 'GTK graphical interface for the Internet Movie DataBase.'
+    @dialog_about.copyright = "Copyright © #{Time.now.year} Enrico Pilotto"
+    @dialog_about.website = 'http://github.com/pioz/gimdb'
+    @dialog_about.website_label = 'Website'
+    @dialog_about.authors = ['Enrico Pilotto <enrico@megiston.it>']
+    @dialog_about.translator_credits = 'Italian: Enrico Pilotto <enrico@megiston.it>'
+    @dialog_about.modal = true
+    @dialog_about.skip_taskbar_hint = true
+    @dialog_about.signal_connect('response') { @dialog_about.hide }
+    @dialog_about.run
   end
 
 end
