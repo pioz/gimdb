@@ -72,6 +72,10 @@ Edit <tt>~/.bashrc</tt> and add the follow line:
 
     PATH=$PATH:/var/lib/gems/1.8/bin
 
+== Docs
+
+http://rdoc.info/projects/Pioz/gimdb
+
 == Support
 
 You can use this email address for any questions or help: mailto:enrico@megiston.it.
