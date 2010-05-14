@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{gimdb}
-  s.version = "0.0.5"
+  s.version = "0.0.6"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Enrico Pilotto"]
-  s.date = %q{2010-05-14}
+  s.date = %q{2010-05-15}
   s.default_executable = %q{gimdb}
   s.description = %q{GTK graphical interface for Internet Movie DataBase. You can create users and save for each of them the movies to see, movies seen and favourites movies in a sqlite3 database.}
   s.email = %q{enrico@megiston.it}
@@ -27,8 +27,8 @@ Gem::Specification.new do |s|
      "bin/gimdb",
      "data/gimdb.glade",
      "data/icons/favourites.png",
+     "data/icons/gimdb.png",
      "data/icons/imdb.png",
-     "data/icons/imdb_icon.png",
      "data/icons/no_poster.png",
      "data/icons/seen.png",
      "data/icons/spinner16x16.gif",
