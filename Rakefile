@@ -46,7 +46,7 @@ namespace :gettext do
 end
 
 desc 'Generate meta deb package'
-task :makedeb do
+task :build_deb do
   control = <<-EOF
 Package: #{$NAME}
 Version: #{$VERSION}

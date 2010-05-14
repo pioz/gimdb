@@ -60,17 +60,21 @@ Avaiable options are:
 
 == Install
 
-* sudo apt-get install ruby1.8-dev
-* sudo apt-get install libxml2-dev
-* sudo apt-get install libxslt1-dev
-* sudo apt-get install libsqlite3-dev
-* sudo apt-get install rubygems
-* sudo gem install gimdb
+    sudo apt-get install ruby1.8-dev
+    sudo apt-get install libxml2-dev
+    sudo apt-get install libxslt1-dev
+    sudo apt-get install libsqlite3-dev
+    sudo apt-get install rubygems
+    sudo gem install gimdb
 
-Remember also to add rubygems bin path to your PATH env variable.
+remember also to add rubygems bin path to your PATH env variable.
 Edit <tt>~/.bashrc</tt> and add the follow line:
 
     PATH=$PATH:/var/lib/gems/1.8/bin
+
+or download debian package here[http://github.com/downloads/pioz/gimdb/gimdb_0.0.6_all.deb] and install it:
+
+    sudo dpkg -i gimdb_0.0.6_all.deb
 
 == Docs
 
