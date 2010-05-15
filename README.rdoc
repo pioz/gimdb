@@ -76,6 +76,25 @@ or download debian package here[http://github.com/downloads/pioz/gimdb/gimdb_0.0
 
     sudo dpkg -i gimdb_0.0.6_all.deb
 
+or add gimdb's repository in your apt sources list file
+
+* Import repository public key
+
+    gpg --recv-keys c90a3577
+    gpg --export --armor c90a3577 | sudo apt-key add -
+
+* Add repository in your <tt>/etc/apt/sources.list</tt> adding follow line
+
+    deb http://www.pioz.it/repository debian main
+
+* Update repositories
+
+    sudo apt-get update
+
+* Install gimdb
+
+    sudo apt-get install gimdb 
+
 == Docs
 
 http://rdoc.info/projects/Pioz/gimdb
