@@ -35,7 +35,7 @@ class IMDB
     # http://ia.media-imdb.com/images/*.jpg
     if url.match(/^http:\/\/ia\.media-imdb\.com\/images\/.*\.jpg/)
       base  = url.split('._V1._')[0]
-      style = "._V1._SX#{160}_.jpg"
+      style = "._V1._SX#{x}_.jpg"
       final = base + style
       begin
         File.open(path, 'w') do |f|
@@ -88,8 +88,8 @@ class IMDB
       info[:title]     = movie.css('td.title > a').first.content.stripper                            rescue nil
       info[:image_url] = movie.css('td.image img').first[:src].stripper                              rescue nil
       info[:year]      = movie.css('td.title > span.year_type').first.content.stripper[1..-2]        rescue nil
-      info[:votes]     = movie.css('td.title > div.user_rating').first[:title].stripper.gsub(',','') rescue nil
-      info[:rating]    = movie.css('td.title > div.user_rating').first.content.stripper              rescue nil
+      info[:votes]     = movie.css('td.sort_col').first.content.gsub(',', '')                        rescue nil
+      info[:rating]    = movie.css('td.title span.rating-rating').first.content.stripper             rescue nil
       info[:outline]   = movie.css('td.title > span.outline').first.content.stripper                 rescue nil
       info[:credit]    = movie.css('td.title > span.credit').first.content.stripper                  rescue nil
       info[:genre]     = movie.css('td.title > span.genre').first.content.stripper                   rescue nil
@@ -100,3 +100,4 @@ class IMDB
   end
 
 end
+

@@ -32,7 +32,7 @@ class GimdbGlade
   include GetText
 
   attr :glade
-  
+
   def initialize(path_or_data, root = nil, domain = $DOMAIN, localedir = $LOCALEDIR, flag = GladeXML::FILE)
     bindtextdomain(domain, localedir, nil, 'UTF-8')
     @glade = GladeXML.new(path_or_data, root, domain, localedir, flag) { |handler| method(handler) }
@@ -40,7 +40,7 @@ class GimdbGlade
     @movies = []
     setting_up
   end
-  
+
 
   private
 
@@ -195,7 +195,7 @@ class GimdbGlade
     end
   end
 
- 
+
   def get_more_movies
     if @b_search.sensitive?
       searching(true)
@@ -207,12 +207,12 @@ class GimdbGlade
     end
   end
 
-  
+
   def clear_movies_list
     @scrolled.each { |child| @scrolled.remove(child) }
     @vbox_movies = Gtk::VBox.new
     @vbox_movies.border_width = 10
-    @vbox_movies.spacing = 10    
+    @vbox_movies.spacing = 10
     @scrolled.add_with_viewport(@vbox_movies)
     @scrolled.vscrollbar.adjustment.value = 0
   end
@@ -362,7 +362,7 @@ class GimdbGlade
     @dialog_about.program_name = 'GIMDB'
     @dialog_about.logo = Gdk::Pixbuf.new("#{$GIMDB_PATH}/data/icons/imdb.png")
     @dialog_about.comments = 'GTK graphical interface for the Internet Movie DataBase.'
-    @dialog_about.copyright = "Copyright © #{Time.now.year} Enrico Pilotto"
+    @dialog_about.copyright = "Copyright (c) #{Time.now.year} Enrico Pilotto"
     @dialog_about.website = 'http://github.com/pioz/gimdb'
     @dialog_about.website_label = 'Website'
     @dialog_about.authors = ['Enrico Pilotto <enrico@megiston.it>']
@@ -374,3 +374,4 @@ class GimdbGlade
   end
 
 end
+

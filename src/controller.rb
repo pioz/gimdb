@@ -35,7 +35,7 @@ module Controller
           record.save!
         else
           imdb.get_image(record.image_url, record.image_path) if !record.image_path.nil? && !File.exists?(record.image_path)
-          if (Time.now - record.updated_at) > 1.day
+          if (Time.now - record.updated_at) > 1.seconds
             record.update_attributes(v.merge(:updated_at => Time.now))
             record.save!
           end
@@ -48,3 +48,4 @@ module Controller
   end
 
 end
+

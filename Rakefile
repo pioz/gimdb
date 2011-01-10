@@ -15,7 +15,7 @@ begin
     gem.add_dependency 'activerecord'
     gem.add_dependency 'sqlite3-ruby'
   end
-  Jeweler::GemcutterTasks.new
+  Jeweler::DebTasks.new
 rescue LoadError
   puts 'Jeweler (or a dependency) not available. Install it with: gem install jeweler'
 end
