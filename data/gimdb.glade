@@ -910,7 +910,8 @@ Year</property>
             </child>
             <child>
               <widget class="GtkScrolledWindow" id="scrolled">
-                <property name="width_request">640</property>
+                <property name="width_request">800</property>
+                <property name="height_request">600</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="hscrollbar_policy">automatic</property>
