@@ -42,6 +42,16 @@
                       </widget>
                     </child>
                     <child>
+                      <widget class="GtkImageMenuItem" id="menuitem2">
+                        <property name="label">gtk-stop</property>
+                        <property name="visible">True</property>
+                        <property name="use_underline">True</property>
+                        <property name="use_stock">True</property>
+                        <property name="always_show_image">True</property>
+                        <signal name="button_press_event" handler="on_cancel_clicked"/>
+                      </widget>
+                    </child>
+                    <child>
                       <widget class="GtkSeparatorMenuItem" id="separatormenuitem1">
                         <property name="visible">True</property>
                       </widget>
@@ -891,6 +901,20 @@ Year</property>
                       </widget>
                       <packing>
                         <property name="position">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkButton" id="b_cancel">
+                        <property name="label">gtk-stop</property>
+                        <property name="visible">True</property>
+                        <property name="sensitive">False</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="use_stock">True</property>
+                        <signal name="clicked" handler="on_cancel_clicked"/>
+                      </widget>
+                      <packing>
+                        <property name="position">2</property>
                       </packing>
                     </child>
                   </widget>

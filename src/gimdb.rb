@@ -56,6 +56,7 @@ class GimdbGlade
     @combo_rating_from = @glade.get_widget('combo_rating_from')
     @combo_rating_to   = @glade.get_widget('combo_rating_to')
     @b_search          = @glade.get_widget('b_search')
+    @b_cancel          = @glade.get_widget('b_cancel')
     @combo_sort        = @glade.get_widget('combo_sort')
     @toggle_sort       = @glade.get_widget('toggle_sort')
     @check_hide_seen   = @glade.get_widget('check_hide_seen')
@@ -98,9 +99,8 @@ class GimdbGlade
     @scrolled.vscrollbar.signal_connect('value-changed') do |s|
       x = (s.adjustment.upper * 90.0)/100.0
       vadj = s.value + s.adjustment.page_size
-      if (vadj > x && vadj > @vadj && @b_search.sensitive?)
-        Thread.new{get_more_movies} if @b_search.sensitive?
-        #get_more_movies if @b_search.sensitive?
+      if (vadj > x && vadj > @vadj)
+        run_thread{get_more_movies}
       end
       @vadj = vadj
     end
@@ -124,7 +124,7 @@ class GimdbGlade
     options[:release_date] = "#{@spin_year_from.value.to_i},#{@spin_year_to.value.to_i}"
     rating_from = @combo_rating_from.active_text
     rating_to = @combo_rating_to.active_text
-    if rating_from != '1' && rating_to != '10'
+    if rating_from != '1' || rating_to != '10'
       options[:user_rating]  = "#{rating_from},#{rating_to}"
     end
     unless @check_genres_all.active?
@@ -153,15 +153,31 @@ class GimdbGlade
   end
 
 
+  def run_thread
+    @searcher_backup = @searcher.clone
+    @thread.kill if @thread
+    @thread = Thread.new{yield}
+  end
+
+
+  def stop_thread
+    if @thread && @thread.alive?
+      @thread.kill
+      @searcher = @searcher_backup if @searcher_backup
+    end
+    searching(false)
+  end
+
+
   def searching(state)
     if state
-      @b_search.sensitive = false
       update_progress_bar(0.0, 0.0, _('Searching'))
+      @b_cancel.sensitive = true
       @progress.show
       @label_status.show
       @image_spinner.show
     else
-      @b_search.sensitive = true
+      @b_cancel.sensitive = false
       @progress.hide
       @label_status.hide
       @image_spinner.hide
@@ -179,32 +195,27 @@ class GimdbGlade
 
 
   def get_movies(kind = nil)
-    if @b_search.sensitive?
-      clear_movies_list
-      searching(true)
-      if kind.nil?
-        @movies = Controller::process_info(@searcher, build_options) do |step, max, text|
-          update_progress_bar(step, max, text)
-        end
-      else
-        @movies = Movie.get_kind(@users, kind)
+    searching(true)
+    if kind.nil?
+      @movies = Controller::process_info(@searcher, build_options) do |step, max, text|
+        update_progress_bar(step, max, text)
       end
-      @index = 0
-      update_movies_list
-      searching(false)
+    else
+      @movies = Movie.get_kind(@users, kind)
     end
+    @index = 0
+    update_movies_list
+    searching(false)
   end
 
 
   def get_more_movies
-    if @b_search.sensitive?
-      searching(true)
-      @movies += Controller::process_info(@searcher, :next => true, :offline => @offline) do |step, max, text|
-        update_progress_bar(step, max, text)
-      end
-      update_movies_list
-      searching(false)
+    searching(true)
+    @movies += Controller::process_info(@searcher, :next => true, :offline => @offline) do |step, max, text|
+      update_progress_bar(step, max, text)
     end
+    update_movies_list
+    searching(false)
   end
 
 
@@ -215,24 +226,25 @@ class GimdbGlade
     @vbox_movies.spacing = 10
     @scrolled.add_with_viewport(@vbox_movies)
     @scrolled.vscrollbar.adjustment.value = 0
+    @vbox_movies.show_all
   end
 
 
   def update_movies_list
     @progress.fraction = 0
-    unless @index.nil?
-      display_movies = @movies[@index..-1]
-      display_movies.each_with_index do |m, i|
-        if ((!@check_hide_seen.active? || (m.get_users(:seen) & @users).empty?) &&
-            (!@check_only_see.active? || !(m.get_users(:to_see) & @users).empty?))
-          @vbox_movies.pack_start(GtkGimdb::MovieBox.new(m, @users), false)
-          @vbox_movies.pack_start(Gtk::HSeparator.new, false)
-        end
-        update_progress_bar(i, display_movies.size - 1, 'Building movie boxes')
+    @index ||= 0
+    clear_movies_list if @index == 0
+    display_movies = @movies[@index..-1]
+    display_movies.each_with_index do |m, i|
+      if ((!@check_hide_seen.active? || (m.get_users(:seen) & @users).empty?) &&
+          (!@check_only_see.active? || !(m.get_users(:to_see) & @users).empty?))
+        @vbox_movies.pack_start(GtkGimdb::MovieBox.new(m, @users).show_all, false)
+        @vbox_movies.pack_start(Gtk::HSeparator.new.show, false)
       end
-      @index = @movies.size
-      @vbox_movies.show_all
+      update_progress_bar(i, display_movies.size - 1, 'Building movie boxes')
     end
+    @index = @movies.size
+    #@vbox_movies.show_all
   end
 
 
@@ -267,8 +279,7 @@ class GimdbGlade
 
 
   def on_search_clicked(widget, arg = nil)
-    Thread.new{get_movies} if @b_search.sensitive?
-    #get_movies if @b_search.sensitive?
+    run_thread{get_movies}
   end
 
   def on_key_press(widget, arg = nil)
@@ -276,20 +287,23 @@ class GimdbGlade
   end
 
   def on_get_more_movies_clicked(widget, arg = nil)
-    Thread.new{get_more_movies} if @b_search.sensitive?
-    #get_more_movies if @b_search.sensitive?
+    run_thread{get_more_movies}
   end
 
   def on_show_to_see_clicked(widget, arg = nil)
-    Thread.new{get_movies(:to_see)}
+    run_thread{get_movies(:to_see)}
   end
 
   def on_show_seen_clicked(widget, arg = nil)
-    Thread.new{get_movies(:seen)}
+    run_thread{get_movies(:seen)}
   end
 
   def on_show_favourites_clicked(widget, arg = nil)
-    Thread.new{get_movies(:favourites)}
+    run_thread{get_movies(:favourites)}
+  end
+
+  def on_cancel_clicked(widget, arg = nil)
+    stop_thread
   end
 
   def on_clean_clicked(widget, arg = nil)

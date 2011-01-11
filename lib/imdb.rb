@@ -17,6 +17,12 @@ class IMDB
   String.send(:include, StringStripper)
 
 
+  #def initialize
+  #  @params = '?title_type=feature'
+  #  @start = 1
+  #end
+
+
   def get_list(options = {})
     @start = options[:start] || 1
     set_request(options)
@@ -28,6 +34,12 @@ class IMDB
     return {} if @params.nil?
     @start = @start + 50
     return perform_list_search { |step, max, text| yield(step, max, text) if block_given? }
+  end
+
+
+  def reset
+    @params = nil
+    @start = 1
   end
 
 
