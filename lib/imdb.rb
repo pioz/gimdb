@@ -96,8 +96,8 @@ class IMDB
     doc.css('table.results tr.detailed').each do |movie|
       info = {}
       number           = movie.css('td.number').first.content.stripper.to_i
-      info[:code]      = movie.css('td.title > a').first[:href].split('/')[2]                 rescue nil
-      info[:title]     = movie.css('td.title > a').first.content.stripper                     rescue nil
+      info[:code]      = movie.css('td.title > a').first[:href].split('/')[2]                 rescue next
+      info[:title]     = movie.css('td.title > a').first.content.stripper                     rescue next
       info[:image_url] = movie.css('td.image img').first[:src].stripper                       rescue nil
       info[:year]      = movie.css('td.title > span.year_type').first.content.stripper[1..-2] rescue nil
       info[:votes]     = movie.css('td.sort_col').first.content.gsub(',', '')                 rescue nil

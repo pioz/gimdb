@@ -100,7 +100,7 @@ class GimdbGlade
       x = (s.adjustment.upper * 90.0)/100.0
       vadj = s.value + s.adjustment.page_size
       if (vadj > x && vadj > @vadj)
-        run_thread{get_more_movies}
+        run_thread{get_more_movies} if @thread.nil? || !@thread.alive?
       end
       @vadj = vadj
     end
@@ -238,13 +238,13 @@ class GimdbGlade
     display_movies.each_with_index do |m, i|
       if ((!@check_hide_seen.active? || (m.get_users(:seen) & @users).empty?) &&
           (!@check_only_see.active? || !(m.get_users(:to_see) & @users).empty?))
-        @vbox_movies.pack_start(GtkGimdb::MovieBox.new(m, @users).show_all, false)
-        @vbox_movies.pack_start(Gtk::HSeparator.new.show, false)
+        @vbox_movies.pack_start(GtkGimdb::MovieBox.new(m, @users), false)
+        @vbox_movies.pack_start(Gtk::HSeparator.new, false)
       end
       update_progress_bar(i, display_movies.size - 1, 'Building movie boxes')
     end
     @index = @movies.size
-    #@vbox_movies.show_all
+    @vbox_movies.show_all
   end
 
 

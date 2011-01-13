@@ -32,7 +32,7 @@ if(!ActiveRecord::Base.connection.tables.include?('movies') ||
       t.float    :runtime
       t.datetime :updated_at, :null => false, :default => Time.now
     end
-    
+
     create_table :users do |t|
       t.string  :name,     :unique => true, :null => :false
       t.integer :selected, :limit => 1, :default => 0
@@ -93,7 +93,7 @@ class Movie < ActiveRecord::Base
     c += " AND title LIKE '%#{options[:title]}%'" if options[:title]
     if options[:release_data] && options[:release_data].include?(',')
       c += " AND year >= #{options[:release_data].split(',')[0]}"
-      c += " AND year <= #{options[:release_data].split(',')[1]}" 
+      c += " AND year <= #{options[:release_data].split(',')[1]}"
     end
     if options[:user_rating] && options[:user_rating].include?(',')
       c += " AND rating >= #{options[:user_rating].split(',')[0]}"
@@ -117,13 +117,13 @@ class Movie < ActiveRecord::Base
     c += "populars.kind = #{Movie.get_code(kind)}"
     Movie.find(:all, :joins => :populars, :conditions => c, :order => 'title ASC', :group => 'movies.id')
   end
-  
+
   def self.get_code(what)
     case what.to_sym
-    when :to_see:     0
-    when :seen:       1
-    when :favourites: 2
-    else              nil
+    when :to_see     then 0
+    when :seen       then 1
+    when :favourites then 2
+    else                  nil
     end
   end
 end
@@ -135,3 +135,4 @@ class User < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name
 end
+
