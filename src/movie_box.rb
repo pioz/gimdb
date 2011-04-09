@@ -54,7 +54,7 @@ module GtkGimdb
       vbox.pack_start(credit, false)
 
       genre = Gtk::Label.new
-      genre.text = @movie.genre.nil? ? '' : _('Genres') + ': ' + @movie.genre.gsub('|', ' | ') 
+      genre.text = @movie.genre.nil? ? '' : _('Genres') + ': ' + @movie.genre.gsub('|', ' | ')
       hbox2.pack_start(genre, false)
 
       runtime = Gtk::Label.new
@@ -90,7 +90,7 @@ module GtkGimdb
       return table
     end
 
-    
+
     class UserCheckButton < Gtk::CheckButton
       def initialize(user, movie, what)
         super()
@@ -102,9 +102,10 @@ module GtkGimdb
             movie.remove_user(user, what)
           end
         end
-      end     
+      end
     end
 
   end
 
 end
+

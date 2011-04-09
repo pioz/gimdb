@@ -1,27 +1,6 @@
-begin
-  require 'gtk2'
-rescue LoadError => e
-  puts "Error: #{e.to_s}"
-  puts ""
-  puts "You must install 'gtk2' to run this program."
-  puts "If you are using Debian/GNU Linux you can install it with:"
-  puts ""
-  puts "  apt-get install libgtk2-ruby"
-  puts ""
-  exit -1
-end
-begin
-  require 'libglade2'
-rescue LoadError => e
-  puts "Error: #{e.to_s}"
-  puts ""
-  puts "You must install 'libglade2' to run this program."
-  puts "If you are using Debian/GNU Linux you can install it with:"
-  puts ""
-  puts "  apt-get install libglade2-ruby"
-  puts ""
-  exit -1
-end
+require 'rubygems'
+require 'gtk2'
+
 require "#{$GIMDB_PATH}/lib/imdb"
 require "#{$GIMDB_PATH}/src/controller"
 require "#{$GIMDB_PATH}/src/movie_box"
@@ -33,9 +12,13 @@ class GimdbGlade
 
   attr :glade
 
-  def initialize(path_or_data, root = nil, domain = $DOMAIN, localedir = $LOCALEDIR, flag = GladeXML::FILE)
+  def initialize(path_or_data, root = nil, domain = $DOMAIN, localedir = $LOCALEDIR)#, flag = GladeXML::FILE)
     bindtextdomain(domain, localedir, nil, 'UTF-8')
-    @glade = GladeXML.new(path_or_data, root, domain, localedir, flag) { |handler| method(handler) }
+    #@builder = GladeXML.new(path_or_data, root, domain, localedir, flag) { |handler| method(handler) }
+    @builder = Gtk::Builder.new
+    @builder << path_or_data
+    @builder.translation_domain = domain
+    @builder.connect_signals { |handler| method(handler) }
     @searcher = IMDB.new
     @movies = []
     setting_up
@@ -47,33 +30,34 @@ class GimdbGlade
 
   def setting_up
     # Get widgets from glade xml file
-    @window            = @glade.get_widget('window')
-    @sidebar           = @glade.get_widget('sidebar')
-    @users_menu_item   = @glade.get_widget('users_menu_item')
-    @entry_title       = @glade.get_widget('entry_title')
-    @spin_year_from    = @glade.get_widget('spin_year_from')
-    @spin_year_to      = @glade.get_widget('spin_year_to')
-    @combo_rating_from = @glade.get_widget('combo_rating_from')
-    @combo_rating_to   = @glade.get_widget('combo_rating_to')
-    @b_search          = @glade.get_widget('b_search')
-    @b_cancel          = @glade.get_widget('b_cancel')
-    @combo_sort        = @glade.get_widget('combo_sort')
-    @toggle_sort       = @glade.get_widget('toggle_sort')
-    @check_hide_seen   = @glade.get_widget('check_hide_seen')
-    @check_only_see    = @glade.get_widget('check_only_see')
-    @label_status      = @glade.get_widget('label_status')
-    @progress          = @glade.get_widget('progress')
-    @image_connection  = @glade.get_widget('image_connection')
-    @image_spinner     = @glade.get_widget('image_spinner')
-    @scrolled          = @glade.get_widget('scrolled')
+    @window            = @builder['window']
+    @sidebar           = @builder['sidebar']
+    @users_menu_item   = @builder['users_menu_item']
+    @entry_title       = @builder['entry_title']
+    @spin_year_from    = @builder['spin_year_from']
+    @spin_year_to      = @builder['spin_year_to']
+    @combo_rating_from = @builder['combo_rating_from']
+    @combo_rating_to   = @builder['combo_rating_to']
+    @b_search          = @builder['b_search']
+    @b_search.image = Gtk::Image.new(Gtk::Stock::ADD, Gtk::IconSize::BUTTON).show
+    @b_cancel          = @builder['b_cancel']
+    @combo_sort        = @builder['combo_sort']
+    @toggle_sort       = @builder['toggle_sort']
+    @check_hide_seen   = @builder['check_hide_seen']
+    @check_only_see    = @builder['check_only_see']
+    @label_status      = @builder['label_status']
+    @progress          = @builder['progress']
+    @image_connection  = @builder['image_connection']
+    @image_spinner     = @builder['image_spinner']
+    @scrolled          = @builder['scrolled']
     @vbox_movies       = Gtk::VBox.new
-    @dialog_users      = @glade.get_widget('dialog_users')
-    @dialog_users_box  = @glade.get_widget('dialog_users_box').pack_start(GtkGimdb::ManagerBox.new(:users, :name) do |t|
+    @dialog_users      = @builder['dialog_users']
+    @dialog_users_box  = @builder['dialog_users_box'].pack_start(GtkGimdb::ManagerBox.new(:users, :name) do |t|
                                                                             @label_status.text = _(t)
                                                                             @label_status.show
                                                                             build_users_menu
                                                                           end)
-    @check_genres_all  = @glade.get_widget('check_genres_all')
+    @check_genres_all  = @builder['check_genres_all']
 
     @genres = [
      :action,:adventure,:animation,:biography,:comedy,
@@ -82,7 +66,7 @@ class GimdbGlade
      :romance,:sci_fi,:sport,:thriller,:war,:western
     ]
     @genres.each do |genre|
-      instance_variable_set("@check_genres_#{genre}", @glade.get_widget("check_genres_#{genre}")).signal_connect('clicked') do
+      instance_variable_set("@check_genres_#{genre}", @builder["check_genres_#{genre}"]).signal_connect('clicked') do
         @check_genres_all.active = false
       end
     end
@@ -90,10 +74,34 @@ class GimdbGlade
     # Some stuffs
     @users = User.find(:all, :conditions => 'selected = 1')
     build_users_menu
+    @spin_year_from.adjustment = Gtk::Adjustment.new(0, 1978, Time.now.year.to_i + 10, 1, 1, 0) 
+    @spin_year_from.value = 1978
+    @spin_year_to.adjustment = Gtk::Adjustment.new(0, 1978, Time.now.year.to_i + 10, 1, 1, 0) 
     @spin_year_to.value = Time.now.year.to_i
+    model = Gtk::ListStore.new(String)
+    renderer = Gtk::CellRendererText.new
+    (1..10).each do |val|
+      iter = model.append
+      iter[0] = val.to_s
+    end
+    @combo_rating_from.model = model
+    @combo_rating_from.pack_start(renderer, true)
+    @combo_rating_from.set_attributes(renderer, :text => 0)
     @combo_rating_from.active = 0
+    @combo_rating_to.model = model
+    @combo_rating_to.pack_start(renderer, true)
+    @combo_rating_to.set_attributes(renderer, :text => 0)
     @combo_rating_to.active = 9
+    model = Gtk::ListStore.new(String)
+    [_('Movie meter'), _('A-Z'), _('Rating'), _('Number of votes'), _('Runtime'), _('Year')].each do |val|
+      iter = model.append
+      iter[0] = val
+    end
+    @combo_sort.model = model
+    @combo_sort.pack_start(renderer, true)
+    @combo_sort.set_attributes(renderer, :text => 0)
     @combo_sort.active = 0
+
     @image_spinner.pixbuf_animation = Gdk::PixbufAnimation.new("#{$GIMDB_PATH}/data/icons/spinner16x16.gif")
     @scrolled.add_with_viewport(@vbox_movies)
     @scrolled.vscrollbar.signal_connect('value-changed') do |s|
@@ -147,6 +155,8 @@ class GimdbGlade
       sort = 'runtime'
     when 5
       sort = 'year'
+    else
+      sort = 'moviemeter'
     end
     options[:sort] = sort + (@toggle_sort.active? ? ',DESC' : '')
     return options
@@ -233,17 +243,20 @@ class GimdbGlade
   def update_movies_list
     @progress.fraction = 0
     @index ||= 0
-    clear_movies_list if @index == 0
+    #clear_movies_list if @index == 0
     display_movies = @movies[@index..-1]
+    b = GtkGimdb::MovieBox.new(display_movies.first, @users)
     display_movies.each_with_index do |m, i|
       if ((!@check_hide_seen.active? || (m.get_users(:seen) & @users).empty?) &&
           (!@check_only_see.active? || !(m.get_users(:to_see) & @users).empty?))
         @vbox_movies.pack_start(GtkGimdb::MovieBox.new(m, @users), false)
         @vbox_movies.pack_start(Gtk::HSeparator.new, false)
+        #@vbox_movies.realize
       end
       update_progress_bar(i, display_movies.size - 1, 'Building movie boxes')
     end
     @index = @movies.size
+    clear_movies_list if @index == 0
     @vbox_movies.show_all
   end
 
@@ -280,6 +293,7 @@ class GimdbGlade
 
   def on_search_clicked(widget, arg = nil)
     run_thread{get_movies}
+    #get_movies
   end
 
   def on_key_press(widget, arg = nil)

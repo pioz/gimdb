@@ -6,5 +6,5 @@ $LOCALEDIR  = "#{$GIMDB_PATH}/data/locale"
 
 require "#{$GIMDB_PATH}/src/gimdb.rb"
 
-GimdbGlade.new("#{$GIMDB_PATH}/data/gimdb.glade")
+GimdbGlade.new("#{$GIMDB_PATH}/data/gimdb.ui")
 Gtk.main
