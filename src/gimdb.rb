@@ -243,7 +243,7 @@ class GimdbGlade
   def update_movies_list
     @progress.fraction = 0
     @index ||= 0
-    #clear_movies_list if @index == 0
+    clear_movies_list if @index == 0
     display_movies = @movies[@index..-1]
     b = GtkGimdb::MovieBox.new(display_movies.first, @users)
     display_movies.each_with_index do |m, i|
@@ -256,7 +256,7 @@ class GimdbGlade
       update_progress_bar(i, display_movies.size - 1, 'Building movie boxes')
     end
     @index = @movies.size
-    clear_movies_list if @index == 0
+    #clear_movies_list if @index == 0
     @vbox_movies.show_all
   end
 
