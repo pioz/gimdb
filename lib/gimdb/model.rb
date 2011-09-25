@@ -1,8 +1,7 @@
 require 'active_record'
-require 'etc'
 
 
-$APP_LOCAL_PATH = "#{Etc.getpwuid.dir}/.gimdb"
+$APP_LOCAL_PATH = "#{Dir.home}/.gimdb"
 Dir.mkdir($APP_LOCAL_PATH) unless File.exist?($APP_LOCAL_PATH)
 Dir.mkdir("#{$APP_LOCAL_PATH}/posters") unless File.exist?("#{$APP_LOCAL_PATH}/posters")
 
