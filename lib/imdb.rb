@@ -19,14 +19,14 @@ class IMDB
   def get_list(options = {})
     @start = options[:start] || 1
     set_request(options)
-    return perform_list_search { |step, max, text| yield(step, max, text) if block_given? }
+    return perform_list_search { |step, max| yield(step, max) if block_given? }
   end
 
 
   def next
     return {} if @params.nil?
     @start = @start + 50
-    return perform_list_search { |step, max, text| yield(step, max, text) if block_given? }
+    return perform_list_search { |step, max| yield(step, max) if block_given? }
   end
 
 
@@ -79,7 +79,7 @@ class IMDB
                               :content_length_proc => lambda do |t|
                                 if block_given?
                                   @max = t
-                                  yield(0, @max, 'Downloading movies info')
+                                  yield(0, @max)
                                 end
                               end,
                               :progress_proc => lambda do |s|

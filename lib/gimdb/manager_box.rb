@@ -1,16 +1,14 @@
 module GtkGimdb
 
   class ManagerBox < Gtk::HBox
-    include GetText
 
-    def initialize(klass, field)
-      bindtextdomain($DOMAIN, :path => $LOCALEDIR)
+  def initialize(klass, field)
       super()
       @comboboxentry = Gtk::ComboBoxEntry.new
       @image_add  = Gtk::Image.new(Gtk::Stock::ADD, Gtk::IconSize::BUTTON)
       @image_edit = Gtk::Image.new(Gtk::Stock::EDIT, Gtk::IconSize::BUTTON)
       @image_del  = Gtk::Image.new(Gtk::Stock::DELETE, Gtk::IconSize::BUTTON)
-      @button = Gtk::Button.new(_('Add'))
+      @button = Gtk::Button.new(t('Add'))
       @button.image = @image_add
       @button.image.show
       @klass = klass.to_s.classify.constantize
@@ -64,16 +62,16 @@ module GtkGimdb
         @pos = @comboboxentry.active if @comboboxentry.active > -1
         if @pos == 0
           @status = :add
-          @button.label = _('Add')
+          @button.label = t('Add')
           @button.image = @image_add          
         elsif @objs.include?(@comboboxentry.active_text)
           @status = :del
           @obj_to_edit = @comboboxentry.active_text
-          @button.label = _('Delete')
+          @button.label = t('Delete')
           @button.image = @image_del
         else
           @status = :edit
-          @button.label = _('Edit')
+          @button.label = t('Edit')
           @button.image = @image_edit
         end
         @button.image.show

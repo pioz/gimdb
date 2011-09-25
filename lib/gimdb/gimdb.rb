@@ -1,18 +1,8 @@
-require 'gtk2'
-
-require "#{$APP_PATH}/lib/imdb"
-require "#{$APP_PATH}/lib/gimdb/controller"
-require "#{$APP_PATH}/lib/gimdb/movie_box"
-require "#{$APP_PATH}/lib/gimdb/manager_box"
-
-
 class Gimdb
-  include GetText
 
   def initialize(ui_file_path)
-    bindtextdomain($DOMAIN, :path => $LOCALEDIR)
     @builder = Gtk::Builder.new
-    @builder << ui_file_path
+    @builder.add_from_string(preprocess_ui_definition(ui_file_path))
     @builder.translation_domain = $DOMAIN
     @builder.connect_signals { |handler| method(handler) }
     @searcher = IMDB.new
@@ -23,6 +13,20 @@ class Gimdb
 
   private
 
+  
+  def preprocess_ui_definition(ui_file_path)
+    ui = File.open(ui_file_path).read
+    doc = Nokogiri::XML(ui)
+    doc.search('*[translatable=yes]').each do |element|
+      element.content = t(element.content)
+    end
+    doc.search('property').each do |element|
+      if element.content =~ /\w+\.png/
+        element.content = "#{$APP_PATH}/data/icons/#{element.content}"
+      end
+    end
+    doc.to_s
+  end
 
   def setting_up
     # Get widgets from glade xml file
@@ -48,8 +52,8 @@ class Gimdb
     @scrolled          = @builder['scrolled']
     @vbox_movies       = Gtk::VBox.new
     @dialog_users      = @builder['dialog_users']
-    @dialog_users_box  = @builder['dialog_users_box'].pack_start(GtkGimdb::ManagerBox.new(:users, :name) do |t|
-      @label_status.text = _(t)
+    @dialog_users_box  = @builder['dialog_users_box'].pack_start(GtkGimdb::ManagerBox.new(:users, :name) do |text|
+      @label_status.text = t(text)
       @label_status.show
       build_users_menu
     end)
@@ -96,7 +100,7 @@ class Gimdb
     @combo_rating_to.set_attributes(renderer, :text => 0)
     @combo_rating_to.active = 9
     model = Gtk::ListStore.new(String)
-    [_('Movie meter'), _('A-Z'), _('Rating'), _('Number of votes'), _('Runtime'), _('Year')].each do |val|
+    [t('Movie meter'), t('A-Z'), t('Rating'), t('Number of votes'), t('Runtime'), t('Year')].each do |val|
       iter = model.append
       iter[0] = val
     end
@@ -182,7 +186,7 @@ class Gimdb
 
   def searching(state)
     if state
-      update_progress_bar(0.0, 0.0, _('Searching'))
+      update_progress_bar(0.0, 0.0, t('Searching'))
       @b_cancel.sensitive = true
       @progress.show
       @label_status.show
@@ -200,7 +204,7 @@ class Gimdb
     fraction = step.to_f / max.to_f
     fraction = 1.0 if fraction > 1.0
     @progress.fraction = fraction
-    @label_status.text = _(text) + '...' unless text.nil?
+    @label_status.text = text + '...' unless text.nil?
   end
 
   def get_movies(kind = nil)
@@ -248,7 +252,7 @@ class Gimdb
         @vbox_movies.pack_start(GtkGimdb::MovieBox.new(m, @users), false)
         @movie_box_index += 1
       end
-      update_progress_bar(i, display_movies.size - 1, 'Building movie boxes')
+      update_progress_bar(i, display_movies.size - 1, t('Building movie boxes'))
     end
     @movie_index = @movies.size
     set_posters(poster_from) unless @offline
@@ -410,4 +414,3 @@ class Gimdb
   end
 
 end
-

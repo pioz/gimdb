@@ -1,10 +1,30 @@
 #!/usr/bin/env ruby
 
-$APP_PATH  = File.expand_path("#{File.dirname(__FILE__)}/..")
-$DOMAIN    = 'gimdb'
-$LOCALEDIR = "#{$APP_PATH}/data/locale"
+$APP_PATH       = File.expand_path("#{File.dirname(__FILE__)}/..")
+$APP_LOCAL_PATH = "#{Dir.home}/.gimdb"
 
-require "#{$APP_PATH}/lib/gimdb/gimdb.rb"
+require 'nokogiri'
+require 'active_record'
+require 'gtk2'
+
+I18n.default_locale = :it
+I18n.load_path = Dir["#{$APP_PATH}/data/locale/*.yml"]
+class Object
+  def t(s)
+    I18n.t(s)#, :default => s)
+  end
+end
+
+Dir.mkdir($APP_LOCAL_PATH) unless File.exist?($APP_LOCAL_PATH)
+Dir.mkdir("#{$APP_LOCAL_PATH}/posters") unless File.exist?("#{$APP_LOCAL_PATH}/posters")
+
+require "#{$APP_PATH}/lib/imdb"
+require "#{$APP_PATH}/lib/gimdb/controller"
+require "#{$APP_PATH}/lib/gimdb/movie_box"
+require "#{$APP_PATH}/lib/gimdb/manager_box"
+require "#{$APP_PATH}/lib/gimdb/gimdb"
+
+
 
 Gimdb.new("#{$APP_PATH}/data/gimdb.ui")
 Gtk.main

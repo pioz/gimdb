@@ -1,12 +1,9 @@
 module GtkGimdb
 
   class MovieBox < Gtk::VBox
-    include GetText
     attr_reader :movie
 
-
     def initialize(movie, users = [])
-      bindtextdomain($DOMAIN, $LOCALEDIR, nil, 'UTF-8')
       super()
       @movie = movie
       @users = users
@@ -67,7 +64,7 @@ module GtkGimdb
       vbox.pack_start(credit, false)
 
       genre = Gtk::Label.new
-      genre.text = @movie.genre.nil? ? '' : _('Genres') + ': ' + @movie.genre.gsub('|', ' | ')
+      genre.text = @movie.genre.nil? ? '' : t('Genres') + ': ' + @movie.genre.gsub('|', ' | ')
       hbox2.pack_start(genre, false)
 
       runtime = Gtk::Label.new
@@ -92,9 +89,9 @@ module GtkGimdb
     def add_users_info
       table = Gtk::Table.new(@users.size + 1, 4)
       table.attach(Gtk::Label.new, 0,1, 0,1, Gtk::SHRINK)
-      table.attach(Gtk::Label.new.set_markup(_('<b>To see</b>')), 1,2, 0,1, Gtk::SHRINK, Gtk::EXPAND|Gtk::FILL, 10)
-      table.attach(Gtk::Label.new.set_markup(_('<b>Seen</b>')), 2,3, 0,1, Gtk::SHRINK, Gtk::EXPAND|Gtk::FILL, 10)
-      table.attach(Gtk::Label.new.set_markup(_('<b>Favourites</b>')), 3,4, 0,1, Gtk::SHRINK)
+      table.attach(Gtk::Label.new.set_markup("<b>#{t('To see')}</b>"), 1,2, 0,1, Gtk::SHRINK, Gtk::EXPAND|Gtk::FILL, 10)
+      table.attach(Gtk::Label.new.set_markup("<b>#{t('Seen')}</b>"), 2,3, 0,1, Gtk::SHRINK, Gtk::EXPAND|Gtk::FILL, 10)
+      table.attach(Gtk::Label.new.set_markup("<b>#{t('Favourites')}</b>"), 3,4, 0,1, Gtk::SHRINK)
       @users.each_with_index do |u, i|
         row = i + 1
         table.attach(Gtk::Label.new(u.name), 0,1, row,row+1, Gtk::SHRINK)

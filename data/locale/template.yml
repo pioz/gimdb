@@ -1,0 +1,68 @@
+---
+:template:
+  Downloading movies info: Downloading movies info
+  Updating database: Updating database
+  Building movie boxes: Building movie boxes
+  New user added: New user added
+  User edited: User edited
+  User deleted: User deleted
+  GIMDB: GIMDB
+  _File: _File
+  Show movies to see: Show movies to see
+  Show movies seen: Show movies seen
+  Show favourites movies: Show favourites movies
+  Work offline: Work offline
+  _View: _View
+  Select users: Select users
+  Edit users: Edit users
+  Show sidebar: Show sidebar
+  _Help: _Help
+  ! 'Year ': ! 'Year '
+  ! ' to ': ! ' to '
+  ! 'Vote ': ! 'Vote '
+  All: All
+  Action: Action
+  Adventure: Adventure
+  Animation: Animation
+  Biography: Biography
+  Comedy: Comedy
+  Crime: Crime
+  Documentary: Documentary
+  Drama: Drama
+  Family: Family
+  Fantasy: Fantasy
+  Film-noir: Film-noir
+  Game-show: Game-show
+  History: History
+  Horror: Horror
+  Music: Music
+  Musical: Musical
+  Mystery: Mystery
+  News: News
+  Romance: Romance
+  Sci-Fi: Sci-Fi
+  Sport: Sport
+  Thriller: Thriller
+  War: War
+  Western: Western
+  <b>Genres</b>: <b>Genres</b>
+  ! 'Sort ': ! 'Sort '
+  DESC: DESC
+  Hide seen: Hide seen
+  Show only to see: Show only to see
+  Manage users: Manage users
+  Select all users: Select all users
+  Movie meter: Movie meter
+  A-Z: A-Z
+  Rating: Rating
+  Number of votes: Number of votes
+  Runtime: Runtime
+  Year: Year
+  Searching: Searching
+  Add: Add
+  Delete: Delete
+  Edit: Edit
+  Genres: Genres
+  To see: To see
+  Seen: Seen
+  Favourites: Favourites

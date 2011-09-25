@@ -6,7 +6,7 @@
     <property name="visible">True</property>
     <property name="title" translatable="yes">GIMDB</property>
     <property name="window_position">center</property>
-    <property name="icon">icons/gimdb.png</property>
+    <property name="icon">gimdb.png</property>
     <child>
       <object class="GtkVBox" id="vbox1">
         <property name="visible">True</property>
@@ -975,7 +975,7 @@
     <property name="modal">True</property>
     <property name="window_position">center</property>
     <property name="destroy_with_parent">True</property>
-    <property name="icon">icons/gimdb.png</property>
+    <property name="icon">gimdb.png</property>
     <property name="type_hint">normal</property>
     <property name="skip_taskbar_hint">True</property>
     <signal name="delete_event" handler="on_close_manage_users_clicked"/>
@@ -1050,22 +1050,22 @@
   </object>
   <object class="GtkImage" id="image1">
     <property name="visible">True</property>
-    <property name="pixbuf">icons/to_see.png</property>
+    <property name="pixbuf">to_see.png</property>
   </object>
   <object class="GtkImage" id="image2">
     <property name="visible">True</property>
-    <property name="pixbuf">icons/seen.png</property>
+    <property name="pixbuf">seen.png</property>
   </object>
   <object class="GtkImage" id="image3">
     <property name="visible">True</property>
-    <property name="pixbuf">icons/favourites.png</property>
+    <property name="pixbuf">favourites.png</property>
   </object>
   <object class="GtkImage" id="image4">
     <property name="visible">True</property>
-    <property name="pixbuf">icons/users.png</property>
+    <property name="pixbuf">users.png</property>
   </object>
   <object class="GtkImage" id="image5">
     <property name="visible">True</property>
-    <property name="pixbuf">icons/users_edit.png</property>
+    <property name="pixbuf">users_edit.png</property>
   </object>
 </interface>

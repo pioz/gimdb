@@ -1,31 +1,31 @@
 require "bundler/gem_tasks"
 
-namespace :gettext do
-  require 'nokogiri'
-  #require 'gettext/tools'
-  
-  desc "Update pot/po files"
-  task :updatepo do
-    TMP_FILE = 'lib/gimdb/ui_translatable_strings.rb'
-    begin
-      doc = Nokogiri::XML(open('data/gimdb.ui'))
-      ui_t = doc.search('*[translatable=yes]').map{|e| "_('#{e.content}')"}
-      File.open(TMP_FILE, 'w') do |f|
-        ui_t.each_with_index do |s, i|
-          f << "s#{i} = #{s}\n"
-        end
+namespace :i18n do  
+  desc 'Generate i18n yml template file'
+  task :template do
+    require 'nokogiri'
+    require 'yaml'
+    TEMPLATE_FILE = 'data/locale/template.yml'
+    if File.exist?(TEMPLATE_FILE)
+      hash = YAML.load_file(TEMPLATE_FILE)[:template]
+    else
+      hash = {}
+    end
+    doc = Nokogiri::XML(open('data/gimdb.ui'))
+    doc.search('*[translatable=yes]').each do |element|
+      hash[element.content] = element.content
+    end    
+    Dir['{lib/gimdb,bin}/**/*.rb'].each do |file|
+      File.open(file).read.scan(/\Wt\('(.*?)'\)/).each do |m|
+        hash[m[0]] = m[0]
       end
-      GetText.update_pofiles('gimdb', Dir.glob("{lib/gimdb,bin}/**/*.rb"), Gimdb::VERSION)
-    ensure
-      File.delete(TMP_FILE)
+    end
+    File.open('data/locale/template.yml', 'w') do |f|
+      f << {:template => hash}.to_yaml
     end
   end
-
-  desc "Create mo files"
-  task :makemo do
-    GetText.create_mofiles(:verbose => true)
-  end
 end
+
 
 __END__
 

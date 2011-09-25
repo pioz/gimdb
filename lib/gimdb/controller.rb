@@ -14,14 +14,14 @@ module Controller
     else
       movies = []
       unless options[:next]
-        res = imdb.get_list(options) { |step, max, text| yield(step, max, text) if block_given? }
+        res = imdb.get_list(options) { |step, max| yield(step, max, t('Downloading movies info')) if block_given? }
       else
-        res = imdb.next { |step, max, text| yield(step, max, text) if block_given? }
+        res = imdb.next { |step, max| yield(step, max, t('Downloading movies info')) if block_given? }
       end
       i = 0
       res.sort{|x,y| x[0] <=> y[0]}.each do |k,v|
         if block_given?
-          yield(i, res.size, 'Updating database')
+          yield(i, res.size, t('Updating database'))
           i += 1
         end
         record = Movie.find(:first, :conditions => "code = '#{v[:code]}'")

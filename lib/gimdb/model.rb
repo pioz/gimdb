@@ -1,10 +1,4 @@
-require 'active_record'
-
-
-$APP_LOCAL_PATH = "#{Dir.home}/.gimdb"
-Dir.mkdir($APP_LOCAL_PATH) unless File.exist?($APP_LOCAL_PATH)
-Dir.mkdir("#{$APP_LOCAL_PATH}/posters") unless File.exist?("#{$APP_LOCAL_PATH}/posters")
-
+# require 'active_record'
 
 ActiveRecord::Base.establish_connection(
   :adapter => "sqlite3",
