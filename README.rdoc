@@ -11,7 +11,7 @@ _gimdb_ download the movies info that you request and save them in a local sqlit
 You can create users and save for each of them the movies to see, movies seen and favourites movies.
 _gimdb_ can also work in offline mode searching movies in the local database.
 
-{Screenshot}[https://github.com/downloads/pioz/gimdb/screenshot-GIMDB.png]
+![GIMDB screenshot](https://github.com/downloads/pioz/gimdb/screenshot-GIMDB.png)
 
 _gimdb_ may be useful if you don't know what movie see.
 
@@ -20,7 +20,6 @@ _gimdb_ may be useful if you don't know what movie see.
 
 For your purposes, you can use the IMDB class.
 
-  require 'rubygems'
   require 'imdb'
   require 'pp'
 
@@ -51,53 +50,19 @@ Avaiable options are:
 
 == Requirements
 
-* ruby
+* ruby 1.9
+* nokogiri[https://github.com/tenderlove/nokogiri]
+* sqlite3[https://github.com/luislavena/sqlite3-ruby]
 * activerecord
-* sqlite3-ruby[http://github.com/jamis/sqlite3-ruby]
-* nokogiri[http://github.com/tenderlove/nokogiri]
-* libgtk2 <tt>(sudo apt-get install libgtk2-ruby)</tt>
-* libglade2 <tt>(sudo apt-get install libglade2-ruby)</tt>
+* gtk2[http://ruby-gnome2.sourceforge.jp/]
 
 == Install
 
-    sudo apt-get install ruby1.8-dev
-    sudo apt-get install libxml2-dev
-    sudo apt-get install libxslt1-dev
-    sudo apt-get install libsqlite3-dev
-    sudo apt-get install rubygems
-    sudo gem install gimdb
-
-remember also to add rubygems bin path to your PATH env variable.
-Edit <tt>~/.bashrc</tt> and add the follow line:
-
-    PATH=$PATH:/var/lib/gems/1.8/bin
-
-or download debian package here[http://github.com/downloads/pioz/gimdb/gimdb_0.0.6_all.deb] and install it:
-
-    sudo dpkg -i gimdb_0.0.6_all.deb
-
-or add gimdb's repository in your apt sources list file
-
-* Import repository public key
-
-    gpg --recv-keys c90a3577
-    gpg --export --armor c90a3577 | sudo apt-key add -
-
-* Add repository in your <tt>/etc/apt/sources.list</tt> adding follow line
-
-    deb http://www.pioz.it/repository debian main
-
-* Update repositories
-
-    sudo apt-get update
-
-* Install gimdb
-
-    sudo apt-get install gimdb 
+    gem install gimdb
 
 == Docs
 
-http://rdoc.info/projects/Pioz/gimdb
+http://rdoc.info/github/pioz/gimdb
 
 == Support
 
@@ -115,4 +80,4 @@ You can use this email address for any questions or help: mailto:enrico@megiston
 
 == Copyright
 
-Copyright (c) 2010 Enrico Pilotto. See LICENSE[http://github.com/pioz/gimdb/blob/master/LICENSE] for details.
+Copyright (c) 2010 Enrico Pilotto. See LICENSE[https://github.com/pioz/gimdb/blob/master/LICENSE] for details.
