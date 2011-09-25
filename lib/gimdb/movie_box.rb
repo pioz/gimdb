@@ -36,7 +36,7 @@ module GtkGimdb
       hbox2 = Gtk::HBox.new
       hbox2.spacing = 50
 
-      @img = Gtk::Image.new("#{$GIMDB_PATH}/data/icons/no_poster.png")
+      @img = Gtk::Image.new("#{$APP_PATH}/data/icons/no_poster.png")
       set_poster
       @img.set_tooltip_text("Code: #{@movie.code}")
       hbox.pack_start(@img, false)

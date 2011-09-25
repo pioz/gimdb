@@ -1,10 +1,10 @@
 #!/usr/bin/env ruby
 
-$GIMDB_PATH = "#{File.dirname(__FILE__)}/.."
-$DOMAIN     = 'gimdb'
-$LOCALEDIR  = "#{$GIMDB_PATH}/data/locale"
+$APP_PATH  = File.expand_path("#{File.dirname(__FILE__)}/..")
+$DOMAIN    = 'gimdb'
+$LOCALEDIR = "#{$APP_PATH}/data/locale"
 
-require "#{$GIMDB_PATH}/src/gimdb.rb"
+require "#{$APP_PATH}/lib/gimdb/gimdb.rb"
 
-GimdbGlade.new("#{$GIMDB_PATH}/data/gimdb.ui")
+Gimdb.new("#{$APP_PATH}/data/gimdb.ui")
 Gtk.main

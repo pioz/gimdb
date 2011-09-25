@@ -1,4 +1,3 @@
-require 'rubygems'
 require 'nokogiri'
 require 'open-uri'
 require 'net/http'
@@ -15,12 +14,6 @@ class IMDB
     end
   end
   String.send(:include, StringStripper)
-
-
-  #def initialize
-  #  @params = '?title_type=feature'
-  #  @start = 1
-  #end
 
 
   def get_list(options = {})

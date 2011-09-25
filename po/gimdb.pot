@@ -6,217 +6,254 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: gimdb\n"
-"POT-Creation-Date: 2010-05-08 16:42+0200\n"
-"PO-Revision-Date: 2010-05-06 01:50+0200\n"
+"Project-Id-Version: 0.1.0\n"
+"POT-Creation-Date: 2011-09-25 18:29+0200\n"
+"PO-Revision-Date: 2011-09-25 16:49+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-msgid "Genres"
-msgstr ""
-
-msgid "<b>To see</b>"
-msgstr ""
-
-msgid "<b>Seen</b>"
-msgstr ""
-
-msgid "<b>Favourites</b>"
-msgstr ""
-
-msgid "Searching"
-msgstr ""
-
-msgid "Add"
-msgstr ""
-
-msgid "Edit"
-msgstr ""
-
-msgid "Delete"
-msgstr ""
-
-msgid "New user added"
-msgstr ""
-
-msgid "User edited"
-msgstr ""
-
-msgid "User deleted"
-msgstr ""
-
-msgid "Downloading movie posters"
-msgstr ""
-
-msgid "Building movie boxes"
-msgstr ""
-
-msgid "Downloading movies info"
-msgstr ""
-
+#: lib/gimdb/ui_translatable_strings.rb:1
 msgid "GIMDB"
 msgstr ""
 
+#: lib/gimdb/ui_translatable_strings.rb:2
 msgid "_File"
 msgstr ""
 
+#: lib/gimdb/ui_translatable_strings.rb:3
 msgid "Show movies to see"
 msgstr ""
 
+#: lib/gimdb/ui_translatable_strings.rb:4
 msgid "Show movies seen"
 msgstr ""
 
+#: lib/gimdb/ui_translatable_strings.rb:5
 msgid "Show favourites movies"
 msgstr ""
 
+#: lib/gimdb/ui_translatable_strings.rb:6
 msgid "Work offline"
 msgstr ""
 
+#: lib/gimdb/ui_translatable_strings.rb:7
 msgid "_View"
 msgstr ""
 
-msgid "Select users to manage"
-msgstr ""
-
+#: lib/gimdb/ui_translatable_strings.rb:8
 msgid "Select users"
 msgstr ""
 
+#: lib/gimdb/ui_translatable_strings.rb:9
 msgid "Edit users"
 msgstr ""
 
-msgid "Add or remove users"
-msgstr ""
-
+#: lib/gimdb/ui_translatable_strings.rb:10
 msgid "Show sidebar"
 msgstr ""
 
+#: lib/gimdb/ui_translatable_strings.rb:11
 msgid "_Help"
 msgstr ""
 
-msgid ""
-"1\n"
-"2\n"
-"3\n"
-"4\n"
-"5\n"
-"6\n"
-"7\n"
-"8\n"
-"9\n"
-"10"
-msgstr ""
-
+#: lib/gimdb/ui_translatable_strings.rb:12
 msgid "Year "
 msgstr ""
 
+#: lib/gimdb/ui_translatable_strings.rb:13
+#: lib/gimdb/ui_translatable_strings.rb:15
 msgid " to "
 msgstr ""
 
+#: lib/gimdb/ui_translatable_strings.rb:14
 msgid "Vote "
 msgstr ""
 
+#: lib/gimdb/ui_translatable_strings.rb:16
 msgid "All"
 msgstr ""
 
+#: lib/gimdb/ui_translatable_strings.rb:17
 msgid "Action"
 msgstr ""
 
+#: lib/gimdb/ui_translatable_strings.rb:18
 msgid "Adventure"
 msgstr ""
 
+#: lib/gimdb/ui_translatable_strings.rb:19
 msgid "Animation"
 msgstr ""
 
+#: lib/gimdb/ui_translatable_strings.rb:20
 msgid "Biography"
 msgstr ""
 
+#: lib/gimdb/ui_translatable_strings.rb:21
 msgid "Comedy"
 msgstr ""
 
+#: lib/gimdb/ui_translatable_strings.rb:22
 msgid "Crime"
 msgstr ""
 
+#: lib/gimdb/ui_translatable_strings.rb:23
 msgid "Documentary"
 msgstr ""
 
+#: lib/gimdb/ui_translatable_strings.rb:24
 msgid "Drama"
 msgstr ""
 
+#: lib/gimdb/ui_translatable_strings.rb:25
 msgid "Family"
 msgstr ""
 
+#: lib/gimdb/ui_translatable_strings.rb:26
 msgid "Fantasy"
 msgstr ""
 
+#: lib/gimdb/ui_translatable_strings.rb:27
 msgid "Film-noir"
 msgstr ""
 
+#: lib/gimdb/ui_translatable_strings.rb:28
 msgid "Game-show"
 msgstr ""
 
+#: lib/gimdb/ui_translatable_strings.rb:29
 msgid "History"
 msgstr ""
 
+#: lib/gimdb/ui_translatable_strings.rb:30
 msgid "Horror"
 msgstr ""
 
+#: lib/gimdb/ui_translatable_strings.rb:31
 msgid "Music"
 msgstr ""
 
+#: lib/gimdb/ui_translatable_strings.rb:32
 msgid "Musical"
 msgstr ""
 
+#: lib/gimdb/ui_translatable_strings.rb:33
 msgid "Mystery"
 msgstr ""
 
+#: lib/gimdb/ui_translatable_strings.rb:34
 msgid "News"
 msgstr ""
 
+#: lib/gimdb/ui_translatable_strings.rb:35
 msgid "Romance"
 msgstr ""
 
+#: lib/gimdb/ui_translatable_strings.rb:36
 msgid "Sci-Fi"
 msgstr ""
 
+#: lib/gimdb/ui_translatable_strings.rb:37
 msgid "Sport"
 msgstr ""
 
+#: lib/gimdb/ui_translatable_strings.rb:38
 msgid "Thriller"
 msgstr ""
 
+#: lib/gimdb/ui_translatable_strings.rb:39
 msgid "War"
 msgstr ""
 
+#: lib/gimdb/ui_translatable_strings.rb:40
 msgid "Western"
 msgstr ""
 
+#: lib/gimdb/ui_translatable_strings.rb:41
+msgid "<b>Genres</b>"
+msgstr ""
+
+#: lib/gimdb/ui_translatable_strings.rb:42
 msgid "Sort "
 msgstr ""
 
-msgid ""
-"Movie meter\n"
-"A-Z\n"
-"Rating\n"
-"Number of votes\n"
-"Runtime\n"
-"Year"
-msgstr ""
-
+#: lib/gimdb/ui_translatable_strings.rb:43
 msgid "DESC"
 msgstr ""
 
+#: lib/gimdb/ui_translatable_strings.rb:44
 msgid "Hide seen"
 msgstr ""
 
+#: lib/gimdb/ui_translatable_strings.rb:45
 msgid "Show only to see"
 msgstr ""
 
+#: lib/gimdb/ui_translatable_strings.rb:46
 msgid "Manage users"
 msgstr ""
 
+#: lib/gimdb/ui_translatable_strings.rb:47
 msgid "Select all users"
+msgstr ""
+
+#: lib/gimdb/gimdb.rb:99
+msgid "Movie meter"
+msgstr ""
+
+#: lib/gimdb/gimdb.rb:99
+msgid "A-Z"
+msgstr ""
+
+#: lib/gimdb/gimdb.rb:99
+msgid "Rating"
+msgstr ""
+
+#: lib/gimdb/gimdb.rb:99
+msgid "Number of votes"
+msgstr ""
+
+#: lib/gimdb/gimdb.rb:99
+msgid "Runtime"
+msgstr ""
+
+#: lib/gimdb/gimdb.rb:99
+msgid "Year"
+msgstr ""
+
+#: lib/gimdb/gimdb.rb:185
+msgid "Searching"
+msgstr ""
+
+#: lib/gimdb/manager_box.rb:67
+msgid "Add"
+msgstr ""
+
+#: lib/gimdb/manager_box.rb:72
+msgid "Delete"
+msgstr ""
+
+#: lib/gimdb/manager_box.rb:76
+msgid "Edit"
+msgstr ""
+
+#: lib/gimdb/movie_box.rb:70
+msgid "Genres"
+msgstr ""
+
+#: lib/gimdb/movie_box.rb:95
+msgid "<b>To see</b>"
+msgstr ""
+
+#: lib/gimdb/movie_box.rb:96
+msgid "<b>Seen</b>"
+msgstr ""
+
+#: lib/gimdb/movie_box.rb:97
+msgid "<b>Favourites</b>"
 msgstr ""

@@ -1,16 +1,15 @@
-require 'rubygems'
 require 'active_record'
 require 'etc'
 
 
-$GIMDB_LOCAL_PATH = "#{Etc.getpwuid.dir}/.gimdb"
-Dir.mkdir($GIMDB_LOCAL_PATH) unless File.exist?($GIMDB_LOCAL_PATH)
-Dir.mkdir("#{$GIMDB_LOCAL_PATH}/posters") unless File.exist?("#{$GIMDB_LOCAL_PATH}/posters")
+$APP_LOCAL_PATH = "#{Etc.getpwuid.dir}/.gimdb"
+Dir.mkdir($APP_LOCAL_PATH) unless File.exist?($APP_LOCAL_PATH)
+Dir.mkdir("#{$APP_LOCAL_PATH}/posters") unless File.exist?("#{$APP_LOCAL_PATH}/posters")
 
 
 ActiveRecord::Base.establish_connection(
   :adapter => "sqlite3",
-  :database => "#{$GIMDB_LOCAL_PATH}/db.sqlite3"
+  :database => "#{$APP_LOCAL_PATH}/db.sqlite3"
 )
 
 

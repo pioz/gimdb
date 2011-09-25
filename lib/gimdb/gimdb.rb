@@ -1,22 +1,19 @@
-require 'rubygems'
 require 'gtk2'
 
-require "#{$GIMDB_PATH}/lib/imdb"
-require "#{$GIMDB_PATH}/src/controller"
-require "#{$GIMDB_PATH}/src/movie_box"
-require "#{$GIMDB_PATH}/src/manager_box"
+require "#{$APP_PATH}/lib/imdb"
+require "#{$APP_PATH}/lib/gimdb/controller"
+require "#{$APP_PATH}/lib/gimdb/movie_box"
+require "#{$APP_PATH}/lib/gimdb/manager_box"
 
 
-class GimdbGlade
+class Gimdb
   include GetText
 
-  attr :glade
-
-  def initialize(path_or_data, root = nil, domain = $DOMAIN, localedir = $LOCALEDIR)#, flag = GladeXML::FILE)
-    bindtextdomain(domain, localedir, nil, 'UTF-8')
+  def initialize(ui_file_path)
+    bindtextdomain($DOMAIN, :path => $LOCALEDIR)
     @builder = Gtk::Builder.new
-    @builder << path_or_data
-    @builder.translation_domain = domain
+    @builder << ui_file_path
+    @builder.translation_domain = $DOMAIN
     @builder.connect_signals { |handler| method(handler) }
     @searcher = IMDB.new
     @movies = []
@@ -52,10 +49,10 @@ class GimdbGlade
     @vbox_movies       = Gtk::VBox.new
     @dialog_users      = @builder['dialog_users']
     @dialog_users_box  = @builder['dialog_users_box'].pack_start(GtkGimdb::ManagerBox.new(:users, :name) do |t|
-                                                                            @label_status.text = _(t)
-                                                                            @label_status.show
-                                                                            build_users_menu
-                                                                          end)
+      @label_status.text = _(t)
+      @label_status.show
+      build_users_menu
+    end)
     @check_genres_all  = @builder['check_genres_all']
     @check_genres_all.signal_connect('clicked') do
       if @check_genres_all.active?
@@ -108,7 +105,7 @@ class GimdbGlade
     @combo_sort.set_attributes(renderer, :text => 0)
     @combo_sort.active = 0
 
-    @image_spinner.pixbuf_animation = Gdk::PixbufAnimation.new("#{$GIMDB_PATH}/data/icons/spinner16x16.gif")
+    @image_spinner.pixbuf_animation = Gdk::PixbufAnimation.new("#{$APP_PATH}/data/icons/spinner16x16.gif")
     @scrolled.add_with_viewport(@vbox_movies)
     @scrolled.vscrollbar.signal_connect('value-changed') do |s|
       x = (s.adjustment.upper * 90.0)/100.0
@@ -383,7 +380,7 @@ class GimdbGlade
   def on_about_clicked(widget, arg = nil)
     @dialog_about = Gtk::AboutDialog.new
     begin
-      f = File.open("#{$GIMDB_PATH}/VERSION", 'r')
+      f = File.open("#{$APP_PATH}/VERSION", 'r')
       version = ''
       f.each_line { |line| version += line }
       @dialog_about.version = version
@@ -391,7 +388,7 @@ class GimdbGlade
       nil
     end
     begin
-      f = File.open("#{$GIMDB_PATH}/LICENSE", 'r')
+      f = File.open("#{$APP_PATH}/LICENSE", 'r')
       license = ''
       f.each_line { |line| license += line }
       @dialog_about.license = license
@@ -399,7 +396,7 @@ class GimdbGlade
       nil
     end
     @dialog_about.program_name = 'GIMDB'
-    @dialog_about.logo = Gdk::Pixbuf.new("#{$GIMDB_PATH}/data/icons/imdb.png")
+    @dialog_about.logo = Gdk::Pixbuf.new("#{$APP_PATH}/data/icons/imdb.png")
     @dialog_about.comments = 'GTK graphical interface for the Internet Movie DataBase.'
     @dialog_about.copyright = "Copyright (c) #{Time.now.year} Enrico Pilotto"
     @dialog_about.website = 'http://github.com/pioz/gimdb'

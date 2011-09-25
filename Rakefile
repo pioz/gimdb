@@ -1,49 +1,33 @@
-require 'rubygems'
-require 'rake'
-
-begin
-  require 'jeweler'
-  Jeweler::Tasks.new do |gem|
-    $NAME = gem.name = 'gimdb'
-    $VERSION = File.exist?('VERSION') ? File.read('VERSION').strip : ''
-    $SUMMARY = gem.summary = 'GTK graphical interface for Internet Movie DataBase'
-    $DESCRIPTION = gem.description = 'GTK graphical interface for Internet Movie DataBase. You can create users and save for each of them the movies to see, movies seen and favourites movies in a sqlite3 database.'
-    $EMAIL = gem.email = 'enrico@megiston.it'
-    $HOMEPAGE = gem.homepage = 'http://github.com/pioz/gimdb'
-    $AUTHORS = gem.authors = [ 'Enrico Pilotto' ]
-    gem.add_dependency 'nokogiri'
-    gem.add_dependency 'activerecord'
-    gem.add_dependency 'sqlite3-ruby'
-  end
-  Jeweler::DebTasks.new
-rescue LoadError
-  puts 'Jeweler (or a dependency) not available. Install it with: gem install jeweler'
-end
-
-task :test => :check_dependencies
-
-task :default => :test
-
-require 'rake/rdoctask'
-Rake::RDocTask.new do |rdoc|
-  rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = "gimdb #{$VERSION}"
-  rdoc.rdoc_files.include('README*')
-end
+require "bundler/gem_tasks"
 
 namespace :gettext do
+  require 'nokogiri'
+  require 'gettext/tools'
+  
   desc "Update pot/po files"
   task :updatepo do
-    require 'gettext/tools'
-    GetText.update_pofiles('gimdb', Dir.glob("{.,lib,bin}/**/*.rb"), 'gimdb')
+    TMP_FILE = 'lib/gimdb/ui_translatable_strings.rb'
+    begin
+      doc = Nokogiri::XML(open('data/gimdb.ui'))
+      ui_t = doc.search('*[translatable=yes]').map{|e| "_('#{e.content}')"}
+      File.open(TMP_FILE, 'w') do |f|
+        ui_t.each_with_index do |s, i|
+          f << "s#{i} = #{s}\n"
+        end
+      end
+      GetText.update_pofiles('gimdb', Dir.glob("{lib/gimdb,bin}/**/*.rb"), Gimdb::VERSION)
+    ensure
+      File.delete(TMP_FILE)
+    end
   end
 
-  desc "Create mo-files"
+  desc "Create mo files"
   task :makemo do
-    require 'gettext/tools'
-    GetText.create_mofiles
+    GetText.create_mofiles(:verbose => true)
   end
 end
+
+__END__
 
 desc 'Generate meta deb package'
 task :build_deb do
