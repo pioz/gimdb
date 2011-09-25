@@ -10,7 +10,7 @@ module GtkGimdb
       @image_add  = Gtk::Image.new(Gtk::Stock::ADD, Gtk::IconSize::BUTTON)
       @image_edit = Gtk::Image.new(Gtk::Stock::EDIT, Gtk::IconSize::BUTTON)
       @image_del  = Gtk::Image.new(Gtk::Stock::DELETE, Gtk::IconSize::BUTTON)
-      @button = Gtk::Button.new#(_('Add'))
+      @button = Gtk::Button.new(_('Add'))
       @button.image = @image_add
       @button.image.show
       @klass = klass.to_s.classify.constantize
