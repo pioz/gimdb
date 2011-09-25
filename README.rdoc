@@ -11,7 +11,7 @@ _gimdb_ download the movies info that you request and save them in a local sqlit
 You can create users and save for each of them the movies to see, movies seen and favourites movies.
 _gimdb_ can also work in offline mode searching movies in the local database.
 
-![GIMDB screenshot](https://github.com/downloads/pioz/gimdb/screenshot-GIMDB.png)
+{Screenshot}[https://github.com/downloads/pioz/gimdb/screenshot-GIMDB.png]
 
 _gimdb_ may be useful if you don't know what movie see.
 
