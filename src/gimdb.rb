@@ -14,7 +14,6 @@ class GimdbGlade
 
   def initialize(path_or_data, root = nil, domain = $DOMAIN, localedir = $LOCALEDIR)#, flag = GladeXML::FILE)
     bindtextdomain(domain, localedir, nil, 'UTF-8')
-    #@builder = GladeXML.new(path_or_data, root, domain, localedir, flag) { |handler| method(handler) }
     @builder = Gtk::Builder.new
     @builder << path_or_data
     @builder.translation_domain = domain
@@ -39,7 +38,7 @@ class GimdbGlade
     @combo_rating_from = @builder['combo_rating_from']
     @combo_rating_to   = @builder['combo_rating_to']
     @b_search          = @builder['b_search']
-    @b_search.image = Gtk::Image.new(Gtk::Stock::ADD, Gtk::IconSize::BUTTON).show
+    @b_search.image    = Gtk::Image.new(Gtk::Stock::ADD, Gtk::IconSize::BUTTON).show
     @b_cancel          = @builder['b_cancel']
     @combo_sort        = @builder['combo_sort']
     @toggle_sort       = @builder['toggle_sort']
@@ -58,6 +57,13 @@ class GimdbGlade
                                                                             build_users_menu
                                                                           end)
     @check_genres_all  = @builder['check_genres_all']
+    @check_genres_all.signal_connect('clicked') do
+      if @check_genres_all.active?
+        @genres.each do |genre|
+          instance_variable_get("@check_genres_#{genre}").active = false
+        end
+      end
+    end
 
     @genres = [
      :action,:adventure,:animation,:biography,:comedy,
@@ -67,7 +73,7 @@ class GimdbGlade
     ]
     @genres.each do |genre|
       instance_variable_set("@check_genres_#{genre}", @builder["check_genres_#{genre}"]).signal_connect('clicked') do
-        @check_genres_all.active = false
+        @check_genres_all.active = false if instance_variable_get("@check_genres_#{genre}").active?          
       end
     end
 
@@ -169,7 +175,6 @@ class GimdbGlade
     @thread = Thread.new{yield}
   end
 
-
   def stop_thread
     if @thread && @thread.alive?
       @thread.kill
@@ -177,7 +182,6 @@ class GimdbGlade
     end
     searching(false)
   end
-
 
   def searching(state)
     if state
@@ -194,7 +198,6 @@ class GimdbGlade
     end
   end
 
-
   def update_progress_bar(step, max, text = nil)
     max = 80000 if max.nil? || max == 0
     fraction = step.to_f / max.to_f
@@ -202,7 +205,6 @@ class GimdbGlade
     @progress.fraction = fraction
     @label_status.text = _(text) + '...' unless text.nil?
   end
-
 
   def get_movies(kind = nil)
     searching(true)
@@ -213,11 +215,10 @@ class GimdbGlade
     else
       @movies = Movie.get_kind(@users, kind)
     end
-    @index = 0
+    clear_movies_list
     update_movies_list
     searching(false)
   end
-
 
   def get_more_movies
     searching(true)
@@ -228,8 +229,9 @@ class GimdbGlade
     searching(false)
   end
 
-
   def clear_movies_list
+    @movie_index = 0
+    @movie_box_index = 0
     @scrolled.each { |child| @scrolled.remove(child) }
     @vbox_movies = Gtk::VBox.new
     @vbox_movies.border_width = 10
@@ -239,27 +241,32 @@ class GimdbGlade
     @vbox_movies.show_all
   end
 
-
   def update_movies_list
     @progress.fraction = 0
-    @index ||= 0
-    clear_movies_list if @index == 0
-    display_movies = @movies[@index..-1]
-    b = GtkGimdb::MovieBox.new(display_movies.first, @users)
+    display_movies = @movies[@movie_index..-1]
+    poster_from = @movie_box_index
     display_movies.each_with_index do |m, i|
       if ((!@check_hide_seen.active? || (m.get_users(:seen) & @users).empty?) &&
           (!@check_only_see.active? || !(m.get_users(:to_see) & @users).empty?))
         @vbox_movies.pack_start(GtkGimdb::MovieBox.new(m, @users), false)
-        @vbox_movies.pack_start(Gtk::HSeparator.new, false)
-        #@vbox_movies.realize
+        @movie_box_index += 1
       end
       update_progress_bar(i, display_movies.size - 1, 'Building movie boxes')
     end
-    @index = @movies.size
-    #clear_movies_list if @index == 0
-    @vbox_movies.show_all
+    @movie_index = @movies.size
+    set_posters(poster_from) unless @offline
   end
 
+  def set_posters(from = 0)
+    Thread.new do
+      @vbox_movies.children[from..-1].each do |movie_box|
+        unless movie_box.has_poster?
+          Controller::get_poster(@searcher, movie_box.movie)
+          movie_box.set_poster
+        end
+      end
+    end
+  end
 
   def build_users_menu
     @users = User.find(:all, :conditions => 'selected = 1')
@@ -338,9 +345,13 @@ class GimdbGlade
     if @offline
       @window.title += ' (offline)'
       @image_connection.show
+      @combo_sort.sensitive = false
+      @toggle_sort.sensitive = false
     else
       @window.title = @window.title.gsub(' (offline)', '')
       @image_connection.hide
+      @combo_sort.sensitive = true
+      @toggle_sort.sensitive = true
     end
   end
 

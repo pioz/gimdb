@@ -21,20 +21,20 @@ module Controller
       i = 0
       res.sort{|x,y| x[0] <=> y[0]}.each do |k,v|
         if block_given?
-          yield(i, res.size, 'Downloading movie posters')
-          i = i + 1
+          yield(i, res.size, 'Updating database')
+          i += 1
         end
         record = Movie.find(:first, :conditions => "code = '#{v[:code]}'")
         if record.nil?
           record = Movie.new(v)
-          options[:path] ||= "#{$GIMDB_LOCAL_PATH}/posters/"
-          image_path = "#{options[:path]}#{record.code}.jpg"
-          if imdb.get_image(record.image_url, image_path)
-            record.image_path = image_path
-          end
+          # options[:path] ||= "#{$GIMDB_LOCAL_PATH}/posters/"
+          # image_path = "#{options[:path]}#{record.code}.jpg"
+          # if imdb.get_image(record.image_url, image_path)
+          #   record.image_path = image_path
+          # end
           record.save!
         else
-          imdb.get_image(record.image_url, record.image_path) if !record.image_path.nil? && !File.exists?(record.image_path)
+          # imdb.get_image(record.image_url, record.image_path) if !record.image_path.nil? && !File.exists?(record.image_path)
           if (Time.now - record.updated_at) > 1.day
             record.update_attributes(v.merge(:updated_at => Time.now))
             record.save!
@@ -45,6 +45,16 @@ module Controller
       yield(res.size, res.size) if block_given?
       return movies
     end
+  end
+  
+  def self.get_poster(imdb, record, options = {})
+    options[:path] ||= "#{$GIMDB_LOCAL_PATH}/posters/"
+    image_path = "#{options[:path]}#{record.code}.jpg"
+    if imdb.get_image(record.image_url, image_path)
+      record.image_path = image_path
+      record.save!
+    end
+    record
   end
 
 end

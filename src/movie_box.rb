@@ -1,7 +1,8 @@
 module GtkGimdb
 
-  class MovieBox < Gtk::HBox
+  class MovieBox < Gtk::VBox
     include GetText
+    attr_reader :movie
 
 
     def initialize(movie, users = [])
@@ -10,6 +11,15 @@ module GtkGimdb
       @movie = movie
       @users = users
       setting_up
+      self.show_all
+    end    
+
+    def has_poster?
+      @movie.image_path && File.exist?(@movie.image_path)
+    end
+
+    def set_poster
+      @img.file = @movie.image_path if has_poster?      
     end
 
 
@@ -17,16 +27,19 @@ module GtkGimdb
 
 
     def setting_up
-      img = Gtk::Image.new((@movie.image_path.nil? || !File.exists?(@movie.image_path)) ? "#{$GIMDB_PATH}/data/icons/no_poster.png" : @movie.image_path)
-      img.set_tooltip_text("Code: #{@movie.code}")
-      self.pack_start(img, false)
-
+      hbox = Gtk::HBox.new
+      hbox.spacing = 10
       vbox = Gtk::VBox.new
       vbox.spacing = 10
       hbox1 = Gtk::HBox.new
       hbox1.spacing = 50
       hbox2 = Gtk::HBox.new
       hbox2.spacing = 50
+
+      @img = Gtk::Image.new("#{$GIMDB_PATH}/data/icons/no_poster.png")
+      set_poster
+      @img.set_tooltip_text("Code: #{@movie.code}")
+      hbox.pack_start(@img, false)
 
       title = Gtk::Label.new
       year = (@movie.year.nil? || @movie.year == 0) ? '' : "(#{@movie.year})"
@@ -68,11 +81,13 @@ module GtkGimdb
       vbox.pack_start(hbox2, false)
 
       vbox.pack_start(add_users_info, false) if @users.size > 0
-
-      self.pack_start(vbox)
+      
+      hbox.pack_start(vbox)
+      
+      self.pack_start(hbox)
+      self.pack_start(Gtk::HSeparator.new, false)
       self.spacing = 10
     end
-
 
     def add_users_info
       table = Gtk::Table.new(@users.size + 1, 4)

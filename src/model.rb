@@ -63,7 +63,7 @@ class Movie < ActiveRecord::Base
   def get_users(what = :to_see)
     code = Movie.get_code(what)
     unless code.nil?
-      pops = Popular.find(:all, :conditions => "movie_id = #{self.id} AND kind = #{code}")
+      pops = Popular.where("movie_id = ? AND kind = ?", self.id, code)
       return [] if pops.nil?
       return pops.collect{|pop| pop.user}
     else
@@ -101,7 +101,7 @@ class Movie < ActiveRecord::Base
     end
     c += " AND genre LIKE '%#{options[:genre]}%'" if options[:genre]
     c = c[5..-1]
-    @movies = Movie.find(:all, :conditions => c, :order => 'title ASC')#, :limit => 50)
+    @movies = Movie.where(c).order('title ASC')#.limit(50)
     return @movies[@start-1..@start+48]
   end
 
@@ -115,7 +115,7 @@ class Movie < ActiveRecord::Base
     users.each { |u| c += "populars.user_id = #{u.id} OR " }
     c  = '(' + c[0..-5] + ') AND ' unless c.empty?
     c += "populars.kind = #{Movie.get_code(kind)}"
-    Movie.find(:all, :joins => :populars, :conditions => c, :order => 'title ASC', :group => 'movies.id')
+    Movie.select('movies.*').where(c).joins(:populars).order('title ASC').group('movies.id')
   end
 
   def self.get_code(what)
