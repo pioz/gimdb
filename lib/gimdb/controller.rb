@@ -42,7 +42,7 @@ module Controller
   end
   
   def self.get_poster(imdb, record, options = {})
-    options[:path] ||= "#{$GIMDB_LOCAL_PATH}/posters/"
+    options[:path] ||= "#{$APP_LOCAL_PATH}/posters/"
     image_path = "#{options[:path]}#{record.code}.jpg"
     if imdb.get_image(record.image_url, image_path)
       record.image_path = image_path
