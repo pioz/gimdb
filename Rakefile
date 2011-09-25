@@ -2,7 +2,7 @@ require "bundler/gem_tasks"
 
 namespace :gettext do
   require 'nokogiri'
-  require 'gettext/tools'
+  #require 'gettext/tools'
   
   desc "Update pot/po files"
   task :updatepo do
