@@ -12,8 +12,8 @@ Gem::Specification.new do |s|
   s.description = %q{GTK graphical interface for Internet Movie DataBase. You can create users and save for each of them the movies to see, movies seen and favourites movies in a sqlite3 database.}
 
   s.add_dependency('nokogiri')
+  s.add_dependency('sqlite3')
   s.add_dependency('activerecord')
-  s.add_dependency('sqlite3-ruby')
   s.add_dependency('gtk2')
 
   s.requirements  = ['ruby-gnome2 package version >= 0.19.3 - Debian package name: ruby-gnome2 - Mac port package name: rb-gnome']
