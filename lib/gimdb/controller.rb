@@ -1,54 +1,108 @@
-require "#{$APP_PATH}/lib/imdb"
 require "#{$APP_PATH}/lib/gimdb/model"
+require "#{$APP_PATH}/lib/imdb"
 
-
-module Controller
-
-  def self.process_info(imdb, options = {})
-    if options[:offline]
-      unless options[:next]
-        return Movie.get_list(options)
+class Controller < Qt::Object
+  attr_reader :movies, :users
+  
+  signals 'update_progress(int, int, const QString&)',
+          'add_movies(bool)'
+  
+  def initialize(parent = nil)
+    super(parent)
+    @searcher = IMDB.new
+    @movies = []
+    @users = User.scoped
+  end
+  
+  def search(params)
+    run_thread do
+      if params[:offline]
+        @movies = Movie.get_list(params)
       else
-        return Movie.next
-      end
-    else
-      movies = []
-      unless options[:next]
-        res = imdb.get_list(options) { |step, max| yield(step, max, t('Downloading movies info')) if block_given? }
-      else
-        res = imdb.next { |step, max| yield(step, max, t('Downloading movies info')) if block_given? }
-      end
-      i = 0
-      #res.sort{|x,y| x[0] <=> y[0]}.each do |k,v|
-      res.each do |k,v|
-        if block_given?
-          yield(i, res.size, t('Updating database'))
-          i += 1
+        res = @searcher.get_list(params) do |step, max|
+          emit update_progress(step, max, tr('Downloading movies info') + '...')
         end
-        record = Movie.find(:first, :conditions => "code = '#{v[:code]}'")
-        if record.nil?
-          record = Movie.new(v)
-          record.save!
-        else
-          if (Time.now - record.updated_at) > 1.day
-            record.update_attributes(v.merge(:updated_at => Time.now))
-            record.save!
-          end
+        @movies = find_or_create_movies(res) do |step, max|
+          emit update_progress(step, max, tr('Updating database') + '...')
         end
-        movies << record
       end
-      yield(res.size, res.size) if block_given?
-      return movies
+      filter(params)
+      emit add_movies(true)
     end
   end
   
-  def self.get_poster(imdb, record, options = {})
-    options[:path] ||= "#{$APP_LOCAL_PATH}/posters/"
-    image_path = "#{options[:path]}#{record.code}.jpg"
-    if imdb.get_image(record.image_url, image_path)
-      record.image_path = image_path
-      record.save!
+  def search_next(params)
+    run_thread do
+      if params[:offline]
+        @movies = Movie.next
+      else
+        res = @searcher.next do |step, max|
+          emit update_progress(step, max, tr('Downloading movies info') + '...')
+        end
+        @movies = find_or_create_movies(res) do |step, max|
+          emit update_progress(step, max, tr('Updating database') + '...')
+        end
+      end
+      filter(params)
+      emit add_movies(false)
+    end    
+  end  
+  
+  KINDS.each do |kind|
+    define_method "local_search_#{kind}" do |params|
+      run_thread do
+        @movies = Movie.get_kind(@users, kind)
+        filter(params)
+        emit add_movies(true)
+      end
     end
   end
+  
+  def cancel
+    stop_thread
+  end
+  
+  private
+  
+  def run_thread
+    @searcher_backup = @searcher.clone
+    @thread.kill if @thread
+    @thread = Thread.new{yield}
+  end
 
+  def stop_thread
+    if @thread && @thread.alive?
+      @thread.kill
+      @searcher = @searcher_backup if @searcher_backup
+    end
+  end 
+  
+  def filter(params)
+    if params[:hide_seen]
+      @movies.select! do |movie|
+        (movie.get_users(:seen) & @users).empty?
+      end
+    end
+  end
+  
+  def find_or_create_movies(data)
+    i = 1
+    data.each do |k, v|
+      record = Movie.find_by_code(v[:code])
+      if record.nil?
+        record = Movie.new(v)
+        record.save!
+      else
+        if (Time.now - record.updated_at) > 1.month
+          record.update_attributes(v.merge(:updated_at => Time.now))
+          record.save!
+        end
+      end
+      movies << record
+      yield(i, data.size) if block_given?
+      i += 1      
+    end
+    return movies
+  end
+  
 end

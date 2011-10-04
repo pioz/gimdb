@@ -1,0 +1,19 @@
+<RCC>
+  <qresource>
+    <file>icons/spinner16x16.gif</file>
+    <file>icons/offline.png</file>
+    <file>icons/next.png</file>
+    <file>icons/hide_sidebar.png</file>
+    <file>icons/about.png</file>
+    <file>icons/cancel.png</file>
+    <file>icons/edit_users.png</file>
+    <file>icons/exit.png</file>
+    <file>icons/favorites.png</file>
+    <file>icons/find.png</file>
+    <file>icons/offline.png</file>
+    <file>icons/seen.png</file>
+    <file>icons/select_users.png</file>
+    <file>icons/to_see.png</file>
+    <file>icons/clear.png</file>
+  </qresource>
+</RCC>

@@ -1,10 +1,9 @@
-# require 'active_record'
+require 'active_record'
 
 ActiveRecord::Base.establish_connection(
-  :adapter => "sqlite3",
-  :database => "#{$APP_LOCAL_PATH}/db.sqlite3"
+  :adapter => 'sqlite3',
+  :database => "#{$APP_LOCAL_PATH || '.'}/db.sqlite3"
 )
-
 
 if(!ActiveRecord::Base.connection.tables.include?('movies') ||
    !ActiveRecord::Base.connection.tables.include?('users')  ||
@@ -27,13 +26,13 @@ if(!ActiveRecord::Base.connection.tables.include?('movies') ||
 
     create_table :users do |t|
       t.string  :name,     :unique => true, :null => :false
-      t.integer :selected, :limit => 1, :default => 0
+      t.boolean :selected, :default => true
     end
 
     create_table :populars, :id => false do |t|
       t.references :movie
       t.references :user
-      t.integer    :kind, :null => false, :limit => 3
+      t.string     :kind, :null => false
     end
 
     add_index :movies, :id, :unique
@@ -41,10 +40,12 @@ if(!ActiveRecord::Base.connection.tables.include?('movies') ||
   end
 end
 
+KINDS = [:to_see, :seen, :favourites]
 
 class Popular < ActiveRecord::Base
   belongs_to :movie
   belongs_to :user
+  validates :kind, :presence => {:in => KINDS}
 end
 
 
@@ -52,31 +53,20 @@ class Movie < ActiveRecord::Base
   has_many :populars, :dependent => :delete_all
   has_many :users, :through => :populars
 
-  def get_users(what = :to_see)
-    code = Movie.get_code(what)
-    unless code.nil?
-      pops = Popular.where("movie_id = ? AND kind = ?", self.id, code)
-      return [] if pops.nil?
-      return pops.collect{|pop| pop.user}
-    else
-      return []
-    end
+  def get_users(kind = :to_see)
+    pops = Popular.where("movie_id = ? AND kind = ?", self.id, kind)
+    return [] if pops.nil?
+    return pops.collect{|pop| pop.user}    
   end
 
-  def set_user(user, what = :to_see)
-    code = Movie.get_code(what)
-    unless code.nil?
-      pop = Popular.new(:movie => self, :user => user, :kind => code)
-      self.populars << pop
-    end
+  def set_user(user, kind = :to_see)
+    pop = Popular.new(:movie => self, :user => user, :kind => kind)
+    self.populars << pop    
   end
 
-  def remove_user(user, what = :to_see)
-    code = Movie.get_code(what)
-    unless code.nil?
-      sql = "delete from populars where movie_id = #{self.id} AND user_id = #{user.id} AND kind = #{code}"
-      ActiveRecord::Base.connection.execute(sql)
-    end
+  def remove_user(user, kind = :to_see)
+    sql = "delete from populars where movie_id = #{self.id} AND user_id = #{user.id} AND kind = #{kind}"
+    ActiveRecord::Base.connection.execute(sql)    
   end
 
   def self.get_list(options)
@@ -106,18 +96,10 @@ class Movie < ActiveRecord::Base
     c = ''
     users.each { |u| c += "populars.user_id = #{u.id} OR " }
     c  = '(' + c[0..-5] + ') AND ' unless c.empty?
-    c += "populars.kind = #{Movie.get_code(kind)}"
+    c += "populars.kind = '#{kind}'"
     Movie.select('movies.*').where(c).joins(:populars).order('title ASC').group('movies.id')
   end
 
-  def self.get_code(what)
-    case what.to_sym
-    when :to_see     then 0
-    when :seen       then 1
-    when :favourites then 2
-    else                  nil
-    end
-  end
 end
 
 

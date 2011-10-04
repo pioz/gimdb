@@ -1,11 +1,11 @@
 = GIMDB
 
-GTK graphical interface for the Internet Movie DataBase.
+QT graphical interface for the Internet Movie DataBase.
 
 == Description
 
 _gimdb_ is a program that can browse the {Internet Movie DataBase}[http://www.imdb.com/] of Amazon.
-It is write in Ruby programming language and use the graphics library GTK[http://www.gtk.org/].
+It is write in Ruby programming language and use the graphics library QT[http://qt.nokia.com/].
 _gimdb_ download the movies info that you request and save them in a local sqlite3[http://www.sqlite.org/] database.
 
 You can create users and save for each of them the movies to see, movies seen and favourites movies.
@@ -53,8 +53,8 @@ Avaiable options are:
 * ruby 1.9
 * nokogiri[https://github.com/tenderlove/nokogiri]
 * sqlite3[https://github.com/luislavena/sqlite3-ruby]
-* activerecord
-* gtk2[http://ruby-gnome2.sourceforge.jp/]
+* activerecord >= 3.1.0
+* qtbindings[https://github.com/ryanmelt/qtbindings]
 
 == Install
 

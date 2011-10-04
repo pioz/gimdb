@@ -1,31 +1,15 @@
-require "bundler/gem_tasks"
+require 'bundler/gem_tasks'
 
-namespace :i18n do  
-  desc 'Generate i18n yml template file'
-  task :template do
-    require 'nokogiri'
-    require 'yaml'
-    TEMPLATE_FILE = 'data/locale/template.yml'
-    if File.exist?(TEMPLATE_FILE)
-      hash = YAML.load_file(TEMPLATE_FILE)[:template]
-    else
-      hash = {}
-    end
-    doc = Nokogiri::XML(open('data/gimdb.ui'))
-    doc.search('*[translatable=yes]').each do |element|
-      hash[element.content] = element.content
-    end    
-    Dir['{lib/gimdb,bin}/**/*.rb'].each do |file|
-      File.open(file).read.scan(/\Wt\('(.*?)'\)/).each do |m|
-        hash[m[0]] = m[0]
-      end
-    end
-    File.open('data/locale/template.yml', 'w') do |f|
-      f << {:template => hash}.to_yaml
-    end
-  end
+namespace :qt do  
+  desc 'Generate rb files from ui xml and qrc files'
+  task :compile_ui do
+    Dir.chdir('lib/gimdb/ui/')
+    `rbuic4 main_window.ui -o ui_main_window.rb`
+    `rbuic4 statusbar.ui -o ui_statusbar.rb`
+    `rbuic4 main_window.ui -o ui_main_window.rb`
+    `rbrcc icons.qrc -o ui_icons.rb`
+  end    
 end
-
 
 __END__
 

@@ -2,7 +2,6 @@ require 'nokogiri'
 require 'open-uri'
 require 'net/http'
 
-
 class IMDB
 
   @@URL = 'http://www.imdb.com/search/title/'
@@ -19,22 +18,14 @@ class IMDB
   def get_list(options = {})
     @start = options[:start] || 1
     set_request(options)
-    return perform_list_search { |step, max| yield(step, max) if block_given? }
+    return perform_search { |step, max| yield(step, max) if block_given? }
   end
-
 
   def next
-    return {} if @params.nil?
+    return get_list { |step, max| yield(step, max) if block_given? } if @params.nil?
     @start = @start + 50
-    return perform_list_search { |step, max| yield(step, max) if block_given? }
+    return perform_search { |step, max| yield(step, max) if block_given? }
   end
-
-
-  def reset
-    @params = nil
-    @start = 1
-  end
-
 
   def get_image(url, path, x = 160)
     # http://ia.media-imdb.com/images/*.jpg
@@ -56,9 +47,7 @@ class IMDB
     return false
   end
 
-
   private
-
 
   def set_request(options = {})
     @params  = '?title_type=feature'
@@ -72,18 +61,18 @@ class IMDB
     return @params
   end
 
-
-  def perform_list_search
+  def perform_search
     list = {}
     doc = Nokogiri::HTML(open(@@URL + @params + "&start=#{@start}",
                               :content_length_proc => lambda do |t|
                                 if block_given?
-                                  @max = t
+                                  @max = t || 250000
                                   yield(0, @max)
                                 end
                               end,
                               :progress_proc => lambda do |s|
-                                yield(s, @max) if block_given?
+                                @s = s || @s || 0
+                                yield(@s, @max) if block_given?
                               end))
     yield(@max, @max) if block_given?
     doc.css('table.results tr.detailed').each do |movie|
