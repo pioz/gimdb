@@ -6,7 +6,8 @@ namespace :qt do
     Dir.chdir('lib/gimdb/ui/')
     `rbuic4 main_window.ui -o ui_main_window.rb`
     `rbuic4 statusbar.ui -o ui_statusbar.rb`
-    `rbuic4 main_window.ui -o ui_main_window.rb`
+    `rbuic4 moviebox.ui -o ui_moviebox.rb`
+    `rbuic4 manager_dialog.ui -o ui_manager_dialog.rb`
     `rbrcc icons.qrc -o ui_icons.rb`
   end    
 end

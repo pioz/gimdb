@@ -1,4 +1,4 @@
-require "#{$APP_PATH}/lib/gimdb/ui/ui_statusbar.rb"
+require "#{$APP_PATH}/lib/gimdb/ui/ui_statusbar"
 
 class Statusbar < Qt::Widget
   attr_reader :ui

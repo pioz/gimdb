@@ -1,7 +1,7 @@
 =begin
 ** Form generated from reading ui file 'main_window.ui'
 **
-** Created: mar ott 4 23:56:33 2011
+** Created: lun ott 10 02:17:38 2011
 **      by: Qt User Interface Compiler version 4.7.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -16,7 +16,6 @@ class Ui_Main_window
     attr_reader :menu_favourites
     attr_reader :menu_offline
     attr_reader :menu_exit
-    attr_reader :menu_elect_users
     attr_reader :menu_edit_users
     attr_reader :menu_hide_sidebar
     attr_reader :menu_clear
@@ -75,12 +74,14 @@ class Ui_Main_window
     attr_reader :button_find
     attr_reader :button_cancel
     attr_reader :scrollarea
-    attr_reader :scrollAreaWidgetContents
+    attr_reader :scrollarea_contents
     attr_reader :verticalLayout_2
+    attr_reader :movies_container
     attr_reader :verticalSpacer_2
     attr_reader :menubar
     attr_reader :menuFile
     attr_reader :menuView
+    attr_reader :menu_select_users
     attr_reader :menuHelp
     attr_reader :statusbar
 
@@ -96,7 +97,7 @@ class Ui_Main_window
     main_window.sizePolicy = @sizePolicy
     main_window.minimumSize = Qt::Size.new(800, 0)
     icon = Qt::Icon.new
-    icon.addPixmap(Qt::Pixmap.new("../gimdb/data/icons/gimdb.png"), Qt::Icon::Normal, Qt::Icon::Off)
+    icon.addPixmap(Qt::Pixmap.new(":/icons/gimdb.png"), Qt::Icon::Normal, Qt::Icon::Off)
     main_window.windowIcon = icon
     main_window.unifiedTitleAndToolBarOnMac = false
     @menu_find = Qt::Action.new(main_window)
@@ -138,18 +139,16 @@ class Ui_Main_window
     @menu_offline = Qt::Action.new(main_window)
     @menu_offline.objectName = "menu_offline"
     @menu_offline.checkable = true
+    icon7 = Qt::Icon.new
+    icon7.addPixmap(Qt::Pixmap.new(":/icons/offline.png"), Qt::Icon::Normal, Qt::Icon::Off)
+    @menu_offline.icon = icon7
+    @menu_offline.iconVisibleInMenu = true
     @menu_exit = Qt::Action.new(main_window)
     @menu_exit.objectName = "menu_exit"
-    icon7 = Qt::Icon.new
-    icon7.addPixmap(Qt::Pixmap.new(":/icons/exit.png"), Qt::Icon::Normal, Qt::Icon::Off)
-    @menu_exit.icon = icon7
-    @menu_exit.iconVisibleInMenu = true
-    @menu_elect_users = Qt::Action.new(main_window)
-    @menu_elect_users.objectName = "menu_elect_users"
     icon8 = Qt::Icon.new
-    icon8.addPixmap(Qt::Pixmap.new(":/icons/select_users.png"), Qt::Icon::Normal, Qt::Icon::Off)
-    @menu_elect_users.icon = icon8
-    @menu_elect_users.iconVisibleInMenu = true
+    icon8.addPixmap(Qt::Pixmap.new(":/icons/exit.png"), Qt::Icon::Normal, Qt::Icon::Off)
+    @menu_exit.icon = icon8
+    @menu_exit.iconVisibleInMenu = true
     @menu_edit_users = Qt::Action.new(main_window)
     @menu_edit_users.objectName = "menu_edit_users"
     icon9 = Qt::Icon.new
@@ -158,6 +157,8 @@ class Ui_Main_window
     @menu_edit_users.iconVisibleInMenu = true
     @menu_hide_sidebar = Qt::Action.new(main_window)
     @menu_hide_sidebar.objectName = "menu_hide_sidebar"
+    @menu_hide_sidebar.checkable = true
+    @menu_hide_sidebar.checked = true
     icon10 = Qt::Icon.new
     icon10.addPixmap(Qt::Pixmap.new(":/icons/hide_sidebar.png"), Qt::Icon::Normal, Qt::Icon::Off)
     @menu_hide_sidebar.icon = icon10
@@ -528,18 +529,24 @@ class Ui_Main_window
     @scrollarea = Qt::ScrollArea.new(@centralwidget)
     @scrollarea.objectName = "scrollarea"
     @scrollarea.widgetResizable = true
-    @scrollAreaWidgetContents = Qt::Widget.new()
-    @scrollAreaWidgetContents.objectName = "scrollAreaWidgetContents"
-    @scrollAreaWidgetContents.geometry = Qt::Rect.new(0, 0, 517, 547)
-    @sizePolicy1.heightForWidth = @scrollAreaWidgetContents.sizePolicy.hasHeightForWidth
-    @scrollAreaWidgetContents.sizePolicy = @sizePolicy1
-    @verticalLayout_2 = Qt::VBoxLayout.new(@scrollAreaWidgetContents)
+    @scrollarea_contents = Qt::Widget.new()
+    @scrollarea_contents.objectName = "scrollarea_contents"
+    @scrollarea_contents.geometry = Qt::Rect.new(0, 0, 517, 547)
+    @sizePolicy1.heightForWidth = @scrollarea_contents.sizePolicy.hasHeightForWidth
+    @scrollarea_contents.sizePolicy = @sizePolicy1
+    @verticalLayout_2 = Qt::VBoxLayout.new(@scrollarea_contents)
+    @verticalLayout_2.margin = 2
     @verticalLayout_2.objectName = "verticalLayout_2"
+    @movies_container = Qt::VBoxLayout.new()
+    @movies_container.objectName = "movies_container"
+
+    @verticalLayout_2.addLayout(@movies_container)
+
     @verticalSpacer_2 = Qt::SpacerItem.new(20, 40, Qt::SizePolicy::Minimum, Qt::SizePolicy::Expanding)
 
     @verticalLayout_2.addItem(@verticalSpacer_2)
 
-    @scrollarea.setWidget(@scrollAreaWidgetContents)
+    @scrollarea.setWidget(@scrollarea_contents)
 
     @horizontalLayout.addWidget(@scrollarea)
 
@@ -551,6 +558,12 @@ class Ui_Main_window
     @menuFile.objectName = "menuFile"
     @menuView = Qt::Menu.new(@menubar)
     @menuView.objectName = "menuView"
+    @menu_select_users = Qt::Menu.new(@menuView)
+    @menu_select_users.objectName = "menu_select_users"
+    icon13 = Qt::Icon.new
+    icon13.addPixmap(Qt::Pixmap.new(":/icons/select_users.png"), Qt::Icon::Normal, Qt::Icon::Off)
+    @menu_select_users.icon = icon13
+    @menu_select_users.separatorsCollapsible = false
     @menuHelp = Qt::Menu.new(@menubar)
     @menuHelp.objectName = "menuHelp"
     main_window.setMenuBar(@menubar)
@@ -571,10 +584,9 @@ class Ui_Main_window
     @menuFile.addSeparator()
     @menuFile.addAction(@menu_offline)
     @menuFile.addAction(@menu_exit)
-    @menuView.addAction(@menu_elect_users)
+    @menuView.addAction(@menu_select_users.menuAction())
     @menuView.addAction(@menu_edit_users)
     @menuView.addSeparator()
-    @menuView.addAction(@menu_hide_sidebar)
     @menuView.addAction(@menu_clear)
     @menuHelp.addAction(@menu_about)
 
@@ -600,7 +612,6 @@ class Ui_Main_window
     @menu_favourites.text = Qt::Application.translate("main_window", "Show favourites film", nil, Qt::Application::UnicodeUTF8)
     @menu_offline.text = Qt::Application.translate("main_window", "Work offiline", nil, Qt::Application::UnicodeUTF8)
     @menu_exit.text = Qt::Application.translate("main_window", "E&xit", nil, Qt::Application::UnicodeUTF8)
-    @menu_elect_users.text = Qt::Application.translate("main_window", "Select users", nil, Qt::Application::UnicodeUTF8)
     @menu_edit_users.text = Qt::Application.translate("main_window", "&Edit users", nil, Qt::Application::UnicodeUTF8)
     @menu_hide_sidebar.text = Qt::Application.translate("main_window", "&Hide sidebar", nil, Qt::Application::UnicodeUTF8)
     @menu_clear.text = Qt::Application.translate("main_window", "C&lear", nil, Qt::Application::UnicodeUTF8)
@@ -644,6 +655,7 @@ class Ui_Main_window
     @button_cancel.text = Qt::Application.translate("main_window", "&Cancel", nil, Qt::Application::UnicodeUTF8)
     @menuFile.title = Qt::Application.translate("main_window", "File", nil, Qt::Application::UnicodeUTF8)
     @menuView.title = Qt::Application.translate("main_window", "View", nil, Qt::Application::UnicodeUTF8)
+    @menu_select_users.title = Qt::Application.translate("main_window", "Select users", nil, Qt::Application::UnicodeUTF8)
     @menuHelp.title = Qt::Application.translate("main_window", "Help", nil, Qt::Application::UnicodeUTF8)
     end # retranslateUi
 

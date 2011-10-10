@@ -1,5 +1,8 @@
 require "#{$APP_PATH}/lib/gimdb/ui/ui_main_window"
 require "#{$APP_PATH}/lib/gimdb/statusbar"
+require "#{$APP_PATH}/lib/gimdb/moviebox"
+require "#{$APP_PATH}/lib/gimdb/manager_dialog"
+require "#{$APP_PATH}/lib/gimdb/user_action"
 require "#{$APP_PATH}/lib/gimdb/controller"
 
 class MainWindow < Qt::MainWindow
@@ -15,9 +18,11 @@ class MainWindow < Qt::MainWindow
   slots 'on_menu_find_triggered()',
         'on_menu_next_triggered()',
         'on_menu_cancel_triggered()',
+        'on_menu_edit_users_triggered()',
         *(KINDS.map{|k| "on_menu_#{k}_triggered()"}),
         'on_menu_offline_toggled(bool)',
         'on_menu_exit_triggered()',
+        'on_menu_clear_triggered()',
         'on_check_genres_all_toggled(bool)',
         *(GENRES.map{|g| "on_check_genres_#{g}_toggled(bool)"}),
         'on_button_clear_clicked()',
@@ -26,7 +31,7 @@ class MainWindow < Qt::MainWindow
 
   # Slots for controller
   slots 'update_progress(int, int, const QString&)',
-        'add_movies(bool)'
+        'add_movies()'
 
   def initialize(parent = nil)
     super(parent)
@@ -34,8 +39,10 @@ class MainWindow < Qt::MainWindow
     @ui.setupUi(self)
     @statusbar = Statusbar.new
     @ui.statusbar.addWidget(@statusbar)
-    setup
+    @movieboxes = []
+    @movies_container = @ui.movies_container.clone
     @controller = Controller.new
+    setup
     make_connections_with_controller
 	end
   
@@ -62,13 +69,21 @@ class MainWindow < Qt::MainWindow
     params[:sort] = sort + (@ui.button_sort_inv.checked? ? ',DESC' : '')
     params[:hide_seen] = @ui.check_hide_seen.checked?
     return params
-  end  
+  end
+  
+  def build_users_selection(users)
+    @ui.menu_select_users.clear
+    users.each do |u|
+      action = UserAction.new(u, self)
+      @ui.menu_select_users.addAction(action)
+    end
+  end
   
   private
   
   def make_connections_with_controller
     connect(@controller, SIGNAL('update_progress(int, int, const QString&)'), self, SLOT('update_progress(int, int, const QString&)'), Qt::QueuedConnection) 
-    connect(@controller, SIGNAL('add_movies(bool)'), self, SLOT('add_movies(bool)'), Qt::QueuedConnection) 
+    connect(@controller, SIGNAL('add_movies()'), self, SLOT('add_movies()'), Qt::QueuedConnection)
   end
   
   def setup
@@ -93,6 +108,8 @@ class MainWindow < Qt::MainWindow
     x = (geo.width / 2.0) - (rect.width / 2.0)
     y = (geo.height / 2.0) - (rect.height / 2.0)
     move(x, y)
+    # Add users in selection menu
+    build_users_selection(@controller.users)
   end  
   
   def searching(value)
@@ -109,8 +126,11 @@ class MainWindow < Qt::MainWindow
   end  
   
   def clear_movies
-    # TODO
-    puts 'CLEAR MOVIES LIST'
+    @movieboxes.each do |child|
+      @ui.movies_container.removeWidget(child)
+      child.hide
+    end
+    @movieboxes.clear
   end
   
   #########
@@ -125,33 +145,35 @@ class MainWindow < Qt::MainWindow
     @statusbar.text = text
   end
   
-  def add_movies(clear_list) 
-    movies = @controller.movies
-    clear_movies if clear_list
-    # TODO
-    puts movies.map(&:title).inspect
+  def add_movies
+    @controller.movies.each_with_index do |movie, i|      
+      mb = Moviebox.new(movie)
+      mb.add_users_control(@controller.users.select{|u| u.selected?})
+      @ui.movies_container.addWidget(mb)      
+      @movieboxes << mb
+    end
+    @controller.get_posters(@movieboxes)
     update_progress(100, 100, tr('All done!'))
     searching(false)
   end  
   
-  # Slots for UI
-  
-  def on_menu_find_triggered
-    on_button_find_clicked
-  end
+  # Slots for UI  
   
   def on_menu_next_triggered
     searching(true)
     @controller.search_next(collect_params)
-  end
+  end  
   
-  def on_menu_cancel_triggered
-    on_button_cancel_clicled
-  end
+  def on_menu_edit_users_triggered
+    manager_dialog = ManagerDialog.new(@controller.users, self)
+    manager_dialog.open
+    manager_dialog.adjustSize
+  end  
   
   KINDS.each do |kind|
     define_method "on_menu_#{kind}_triggered" do
       searching(true)
+      clear_movies
       @controller.send("local_search_#{kind}", collect_params)
     end
   end
@@ -183,7 +205,7 @@ class MainWindow < Qt::MainWindow
       @ui.check_genres_all.checked = false if value
     end
   end
-  
+
   def on_button_clear_clicked
     @ui.line_edit_search.clear
     @ui.spin_year_from.value = @ui.spin_year_from.minimum
@@ -196,15 +218,19 @@ class MainWindow < Qt::MainWindow
     @ui.check_genres_all.checked = false
     GENRES.each { |g| @ui.send("check_genres_#{g}").checked = false }    
   end
+  alias :on_menu_clear_triggered :on_button_clear_clicked
   
   def on_button_find_clicked
     searching(true)
+    clear_movies
     @controller.search(collect_params)
   end
+  alias :on_menu_find_triggered :on_button_find_clicked
     
   def on_button_cancel_clicked
     @controller.cancel
     searching(false)
   end
+  alias :on_menu_cancel_triggered :on_button_cancel_clicked
   
 end

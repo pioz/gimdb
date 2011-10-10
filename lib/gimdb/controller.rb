@@ -5,7 +5,7 @@ class Controller < Qt::Object
   attr_reader :movies, :users
   
   signals 'update_progress(int, int, const QString&)',
-          'add_movies(bool)'
+          'add_movies()'
   
   def initialize(parent = nil)
     super(parent)
@@ -19,15 +19,15 @@ class Controller < Qt::Object
       if params[:offline]
         @movies = Movie.get_list(params)
       else
-        res = @searcher.get_list(params) do |step, max|
-          emit update_progress(step, max, tr('Downloading movies info') + '...')
+        res = @searcher.get_list(params) do |step, max, text, data|
+          emit update_progress(step, max, tr('Downloading movies info') + '...')          
         end
         @movies = find_or_create_movies(res) do |step, max|
           emit update_progress(step, max, tr('Updating database') + '...')
         end
       end
       filter(params)
-      emit add_movies(true)
+      emit add_movies
     end
   end
   
@@ -44,7 +44,7 @@ class Controller < Qt::Object
         end
       end
       filter(params)
-      emit add_movies(false)
+      emit add_movies
     end    
   end  
   
@@ -53,7 +53,7 @@ class Controller < Qt::Object
       run_thread do
         @movies = Movie.get_kind(@users, kind)
         filter(params)
-        emit add_movies(true)
+        emit add_movies
       end
     end
   end
@@ -62,12 +62,28 @@ class Controller < Qt::Object
     stop_thread
   end
   
+  def get_posters(movieboxes)
+    Thread.new do
+      movieboxes.each do |moviebox|
+        if moviebox.movie.image_path.nil? || !File.exist?(moviebox.movie.image_path)
+          image_path = "#{$APP_LOCAL_PATH}/posters/#{moviebox.movie.code}.jpg"
+          if @searcher.get_image(moviebox.movie.image_url, image_path)
+            moviebox.movie.image_path = image_path
+            moviebox.movie.save!
+            emit moviebox.set_poster(image_path)
+          end
+        end
+      end      
+    end
+  end
+  
   private
   
   def run_thread
     @searcher_backup = @searcher.clone
     @thread.kill if @thread
     @thread = Thread.new{yield}
+    #yield
   end
 
   def stop_thread
@@ -87,15 +103,15 @@ class Controller < Qt::Object
   
   def find_or_create_movies(data)
     i = 1
+    movies = []
     data.each do |k, v|
       record = Movie.find_by_code(v[:code])
       if record.nil?
         record = Movie.new(v)
         record.save!
       else
-        if (Time.now - record.updated_at) > 1.month
+        if (Time.now - record.updated_at) > 1.day
           record.update_attributes(v.merge(:updated_at => Time.now))
-          record.save!
         end
       end
       movies << record
@@ -103,6 +119,6 @@ class Controller < Qt::Object
       i += 1      
     end
     return movies
-  end
+  end  
   
 end

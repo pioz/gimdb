@@ -29,7 +29,7 @@ if(!ActiveRecord::Base.connection.tables.include?('movies') ||
       t.boolean :selected, :default => true
     end
 
-    create_table :populars, :id => false do |t|
+    create_table :populars do |t|
       t.references :movie
       t.references :user
       t.string     :kind, :null => false
@@ -65,7 +65,7 @@ class Movie < ActiveRecord::Base
   end
 
   def remove_user(user, kind = :to_see)
-    sql = "delete from populars where movie_id = #{self.id} AND user_id = #{user.id} AND kind = #{kind}"
+    sql = "delete from populars where movie_id = #{self.id} AND user_id = #{user.id} AND kind = '#{kind}'"
     ActiveRecord::Base.connection.execute(sql)    
   end
 
@@ -83,7 +83,7 @@ class Movie < ActiveRecord::Base
     end
     c += " AND genre LIKE '%#{options[:genre]}%'" if options[:genre]
     c = c[5..-1]
-    @movies = Movie.where(c).order('title ASC')#.limit(50)
+    @movies = Movie.where(c).order('title ASC')#.limit(50) # TODO order
     return @movies[@start-1..@start+48]
   end
 

@@ -1,5 +1,7 @@
 <RCC>
   <qresource>
+    <file>icons/gimdb.png</file>
+    <file>icons/no_poster.png</file>
     <file>icons/spinner16x16.gif</file>
     <file>icons/offline.png</file>
     <file>icons/next.png</file>

@@ -75,19 +75,21 @@ class IMDB
                                 yield(@s, @max) if block_given?
                               end))
     yield(@max, @max) if block_given?
-    doc.css('table.results tr.detailed').each do |movie|
+    details = doc.css('table.results tr.detailed')
+    details.each_with_index do |movie, i|
       info = {}
       number           = movie.css('td.number').first.content.stripper.to_i
-      info[:code]      = movie.css('td.title > a').first[:href].split('/')[2]                 rescue next
-      info[:title]     = movie.css('td.title > a').first.content.stripper                     rescue next
-      info[:image_url] = movie.css('td.image img').first[:src].stripper                       rescue nil
-      info[:year]      = movie.css('td.title > span.year_type').first.content.stripper[1..-2] rescue nil
-      info[:votes]     = movie.css('td.sort_col').first.content.gsub(',', '')                 rescue nil
-      info[:rating]    = movie.css('td.title span.rating-rating').first.content.stripper      rescue nil
-      info[:outline]   = movie.css('td.title > span.outline').first.content.stripper          rescue nil
-      info[:credit]    = movie.css('td.title > span.credit').first.content.stripper           rescue nil
-      info[:genre]     = movie.css('td.title > span.genre').first.content.stripper            rescue nil
-      info[:runtime]   = movie.css('td.title > span.runtime').first.content.stripper          rescue nil
+      info[:code]      = movie.css('td.title > a').first[:href].split('/')[2]                                                   rescue next
+      info[:title]     = movie.css('td.title > a').first.content.stripper                                                       rescue next
+      info[:image_url] = movie.css('td.image img').first[:src].stripper                                                         rescue nil
+      info[:year]      = movie.css('td.title > span.year_type').first.content.stripper[1..-2]                                   rescue nil
+      info[:votes]     = movie.css('td.title .rating-list').first[:title].match(/\((\d+\,?\d*)\svotes\)/)[1].gsub(',', '').to_i rescue nil
+      info[:rating]    = movie.css('td.title span.rating-rating').first.content.stripper                                        rescue nil
+      info[:outline]   = movie.css('td.title > span.outline').first.content.stripper                                            rescue nil
+      info[:credit]    = movie.css('td.title > span.credit').first.content.stripper                                             rescue nil
+      info[:genre]     = movie.css('td.title > span.genre').first.content.stripper                                              rescue nil
+      info[:runtime]   = movie.css('td.title > span.runtime').first.content.stripper                                            rescue nil
+      info[:rating]    = nil if info[:rating] =~ /^\-/
       list[number] = info
     end
     return list
