@@ -27,7 +27,8 @@ class MainWindow < Qt::MainWindow
         *(GENRES.map{|g| "on_check_genres_#{g}_toggled(bool)"}),
         'on_button_clear_clicked()',
         'on_button_find_clicked()',
-        'on_button_cancel_clicked()'
+        'on_button_cancel_clicked()',
+        'scrollarea_changed(int)'
 
   # Slots for controller
   slots 'update_progress(int, int, const QString&)',
@@ -44,16 +45,16 @@ class MainWindow < Qt::MainWindow
     @controller = Controller.new
     setup
     make_connections_with_controller
-	end
-  
+  end
+
   def collect_params
     params = {}
     params[:offline] = @ui.menu_offline.checked?
     params[:title] = @ui.line_edit_search.text if @ui.line_edit_search.text != ''
     params[:release_date] = "#{@ui.spin_year_from.value.to_i},#{@ui.spin_year_to.value.to_i}"
     rating_from = @ui.combo_rating_min.currentIndex + 1
-    rating_to = @ui.combo_rating_max.currentIndex + 1    
-    params[:user_rating]  = "#{rating_from},#{rating_to}" if rating_from != 1 || rating_to != 10    
+    rating_to = @ui.combo_rating_max.currentIndex + 1
+    params[:user_rating]  = "#{rating_from},#{rating_to}" if rating_from != 1 || rating_to != 10
     unless @ui.check_genres_all.checked?
       params[:genres] = GENRES.select { |g| @ui.send("check_genres_#{g}").checked? }.join(',')
     end
@@ -70,7 +71,7 @@ class MainWindow < Qt::MainWindow
     params[:hide_seen] = @ui.check_hide_seen.checked?
     return params
   end
-  
+
   def build_users_selection(users)
     @ui.menu_select_users.clear
     users.each do |u|
@@ -78,14 +79,15 @@ class MainWindow < Qt::MainWindow
       @ui.menu_select_users.addAction(action)
     end
   end
-  
+
   private
-  
+
   def make_connections_with_controller
-    connect(@controller, SIGNAL('update_progress(int, int, const QString&)'), self, SLOT('update_progress(int, int, const QString&)'), Qt::QueuedConnection) 
+    connect(@ui.scrollarea.verticalScrollBar, SIGNAL('valueChanged(int)'), self, SLOT('scrollarea_changed(int)'))
+    connect(@controller, SIGNAL('update_progress(int, int, const QString&)'), self, SLOT('update_progress(int, int, const QString&)'), Qt::QueuedConnection)
     connect(@controller, SIGNAL('add_movies()'), self, SLOT('add_movies()'), Qt::QueuedConnection)
   end
-  
+
   def setup
     # Spin year
     @ui.spin_year_to.value = Time.now.year
@@ -97,7 +99,7 @@ class MainWindow < Qt::MainWindow
     end
     @ui.combo_rating_max.currentIndex = 9
     # Combo sort
-    SORTING.each { |sort| @ui.combo_sort.addItem(sort) }    
+    SORTING.each { |sort| @ui.combo_sort.addItem(sort) }
     # Button find focused
     @ui.button_find.setFocus
     # Button cancel disabled
@@ -110,9 +112,10 @@ class MainWindow < Qt::MainWindow
     move(x, y)
     # Add users in selection menu
     build_users_selection(@controller.users)
-  end  
-  
+  end
+
   def searching(value)
+    @searching = value
     @ui.button_find.enabled = !value
     @ui.menu_find.enabled = !value
     @ui.menu_next.enabled = !value
@@ -122,9 +125,9 @@ class MainWindow < Qt::MainWindow
     @statusbar.ui.progressbar.value = 0
     @statusbar.ui.progressbar.maximum = 100
     @statusbar.ui.image_spinner.visible = value
-    @statusbar.text = value ? tr('Searching') + '...' : ''    
-  end  
-  
+    @statusbar.text = value ? tr('Searching') + '...' : ''
+  end
+
   def clear_movies
     @movieboxes.each do |child|
       @ui.movies_container.removeWidget(child)
@@ -132,44 +135,44 @@ class MainWindow < Qt::MainWindow
     end
     @movieboxes.clear
   end
-  
+
   #########
   # SLOTS #
-  #########  
-  
+  #########
+
   # Slots for controller
-  
+
   def update_progress(step, max, text)
     @statusbar.ui.progressbar.value = step
     @statusbar.ui.progressbar.maximum = max
     @statusbar.text = text
   end
-  
+
   def add_movies
-    @controller.movies.each_with_index do |movie, i|      
+    @controller.movies.each_with_index do |movie, i|
       mb = Moviebox.new(movie)
       mb.add_users_control(@controller.users.select{|u| u.selected?})
-      @ui.movies_container.addWidget(mb)      
+      @ui.movies_container.addWidget(mb)
       @movieboxes << mb
     end
     @controller.get_posters(@movieboxes)
     update_progress(100, 100, tr('All done!'))
     searching(false)
-  end  
-  
-  # Slots for UI  
-  
+  end
+
+  # Slots for UI
+
   def on_menu_next_triggered
     searching(true)
     @controller.search_next(collect_params)
-  end  
-  
+  end
+
   def on_menu_edit_users_triggered
     manager_dialog = ManagerDialog.new(@controller.users, self)
     manager_dialog.open
     manager_dialog.adjustSize
-  end  
-  
+  end
+
   KINDS.each do |kind|
     define_method "on_menu_#{kind}_triggered" do
       searching(true)
@@ -177,7 +180,7 @@ class MainWindow < Qt::MainWindow
       @controller.send("local_search_#{kind}", collect_params)
     end
   end
-  
+
   def on_menu_offline_toggled(value)
     if value
       self.windowTitle += ' (offline)'
@@ -191,15 +194,15 @@ class MainWindow < Qt::MainWindow
       @ui.button_sort_inv.enabled = true
     end
   end
-  
+
   def on_menu_exit_triggered
     $qApp.quit
   end
-  
+
   def on_check_genres_all_toggled(value)
-    GENRES.each { |g| @ui.send("check_genres_#{g}").checked = false } if value    
+    GENRES.each { |g| @ui.send("check_genres_#{g}").checked = false } if value
   end
-  
+
   GENRES.each do |g|
     define_method "on_check_genres_#{g}_toggled" do |value|
       @ui.check_genres_all.checked = false if value
@@ -216,21 +219,26 @@ class MainWindow < Qt::MainWindow
     @ui.button_sort_inv.checked = false
     @ui.check_hide_seen.checked = false
     @ui.check_genres_all.checked = false
-    GENRES.each { |g| @ui.send("check_genres_#{g}").checked = false }    
+    GENRES.each { |g| @ui.send("check_genres_#{g}").checked = false }
   end
   alias :on_menu_clear_triggered :on_button_clear_clicked
-  
+
   def on_button_find_clicked
     searching(true)
     clear_movies
     @controller.search(collect_params)
   end
   alias :on_menu_find_triggered :on_button_find_clicked
-    
+
   def on_button_cancel_clicked
     @controller.cancel
     searching(false)
   end
   alias :on_menu_cancel_triggered :on_button_cancel_clicked
-  
+
+  def scrollarea_changed(value)
+    percent = 100 * value / @ui.scrollarea.verticalScrollBar.maximum
+    on_menu_next_triggered if percent > 80 && !@searching
+  end
+
 end

@@ -618,13 +618,13 @@ QGroupBox::title {
       <property name="widgetResizable">
        <bool>true</bool>
       </property>
-      <widget class="QWidget" name="scrollarea_contents">
+      <widget class="QWidget" name="scrollarea_content">
        <property name="geometry">
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>517</width>
-         <height>547</height>
+         <width>487</width>
+         <height>551</height>
         </rect>
        </property>
        <property name="sizePolicy">
@@ -665,7 +665,7 @@ QGroupBox::title {
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>25</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

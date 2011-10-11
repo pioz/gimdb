@@ -1,8 +1,8 @@
 =begin
 ** Form generated from reading ui file 'main_window.ui'
 **
-** Created: lun ott 10 02:17:38 2011
-**      by: Qt User Interface Compiler version 4.7.2
+** Created: mar ott 11 17:36:17 2011
+**      by: Qt User Interface Compiler version 4.7.4
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
 =end
@@ -74,7 +74,7 @@ class Ui_Main_window
     attr_reader :button_find
     attr_reader :button_cancel
     attr_reader :scrollarea
-    attr_reader :scrollarea_contents
+    attr_reader :scrollarea_content
     attr_reader :verticalLayout_2
     attr_reader :movies_container
     attr_reader :verticalSpacer_2
@@ -529,12 +529,12 @@ class Ui_Main_window
     @scrollarea = Qt::ScrollArea.new(@centralwidget)
     @scrollarea.objectName = "scrollarea"
     @scrollarea.widgetResizable = true
-    @scrollarea_contents = Qt::Widget.new()
-    @scrollarea_contents.objectName = "scrollarea_contents"
-    @scrollarea_contents.geometry = Qt::Rect.new(0, 0, 517, 547)
-    @sizePolicy1.heightForWidth = @scrollarea_contents.sizePolicy.hasHeightForWidth
-    @scrollarea_contents.sizePolicy = @sizePolicy1
-    @verticalLayout_2 = Qt::VBoxLayout.new(@scrollarea_contents)
+    @scrollarea_content = Qt::Widget.new()
+    @scrollarea_content.objectName = "scrollarea_content"
+    @scrollarea_content.geometry = Qt::Rect.new(0, 0, 487, 551)
+    @sizePolicy1.heightForWidth = @scrollarea_content.sizePolicy.hasHeightForWidth
+    @scrollarea_content.sizePolicy = @sizePolicy1
+    @verticalLayout_2 = Qt::VBoxLayout.new(@scrollarea_content)
     @verticalLayout_2.margin = 2
     @verticalLayout_2.objectName = "verticalLayout_2"
     @movies_container = Qt::VBoxLayout.new()
@@ -546,14 +546,14 @@ class Ui_Main_window
 
     @verticalLayout_2.addItem(@verticalSpacer_2)
 
-    @scrollarea.setWidget(@scrollarea_contents)
+    @scrollarea.setWidget(@scrollarea_content)
 
     @horizontalLayout.addWidget(@scrollarea)
 
     main_window.centralWidget = @centralwidget
     @menubar = Qt::MenuBar.new(main_window)
     @menubar.objectName = "menubar"
-    @menubar.geometry = Qt::Rect.new(0, 0, 800, 25)
+    @menubar.geometry = Qt::Rect.new(0, 0, 800, 22)
     @menuFile = Qt::Menu.new(@menubar)
     @menuFile.objectName = "menuFile"
     @menuView = Qt::Menu.new(@menubar)
