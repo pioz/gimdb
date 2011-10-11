@@ -1,7 +1,7 @@
 class UserAction < Qt::Action
-  
+
   slots 'toggle(bool)'
-  
+
   def initialize(user, parent)
     super(user.name, parent)
     @user = user
@@ -10,9 +10,9 @@ class UserAction < Qt::Action
     self.objectName = 'user_action'
     connect(self, SIGNAL('toggled(bool)'), self, SLOT('toggle(bool)'))
   end
-  
+
   private
-  
+
   def toggle(value)
     @user.selected = value
     @user.save!
@@ -20,7 +20,11 @@ class UserAction < Qt::Action
       parent.movieboxes.each do |moviebox|
         moviebox.add_user_control(@user)
       end
+    else
+      parent.movieboxes.each do |moviebox|
+        moviebox.remove_user_control(@user)
+      end
     end
   end
-  
+
 end

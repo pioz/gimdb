@@ -1,9 +1,9 @@
 require "#{$APP_PATH}/lib/gimdb/ui/ui_moviebox"
 
 class MovieCheckBox < Qt::CheckBox
-  
+
   slots 'set_user(bool)'
-  
+
   def initialize(movie, user, kind, parent = nil)
     super(parent)
     @movie = movie
@@ -18,9 +18,9 @@ class MovieCheckBox < Qt::CheckBox
     self.styleSheet = 'QCheckBox { font-size: 8pt; font-style: italic; }'
     connect(self, SIGNAL('toggled(bool)'), self, SLOT('set_user(bool)'))
   end
-  
+
   private
-  
+
   def set_user(value)
     if value
       @movie.set_user(@user, @kind)
@@ -28,7 +28,7 @@ class MovieCheckBox < Qt::CheckBox
       @movie.remove_user(@user, @kind)
     end
   end
-  
+
 end
 
 class Moviebox < Qt::Widget
@@ -47,54 +47,48 @@ class Moviebox < Qt::Widget
     #@ui.poster.styleSheet = "QLabel { border: 2px outset gray; border-radius: 20px; background-image: url(:/icons/no_poster.png); }"
   end
 
-  def image=(url)    
+  def image=(url)
     url = ':/icons/no_poster.png' unless File.exist?(url)
-    @ui.poster.styleSheet = @ui.poster.styleSheet.gsub(/url\(.*?\)/, "url(#{url})")  
-  end  
+    @ui.poster.styleSheet = @ui.poster.styleSheet.gsub(/url\(.*?\)/, "url(#{url})")
+  end
 
   def add_users_control(users)
     @ui.users_box.horizontalSpacing = 10
     users.each_with_index do |user, i|
-      @ui.users_box.addWidget(Qt::Label.new(user.name), i, 0)
-      checks = []
-      [:to_see, :seen, :favourites].each_with_index do |kind, j|
-        checks << MovieCheckBox.new(@movie, user, kind)  
-        checks[j].text = '' if i > 0
-        @ui.users_box.addWidget(checks[j], i, j+1)
-      end
+      add_user_control(user, i)
     end
   end
-  
-  def add_user_control(user)
-    i = @ui.users_box.rowCount
+
+  def add_user_control(user, row = nil)
+    i = row || @ui.users_box.rowCount
     @ui.users_box.addWidget(Qt::Label.new(user.name), i, 0)
     checks = []
     [:to_see, :seen, :favourites].each_with_index do |kind, j|
-      checks << MovieCheckBox.new(@movie, user, kind)  
+      checks << MovieCheckBox.new(@movie, user, kind)
       checks[j].text = '' if i > 0
       @ui.users_box.addWidget(checks[j], i, j+1)
     end
   end
-  
-  # def remove_user_control(user)
-  #   row = @ui.users_box.rowCount
-  #   row.times do |i|
-  #     item = @ui.users_box.itemAtPosition(i, 0)
-  #     item.widget.hide
-  #     if item.widget.text == user.name
-  #       @ui.users_box.removeItem(item)
-  #       3.times do |j|
-  #         item = @ui.users_box.itemAtPosition(i, j+1)
-  #         item.widget.hide
-  #         @ui.users_box.removeItem(item)
-  #       end
-  #       break
-  #     end
-  #   end
-  # end
-  
+
+  def remove_user_control(user)
+    row = @ui.users_box.rowCount
+    row.times do |i|
+      item = @ui.users_box.itemAtPosition(i, 0)
+      if item.widget.text == user.name
+        item.widget.hide
+        @ui.users_box.removeItem(item)
+        3.times do |j|
+          item = @ui.users_box.itemAtPosition(i, j+1)
+          item.widget.hide
+          @ui.users_box.removeItem(item)
+        end
+        break
+      end
+    end
+  end
+
   private
-  
+
   def display_movie
     # Only to not set blank strings in .ui xml file
     # Put '' now
@@ -102,7 +96,7 @@ class Moviebox < Qt::Widget
       v = @ui.instance_variable_get(v)
       v.text = '' if v.class == Qt::Label
     end
-    
+
     @ui.title.text = @movie.title
     @ui.title.toolTip = @movie.code
     @ui.year.text = "(#{@movie.year})" if @movie.year
