@@ -16,15 +16,10 @@ class UserAction < Qt::Action
   def toggle(value)
     @user.selected = value
     @user.save!
-    if value
-      parent.movieboxes.each do |moviebox|
-        moviebox.add_user_control(@user)
-      end
-    else
-      parent.movieboxes.each do |moviebox|
-        moviebox.remove_user_control(@user)
-      end
-    end
+    users = parent.controller.users.select{|u| u.selected?}
+    parent.movieboxes.each do |moviebox|
+      moviebox.build_users_control(users)
+    end    
   end
 
 end

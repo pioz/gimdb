@@ -1,8 +1,8 @@
 =begin
 ** Form generated from reading ui file 'statusbar.ui'
 **
-** Created: mar ott 11 18:02:25 2011
-**      by: Qt User Interface Compiler version 4.7.4
+** Created: mar ott 11 20:58:05 2011
+**      by: Qt User Interface Compiler version 4.7.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
 =end

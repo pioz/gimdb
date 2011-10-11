@@ -1,8 +1,8 @@
 =begin
 ** Form generated from reading ui file 'moviebox.ui'
 **
-** Created: mar ott 11 18:02:26 2011
-**      by: Qt User Interface Compiler version 4.7.4
+** Created: mar ott 11 20:58:05 2011
+**      by: Qt User Interface Compiler version 4.7.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
 =end
@@ -10,7 +10,9 @@
 class Ui_Moviebox
     attr_reader :verticalLayout
     attr_reader :horizontalLayout
+    attr_reader :verticalLayout_3
     attr_reader :poster
+    attr_reader :verticalSpacer_2
     attr_reader :verticalLayout_2
     attr_reader :horizontalLayout_2
     attr_reader :title
@@ -34,7 +36,7 @@ class Ui_Moviebox
     if moviebox.objectName.nil?
         moviebox.objectName = "moviebox"
     end
-    moviebox.resize(435, 250)
+    moviebox.resize(584, 275)
     @sizePolicy = Qt::SizePolicy.new(Qt::SizePolicy::Preferred, Qt::SizePolicy::Preferred)
     @sizePolicy.setHorizontalStretch(0)
     @sizePolicy.setVerticalStretch(0)
@@ -45,6 +47,9 @@ class Ui_Moviebox
     @verticalLayout.objectName = "verticalLayout"
     @horizontalLayout = Qt::HBoxLayout.new()
     @horizontalLayout.objectName = "horizontalLayout"
+    @verticalLayout_3 = Qt::VBoxLayout.new()
+    @verticalLayout_3.objectName = "verticalLayout_3"
+    @verticalLayout_3.setContentsMargins(0, -1, 0, -1)
     @poster = Qt::Label.new(moviebox)
     @poster.objectName = "poster"
     @poster.minimumSize = Qt::Size.new(160, 235)
@@ -56,9 +61,17 @@ class Ui_Moviebox
 "}"
     @poster.scaledContents = true
 
-    @horizontalLayout.addWidget(@poster)
+    @verticalLayout_3.addWidget(@poster)
+
+    @verticalSpacer_2 = Qt::SpacerItem.new(20, 0, Qt::SizePolicy::Minimum, Qt::SizePolicy::Expanding)
+
+    @verticalLayout_3.addItem(@verticalSpacer_2)
+
+
+    @horizontalLayout.addLayout(@verticalLayout_3)
 
     @verticalLayout_2 = Qt::VBoxLayout.new()
+    @verticalLayout_2.spacing = 10
     @verticalLayout_2.objectName = "verticalLayout_2"
     @horizontalLayout_2 = Qt::HBoxLayout.new()
     @horizontalLayout_2.objectName = "horizontalLayout_2"
@@ -178,7 +191,7 @@ class Ui_Moviebox
 
     @verticalLayout_2.addLayout(@horizontalLayout_4)
 
-    @verticalSpacer = Qt::SpacerItem.new(20, 40, Qt::SizePolicy::Minimum, Qt::SizePolicy::Preferred)
+    @verticalSpacer = Qt::SpacerItem.new(20, 0, Qt::SizePolicy::Minimum, Qt::SizePolicy::Expanding)
 
     @verticalLayout_2.addItem(@verticalSpacer)
 

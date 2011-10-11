@@ -40,6 +40,7 @@ class Moviebox < Qt::Widget
   def initialize(movie, parent = nil)
     super(parent)
     @movie = movie
+    @users_control = []
     @ui = Ui_Moviebox.new
     @ui.setupUi(self)
     connect(self, SIGNAL('set_poster(const QString&)'), self, SLOT('image=(const QString&)'))
@@ -52,39 +53,33 @@ class Moviebox < Qt::Widget
     @ui.poster.styleSheet = @ui.poster.styleSheet.gsub(/url\(.*?\)/, "url(#{url})")
   end
 
-  def add_users_control(users)
+  def build_users_control(users)
     @ui.users_box.horizontalSpacing = 10
-    users.each_with_index do |user, i|
-      add_user_control(user, i)
-    end
-  end
-
-  def add_user_control(user, row = nil)
-    i = row || @ui.users_box.rowCount
-    @ui.users_box.addWidget(Qt::Label.new(user.name), i, 0)
-    checks = []
-    [:to_see, :seen, :favourites].each_with_index do |kind, j|
-      checks << MovieCheckBox.new(@movie, user, kind)
-      checks[j].text = '' if i > 0
-      @ui.users_box.addWidget(checks[j], i, j+1)
-    end
-  end
-
-  def remove_user_control(user)
-    row = @ui.users_box.rowCount
-    row.times do |i|
+    @users_control.each do |i|
       item = @ui.users_box.itemAtPosition(i, 0)
-      if item.widget.text == user.name
+      if item
         item.widget.hide
+        @ui.users_box.removeWidget(item.widget)
         @ui.users_box.removeItem(item)
         3.times do |j|
           item = @ui.users_box.itemAtPosition(i, j+1)
           item.widget.hide
+          @ui.users_box.removeWidget(item.widget)
           @ui.users_box.removeItem(item)
         end
-        break
       end
     end
+    @users_control = []
+    users.each_with_index do |user, i|
+      @ui.users_box.addWidget(Qt::Label.new(user.name), i, 0)
+      checks = []
+      [:to_see, :seen, :favourites].each_with_index do |kind, j|
+        checks << MovieCheckBox.new(@movie, user, kind)
+        checks[j].text = '' if i > 0
+        @ui.users_box.addWidget(checks[j], i, j+1)
+      end
+      @users_control << i
+    end    
   end
 
   private
