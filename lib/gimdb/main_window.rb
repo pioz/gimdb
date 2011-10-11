@@ -6,7 +6,7 @@ require "#{$APP_PATH}/lib/gimdb/user_action"
 require "#{$APP_PATH}/lib/gimdb/controller"
 
 class MainWindow < Qt::MainWindow
-  attr_reader :ui
+  attr_reader :ui, :movieboxes
 
   GENRES = [:action,:adventure,:animation,:biography,:comedy,
             :crime,:documentary,:drama,:family,:fantasy,:film_noir,

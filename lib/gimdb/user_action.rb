@@ -16,6 +16,11 @@ class UserAction < Qt::Action
   def toggle(value)
     @user.selected = value
     @user.save!
+    if value
+      parent.movieboxes.each do |moviebox|
+        moviebox.add_user_control(@user)
+      end
+    end
   end
   
 end

@@ -65,6 +65,34 @@ class Moviebox < Qt::Widget
     end
   end
   
+  def add_user_control(user)
+    i = @ui.users_box.rowCount
+    @ui.users_box.addWidget(Qt::Label.new(user.name), i, 0)
+    checks = []
+    [:to_see, :seen, :favourites].each_with_index do |kind, j|
+      checks << MovieCheckBox.new(@movie, user, kind)  
+      checks[j].text = '' if i > 0
+      @ui.users_box.addWidget(checks[j], i, j+1)
+    end
+  end
+  
+  # def remove_user_control(user)
+  #   row = @ui.users_box.rowCount
+  #   row.times do |i|
+  #     item = @ui.users_box.itemAtPosition(i, 0)
+  #     item.widget.hide
+  #     if item.widget.text == user.name
+  #       @ui.users_box.removeItem(item)
+  #       3.times do |j|
+  #         item = @ui.users_box.itemAtPosition(i, j+1)
+  #         item.widget.hide
+  #         @ui.users_box.removeItem(item)
+  #       end
+  #       break
+  #     end
+  #   end
+  # end
+  
   private
   
   def display_movie

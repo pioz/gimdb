@@ -1,7 +1,7 @@
 =begin
 ** Form generated from reading ui file 'moviebox.ui'
 **
-** Created: lun ott 10 02:17:38 2011
+** Created: lun ott 10 20:28:24 2011
 **      by: Qt User Interface Compiler version 4.7.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
