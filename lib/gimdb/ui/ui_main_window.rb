@@ -1,7 +1,7 @@
 =begin
 ** Form generated from reading ui file 'main_window.ui'
 **
-** Created: gio ott 27 19:40:57 2011
+** Created: ven ott 28 00:15:52 2011
 **      by: Qt User Interface Compiler version 4.7.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -24,23 +24,24 @@ class Ui_Main_window
     attr_reader :horizontalLayout
     attr_reader :sidebar
     attr_reader :line_edit_search
-    attr_reader :horizontalLayout_2
+    attr_reader :gridLayout
     attr_reader :label
+    attr_reader :label_3
+    attr_reader :label_5
+    attr_reader :label_7
+    attr_reader :horizontalLayout_2
     attr_reader :spin_year_from
     attr_reader :label_2
     attr_reader :spin_year_to
+    attr_reader :horizontalSpacer
     attr_reader :horizontalLayout_3
-    attr_reader :label_3
     attr_reader :combo_rating_min
     attr_reader :label_4
     attr_reader :combo_rating_max
-    attr_reader :horizontalLayout_6
-    attr_reader :label_5
+    attr_reader :horizontalSpacer_2
     attr_reader :combo_genres
-    attr_reader :horizontalLayout_4
-    attr_reader :label_7
-    attr_reader :combo_sort
     attr_reader :check_sort_inv
+    attr_reader :combo_sort
     attr_reader :verticalSpacer
     attr_reader :check_hide_seen
     attr_reader :line
@@ -63,7 +64,7 @@ class Ui_Main_window
     if main_window.objectName.nil?
         main_window.objectName = "main_window"
     end
-    main_window.resize(800, 332)
+    main_window.resize(800, 356)
     @sizePolicy = Qt::SizePolicy.new(Qt::SizePolicy::Maximum, Qt::SizePolicy::Maximum)
     @sizePolicy.setHorizontalStretch(0)
     @sizePolicy.setVerticalStretch(0)
@@ -174,15 +175,43 @@ class Ui_Main_window
 
     @sidebar.addWidget(@line_edit_search)
 
-    @horizontalLayout_2 = Qt::HBoxLayout.new()
-    @horizontalLayout_2.objectName = "horizontalLayout_2"
+    @gridLayout = Qt::GridLayout.new()
+    @gridLayout.objectName = "gridLayout"
+    @gridLayout.setContentsMargins(-1, -1, -1, 0)
     @label = Qt::Label.new(@centralwidget)
     @label.objectName = "label"
     @sizePolicy.heightForWidth = @label.sizePolicy.hasHeightForWidth
     @label.sizePolicy = @sizePolicy
 
-    @horizontalLayout_2.addWidget(@label)
+    @gridLayout.addWidget(@label, 0, 0, 1, 1)
 
+    @label_3 = Qt::Label.new(@centralwidget)
+    @label_3.objectName = "label_3"
+    @sizePolicy3 = Qt::SizePolicy.new(Qt::SizePolicy::Maximum, Qt::SizePolicy::Preferred)
+    @sizePolicy3.setHorizontalStretch(0)
+    @sizePolicy3.setVerticalStretch(0)
+    @sizePolicy3.heightForWidth = @label_3.sizePolicy.hasHeightForWidth
+    @label_3.sizePolicy = @sizePolicy3
+
+    @gridLayout.addWidget(@label_3, 1, 0, 1, 1)
+
+    @label_5 = Qt::Label.new(@centralwidget)
+    @label_5.objectName = "label_5"
+    @sizePolicy.heightForWidth = @label_5.sizePolicy.hasHeightForWidth
+    @label_5.sizePolicy = @sizePolicy
+
+    @gridLayout.addWidget(@label_5, 2, 0, 1, 1)
+
+    @label_7 = Qt::Label.new(@centralwidget)
+    @label_7.objectName = "label_7"
+    @sizePolicy3.heightForWidth = @label_7.sizePolicy.hasHeightForWidth
+    @label_7.sizePolicy = @sizePolicy3
+
+    @gridLayout.addWidget(@label_7, 4, 0, 1, 1)
+
+    @horizontalLayout_2 = Qt::HBoxLayout.new()
+    @horizontalLayout_2.spacing = 0
+    @horizontalLayout_2.objectName = "horizontalLayout_2"
     @spin_year_from = Qt::SpinBox.new(@centralwidget)
     @spin_year_from.objectName = "spin_year_from"
     @sizePolicy.heightForWidth = @spin_year_from.sizePolicy.hasHeightForWidth
@@ -209,21 +238,16 @@ class Ui_Main_window
 
     @horizontalLayout_2.addWidget(@spin_year_to)
 
+    @horizontalSpacer = Qt::SpacerItem.new(0, 20, Qt::SizePolicy::Minimum, Qt::SizePolicy::Minimum)
 
-    @sidebar.addLayout(@horizontalLayout_2)
+    @horizontalLayout_2.addItem(@horizontalSpacer)
+
+
+    @gridLayout.addLayout(@horizontalLayout_2, 0, 1, 1, 1)
 
     @horizontalLayout_3 = Qt::HBoxLayout.new()
+    @horizontalLayout_3.spacing = 0
     @horizontalLayout_3.objectName = "horizontalLayout_3"
-    @label_3 = Qt::Label.new(@centralwidget)
-    @label_3.objectName = "label_3"
-    @sizePolicy3 = Qt::SizePolicy.new(Qt::SizePolicy::Maximum, Qt::SizePolicy::Preferred)
-    @sizePolicy3.setHorizontalStretch(0)
-    @sizePolicy3.setVerticalStretch(0)
-    @sizePolicy3.heightForWidth = @label_3.sizePolicy.hasHeightForWidth
-    @label_3.sizePolicy = @sizePolicy3
-
-    @horizontalLayout_3.addWidget(@label_3)
-
     @combo_rating_min = Qt::ComboBox.new(@centralwidget)
     @combo_rating_min.objectName = "combo_rating_min"
     @sizePolicy.heightForWidth = @combo_rating_min.sizePolicy.hasHeightForWidth
@@ -245,55 +269,39 @@ class Ui_Main_window
 
     @horizontalLayout_3.addWidget(@combo_rating_max)
 
+    @horizontalSpacer_2 = Qt::SpacerItem.new(0, 20, Qt::SizePolicy::Minimum, Qt::SizePolicy::Minimum)
 
-    @sidebar.addLayout(@horizontalLayout_3)
+    @horizontalLayout_3.addItem(@horizontalSpacer_2)
 
-    @horizontalLayout_6 = Qt::HBoxLayout.new()
-    @horizontalLayout_6.objectName = "horizontalLayout_6"
-    @horizontalLayout_6.sizeConstraint = Qt::Layout::SetDefaultConstraint
-    @horizontalLayout_6.setContentsMargins(-1, -1, -1, 0)
-    @label_5 = Qt::Label.new(@centralwidget)
-    @label_5.objectName = "label_5"
-    @sizePolicy.heightForWidth = @label_5.sizePolicy.hasHeightForWidth
-    @label_5.sizePolicy = @sizePolicy
 
-    @horizontalLayout_6.addWidget(@label_5)
+    @gridLayout.addLayout(@horizontalLayout_3, 1, 1, 1, 1)
 
     @combo_genres = Qt::ComboBox.new(@centralwidget)
     @combo_genres.objectName = "combo_genres"
     @sizePolicy.heightForWidth = @combo_genres.sizePolicy.hasHeightForWidth
     @combo_genres.sizePolicy = @sizePolicy
 
-    @horizontalLayout_6.addWidget(@combo_genres)
+    @gridLayout.addWidget(@combo_genres, 2, 1, 1, 1)
 
+    @check_sort_inv = Qt::CheckBox.new(@centralwidget)
+    @check_sort_inv.objectName = "check_sort_inv"
+    @sizePolicy4 = Qt::SizePolicy.new(Qt::SizePolicy::Maximum, Qt::SizePolicy::Minimum)
+    @sizePolicy4.setHorizontalStretch(0)
+    @sizePolicy4.setVerticalStretch(0)
+    @sizePolicy4.heightForWidth = @check_sort_inv.sizePolicy.hasHeightForWidth
+    @check_sort_inv.sizePolicy = @sizePolicy4
 
-    @sidebar.addLayout(@horizontalLayout_6)
-
-    @horizontalLayout_4 = Qt::HBoxLayout.new()
-    @horizontalLayout_4.objectName = "horizontalLayout_4"
-    @label_7 = Qt::Label.new(@centralwidget)
-    @label_7.objectName = "label_7"
-    @sizePolicy3.heightForWidth = @label_7.sizePolicy.hasHeightForWidth
-    @label_7.sizePolicy = @sizePolicy3
-
-    @horizontalLayout_4.addWidget(@label_7)
+    @gridLayout.addWidget(@check_sort_inv, 5, 1, 1, 1)
 
     @combo_sort = Qt::ComboBox.new(@centralwidget)
     @combo_sort.objectName = "combo_sort"
     @sizePolicy.heightForWidth = @combo_sort.sizePolicy.hasHeightForWidth
     @combo_sort.sizePolicy = @sizePolicy
 
-    @horizontalLayout_4.addWidget(@combo_sort)
-
-    @check_sort_inv = Qt::CheckBox.new(@centralwidget)
-    @check_sort_inv.objectName = "check_sort_inv"
-    @sizePolicy.heightForWidth = @check_sort_inv.sizePolicy.hasHeightForWidth
-    @check_sort_inv.sizePolicy = @sizePolicy
-
-    @horizontalLayout_4.addWidget(@check_sort_inv)
+    @gridLayout.addWidget(@combo_sort, 4, 1, 1, 1)
 
 
-    @sidebar.addLayout(@horizontalLayout_4)
+    @sidebar.addLayout(@gridLayout)
 
     @verticalSpacer = Qt::SpacerItem.new(20, 50, Qt::SizePolicy::Minimum, Qt::SizePolicy::Expanding)
 
@@ -301,8 +309,8 @@ class Ui_Main_window
 
     @check_hide_seen = Qt::CheckBox.new(@centralwidget)
     @check_hide_seen.objectName = "check_hide_seen"
-    @sizePolicy.heightForWidth = @check_hide_seen.sizePolicy.hasHeightForWidth
-    @check_hide_seen.sizePolicy = @sizePolicy
+    @sizePolicy4.heightForWidth = @check_hide_seen.sizePolicy.hasHeightForWidth
+    @check_hide_seen.sizePolicy = @sizePolicy4
 
     @sidebar.addWidget(@check_hide_seen)
 
@@ -350,7 +358,7 @@ class Ui_Main_window
     @scrollarea.widgetResizable = true
     @scrollarea_content = Qt::Widget.new()
     @scrollarea_content.objectName = "scrollarea_content"
-    @scrollarea_content.geometry = Qt::Rect.new(0, 0, 548, 279)
+    @scrollarea_content.geometry = Qt::Rect.new(0, 0, 544, 303)
     @sizePolicy1.heightForWidth = @scrollarea_content.sizePolicy.hasHeightForWidth
     @scrollarea_content.sizePolicy = @sizePolicy1
     @verticalLayout_2 = Qt::VBoxLayout.new(@scrollarea_content)
@@ -411,9 +419,6 @@ class Ui_Main_window
 
     retranslateUi(main_window)
 
-    @combo_sort.setCurrentIndex(-1)
-
-
     Qt::MetaObject.connectSlotsByName(main_window)
     end # setupUi
 
@@ -437,11 +442,11 @@ class Ui_Main_window
     @menu_about.text = Qt::Application.translate("main_window", "&About", nil, Qt::Application::UnicodeUTF8)
     @line_edit_search.placeholderText = Qt::Application.translate("main_window", "Search", nil, Qt::Application::UnicodeUTF8)
     @label.text = Qt::Application.translate("main_window", "Year", nil, Qt::Application::UnicodeUTF8)
-    @label_2.text = Qt::Application.translate("main_window", "to", nil, Qt::Application::UnicodeUTF8)
     @label_3.text = Qt::Application.translate("main_window", "Vote", nil, Qt::Application::UnicodeUTF8)
-    @label_4.text = Qt::Application.translate("main_window", "to", nil, Qt::Application::UnicodeUTF8)
     @label_5.text = Qt::Application.translate("main_window", "Genres", nil, Qt::Application::UnicodeUTF8)
     @label_7.text = Qt::Application.translate("main_window", "Sort", nil, Qt::Application::UnicodeUTF8)
+    @label_2.text = Qt::Application.translate("main_window", "to", nil, Qt::Application::UnicodeUTF8)
+    @label_4.text = Qt::Application.translate("main_window", "to", nil, Qt::Application::UnicodeUTF8)
     @check_sort_inv.text = Qt::Application.translate("main_window", "inv", nil, Qt::Application::UnicodeUTF8)
     @check_hide_seen.text = Qt::Application.translate("main_window", "Hide film seen", nil, Qt::Application::UnicodeUTF8)
     @button_find.text = Qt::Application.translate("main_window", "&Find", nil, Qt::Application::UnicodeUTF8)
