@@ -1,5 +1,3 @@
-require "#{$APP_PATH}/lib/gimdb/ui/ui_manager_dialog"
-
 class ManagerDialog < Qt::Dialog
   attr_reader :ui
 

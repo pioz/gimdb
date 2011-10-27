@@ -1,6 +1,3 @@
-require "#{$APP_PATH}/lib/gimdb/model"
-require "#{$APP_PATH}/lib/imdb"
-
 class Controller < Qt::Object
   attr_reader :movies, :users
   

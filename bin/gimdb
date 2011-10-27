@@ -4,8 +4,7 @@ $APP_PATH       = File.expand_path("#{File.dirname(__FILE__)}/..")
 $APP_LOCAL_PATH = "#{Dir.home}/.gimdb"
 
 require 'Qt'
-require "#{$APP_PATH}/lib/gimdb/ui/ui_icons"
-require "#{$APP_PATH}/lib/gimdb/main_window"
+require "#{$APP_PATH}/lib/gimdb/gimdb"
 
 app = Qt::Application.new(ARGV)
 MainWindow.new.show

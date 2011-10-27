@@ -1,10 +1,3 @@
-require "#{$APP_PATH}/lib/gimdb/ui/ui_main_window"
-require "#{$APP_PATH}/lib/gimdb/statusbar"
-require "#{$APP_PATH}/lib/gimdb/moviebox"
-require "#{$APP_PATH}/lib/gimdb/manager_dialog"
-require "#{$APP_PATH}/lib/gimdb/user_action"
-require "#{$APP_PATH}/lib/gimdb/controller"
-
 class MainWindow < Qt::MainWindow
   attr_reader :ui, :movieboxes, :controller
 

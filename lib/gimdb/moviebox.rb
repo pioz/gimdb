@@ -1,5 +1,3 @@
-require "#{$APP_PATH}/lib/gimdb/ui/ui_moviebox"
-
 class MovieCheckBox < Qt::CheckBox
 
   slots 'set_user(bool)'
