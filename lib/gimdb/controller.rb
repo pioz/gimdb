@@ -102,6 +102,8 @@ class Controller < Qt::Object
     i = 1
     movies = []
     data.each do |k, v|
+      movies << Movie.new(v)
+      next
       record = Movie.find_by_code(v[:code])
       if record.nil?
         record = Movie.new(v)

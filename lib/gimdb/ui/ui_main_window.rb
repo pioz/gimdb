@@ -1,7 +1,7 @@
 =begin
 ** Form generated from reading ui file 'main_window.ui'
 **
-** Created: mar ott 11 20:58:04 2011
+** Created: gio ott 27 19:40:57 2011
 **      by: Qt User Interface Compiler version 4.7.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -29,48 +29,22 @@ class Ui_Main_window
     attr_reader :spin_year_from
     attr_reader :label_2
     attr_reader :spin_year_to
-    attr_reader :horizontalSpacer
     attr_reader :horizontalLayout_3
     attr_reader :label_3
     attr_reader :combo_rating_min
     attr_reader :label_4
     attr_reader :combo_rating_max
-    attr_reader :groupBox
-    attr_reader :gridLayout_2
-    attr_reader :check_genres_all
-    attr_reader :check_genres_action
-    attr_reader :check_genres_adventure
-    attr_reader :check_genres_animation
-    attr_reader :check_genres_biography
-    attr_reader :check_genres_comedy
-    attr_reader :check_genres_crime
-    attr_reader :check_genres_documentary
-    attr_reader :check_genres_drama
-    attr_reader :check_genres_family
-    attr_reader :check_genres_fantasy
-    attr_reader :check_genres_film_noir
-    attr_reader :check_genres_game_show
-    attr_reader :check_genres_history
-    attr_reader :check_genres_horror
-    attr_reader :check_genres_music
-    attr_reader :check_genres_musical
-    attr_reader :check_genres_mystery
-    attr_reader :check_genres_news
-    attr_reader :check_genres_romance
-    attr_reader :check_genres_scifi
-    attr_reader :check_genres_sport
-    attr_reader :check_genres_thriller
-    attr_reader :check_genres_war
-    attr_reader :check_genres_western
+    attr_reader :horizontalLayout_6
+    attr_reader :label_5
+    attr_reader :combo_genres
     attr_reader :horizontalLayout_4
     attr_reader :label_7
     attr_reader :combo_sort
-    attr_reader :button_sort_inv
+    attr_reader :check_sort_inv
     attr_reader :verticalSpacer
     attr_reader :check_hide_seen
     attr_reader :line
     attr_reader :horizontalLayout_5
-    attr_reader :button_clear
     attr_reader :button_find
     attr_reader :button_cancel
     attr_reader :scrollarea
@@ -89,7 +63,7 @@ class Ui_Main_window
     if main_window.objectName.nil?
         main_window.objectName = "main_window"
     end
-    main_window.resize(800, 600)
+    main_window.resize(800, 332)
     @sizePolicy = Qt::SizePolicy.new(Qt::SizePolicy::Maximum, Qt::SizePolicy::Maximum)
     @sizePolicy.setHorizontalStretch(0)
     @sizePolicy.setVerticalStretch(0)
@@ -235,10 +209,6 @@ class Ui_Main_window
 
     @horizontalLayout_2.addWidget(@spin_year_to)
 
-    @horizontalSpacer = Qt::SpacerItem.new(0, 20, Qt::SizePolicy::Minimum, Qt::SizePolicy::Minimum)
-
-    @horizontalLayout_2.addItem(@horizontalSpacer)
-
 
     @sidebar.addLayout(@horizontalLayout_2)
 
@@ -256,8 +226,8 @@ class Ui_Main_window
 
     @combo_rating_min = Qt::ComboBox.new(@centralwidget)
     @combo_rating_min.objectName = "combo_rating_min"
-    @sizePolicy2.heightForWidth = @combo_rating_min.sizePolicy.hasHeightForWidth
-    @combo_rating_min.sizePolicy = @sizePolicy2
+    @sizePolicy.heightForWidth = @combo_rating_min.sizePolicy.hasHeightForWidth
+    @combo_rating_min.sizePolicy = @sizePolicy
 
     @horizontalLayout_3.addWidget(@combo_rating_min)
 
@@ -270,168 +240,34 @@ class Ui_Main_window
 
     @combo_rating_max = Qt::ComboBox.new(@centralwidget)
     @combo_rating_max.objectName = "combo_rating_max"
-    @sizePolicy2.heightForWidth = @combo_rating_max.sizePolicy.hasHeightForWidth
-    @combo_rating_max.sizePolicy = @sizePolicy2
+    @sizePolicy.heightForWidth = @combo_rating_max.sizePolicy.hasHeightForWidth
+    @combo_rating_max.sizePolicy = @sizePolicy
 
     @horizontalLayout_3.addWidget(@combo_rating_max)
 
 
     @sidebar.addLayout(@horizontalLayout_3)
 
-    @groupBox = Qt::GroupBox.new(@centralwidget)
-    @groupBox.objectName = "groupBox"
-    @sizePolicy2.heightForWidth = @groupBox.sizePolicy.hasHeightForWidth
-    @groupBox.sizePolicy = @sizePolicy2
-    @groupBox.styleSheet = "QGroupBox {\n" \
-"	border: 1px solid gray;\n" \
-"	border-radius: 5px;\n" \
-"	margin: 1ex;\n" \
-"	font-weight: bold;\n" \
-"}\n" \
-"QGroupBox::title {\n" \
-"	subcontrol-origin: margin;\n" \
-"	padding: 0 1px;\n" \
-"	position: absolute;\n" \
-"	left: 20px;\n" \
-"}"
-    @groupBox.flat = false
-    @groupBox.checkable = false
-    @gridLayout_2 = Qt::GridLayout.new(@groupBox)
-    @gridLayout_2.spacing = 0
-    @gridLayout_2.margin = 0
-    @gridLayout_2.objectName = "gridLayout_2"
-    @check_genres_all = Qt::CheckBox.new(@groupBox)
-    @check_genres_all.objectName = "check_genres_all"
+    @horizontalLayout_6 = Qt::HBoxLayout.new()
+    @horizontalLayout_6.objectName = "horizontalLayout_6"
+    @horizontalLayout_6.sizeConstraint = Qt::Layout::SetDefaultConstraint
+    @horizontalLayout_6.setContentsMargins(-1, -1, -1, 0)
+    @label_5 = Qt::Label.new(@centralwidget)
+    @label_5.objectName = "label_5"
+    @sizePolicy.heightForWidth = @label_5.sizePolicy.hasHeightForWidth
+    @label_5.sizePolicy = @sizePolicy
 
-    @gridLayout_2.addWidget(@check_genres_all, 3, 1, 1, 1)
+    @horizontalLayout_6.addWidget(@label_5)
 
-    @check_genres_action = Qt::CheckBox.new(@groupBox)
-    @check_genres_action.objectName = "check_genres_action"
-    @sizePolicy4 = Qt::SizePolicy.new(Qt::SizePolicy::Minimum, Qt::SizePolicy::Fixed)
-    @sizePolicy4.setHorizontalStretch(0)
-    @sizePolicy4.setVerticalStretch(0)
-    @sizePolicy4.heightForWidth = @check_genres_action.sizePolicy.hasHeightForWidth
-    @check_genres_action.sizePolicy = @sizePolicy4
+    @combo_genres = Qt::ComboBox.new(@centralwidget)
+    @combo_genres.objectName = "combo_genres"
+    @sizePolicy.heightForWidth = @combo_genres.sizePolicy.hasHeightForWidth
+    @combo_genres.sizePolicy = @sizePolicy
 
-    @gridLayout_2.addWidget(@check_genres_action, 4, 0, 1, 1)
-
-    @check_genres_adventure = Qt::CheckBox.new(@groupBox)
-    @check_genres_adventure.objectName = "check_genres_adventure"
-
-    @gridLayout_2.addWidget(@check_genres_adventure, 4, 1, 1, 1)
-
-    @check_genres_animation = Qt::CheckBox.new(@groupBox)
-    @check_genres_animation.objectName = "check_genres_animation"
-
-    @gridLayout_2.addWidget(@check_genres_animation, 5, 0, 1, 1)
-
-    @check_genres_biography = Qt::CheckBox.new(@groupBox)
-    @check_genres_biography.objectName = "check_genres_biography"
-
-    @gridLayout_2.addWidget(@check_genres_biography, 5, 1, 1, 1)
-
-    @check_genres_comedy = Qt::CheckBox.new(@groupBox)
-    @check_genres_comedy.objectName = "check_genres_comedy"
-
-    @gridLayout_2.addWidget(@check_genres_comedy, 6, 0, 1, 1)
-
-    @check_genres_crime = Qt::CheckBox.new(@groupBox)
-    @check_genres_crime.objectName = "check_genres_crime"
-
-    @gridLayout_2.addWidget(@check_genres_crime, 6, 1, 1, 1)
-
-    @check_genres_documentary = Qt::CheckBox.new(@groupBox)
-    @check_genres_documentary.objectName = "check_genres_documentary"
-
-    @gridLayout_2.addWidget(@check_genres_documentary, 7, 0, 1, 1)
-
-    @check_genres_drama = Qt::CheckBox.new(@groupBox)
-    @check_genres_drama.objectName = "check_genres_drama"
-
-    @gridLayout_2.addWidget(@check_genres_drama, 7, 1, 1, 1)
-
-    @check_genres_family = Qt::CheckBox.new(@groupBox)
-    @check_genres_family.objectName = "check_genres_family"
-
-    @gridLayout_2.addWidget(@check_genres_family, 8, 0, 1, 1)
-
-    @check_genres_fantasy = Qt::CheckBox.new(@groupBox)
-    @check_genres_fantasy.objectName = "check_genres_fantasy"
-
-    @gridLayout_2.addWidget(@check_genres_fantasy, 8, 1, 1, 1)
-
-    @check_genres_film_noir = Qt::CheckBox.new(@groupBox)
-    @check_genres_film_noir.objectName = "check_genres_film_noir"
-
-    @gridLayout_2.addWidget(@check_genres_film_noir, 9, 0, 1, 1)
-
-    @check_genres_game_show = Qt::CheckBox.new(@groupBox)
-    @check_genres_game_show.objectName = "check_genres_game_show"
-
-    @gridLayout_2.addWidget(@check_genres_game_show, 9, 1, 1, 1)
-
-    @check_genres_history = Qt::CheckBox.new(@groupBox)
-    @check_genres_history.objectName = "check_genres_history"
-
-    @gridLayout_2.addWidget(@check_genres_history, 10, 0, 1, 1)
-
-    @check_genres_horror = Qt::CheckBox.new(@groupBox)
-    @check_genres_horror.objectName = "check_genres_horror"
-
-    @gridLayout_2.addWidget(@check_genres_horror, 10, 1, 1, 1)
-
-    @check_genres_music = Qt::CheckBox.new(@groupBox)
-    @check_genres_music.objectName = "check_genres_music"
-
-    @gridLayout_2.addWidget(@check_genres_music, 11, 0, 1, 1)
-
-    @check_genres_musical = Qt::CheckBox.new(@groupBox)
-    @check_genres_musical.objectName = "check_genres_musical"
-
-    @gridLayout_2.addWidget(@check_genres_musical, 11, 1, 1, 1)
-
-    @check_genres_mystery = Qt::CheckBox.new(@groupBox)
-    @check_genres_mystery.objectName = "check_genres_mystery"
-
-    @gridLayout_2.addWidget(@check_genres_mystery, 12, 0, 1, 1)
-
-    @check_genres_news = Qt::CheckBox.new(@groupBox)
-    @check_genres_news.objectName = "check_genres_news"
-
-    @gridLayout_2.addWidget(@check_genres_news, 12, 1, 1, 1)
-
-    @check_genres_romance = Qt::CheckBox.new(@groupBox)
-    @check_genres_romance.objectName = "check_genres_romance"
-
-    @gridLayout_2.addWidget(@check_genres_romance, 13, 0, 1, 1)
-
-    @check_genres_scifi = Qt::CheckBox.new(@groupBox)
-    @check_genres_scifi.objectName = "check_genres_scifi"
-
-    @gridLayout_2.addWidget(@check_genres_scifi, 13, 1, 1, 1)
-
-    @check_genres_sport = Qt::CheckBox.new(@groupBox)
-    @check_genres_sport.objectName = "check_genres_sport"
-
-    @gridLayout_2.addWidget(@check_genres_sport, 14, 0, 1, 1)
-
-    @check_genres_thriller = Qt::CheckBox.new(@groupBox)
-    @check_genres_thriller.objectName = "check_genres_thriller"
-
-    @gridLayout_2.addWidget(@check_genres_thriller, 14, 1, 1, 1)
-
-    @check_genres_war = Qt::CheckBox.new(@groupBox)
-    @check_genres_war.objectName = "check_genres_war"
-
-    @gridLayout_2.addWidget(@check_genres_war, 15, 0, 1, 1)
-
-    @check_genres_western = Qt::CheckBox.new(@groupBox)
-    @check_genres_western.objectName = "check_genres_western"
-
-    @gridLayout_2.addWidget(@check_genres_western, 15, 1, 1, 1)
+    @horizontalLayout_6.addWidget(@combo_genres)
 
 
-    @sidebar.addWidget(@groupBox)
+    @sidebar.addLayout(@horizontalLayout_6)
 
     @horizontalLayout_4 = Qt::HBoxLayout.new()
     @horizontalLayout_4.objectName = "horizontalLayout_4"
@@ -444,34 +280,29 @@ class Ui_Main_window
 
     @combo_sort = Qt::ComboBox.new(@centralwidget)
     @combo_sort.objectName = "combo_sort"
-    @sizePolicy2.heightForWidth = @combo_sort.sizePolicy.hasHeightForWidth
-    @combo_sort.sizePolicy = @sizePolicy2
+    @sizePolicy.heightForWidth = @combo_sort.sizePolicy.hasHeightForWidth
+    @combo_sort.sizePolicy = @sizePolicy
 
     @horizontalLayout_4.addWidget(@combo_sort)
 
-    @button_sort_inv = Qt::PushButton.new(@centralwidget)
-    @button_sort_inv.objectName = "button_sort_inv"
-    @sizePolicy.heightForWidth = @button_sort_inv.sizePolicy.hasHeightForWidth
-    @button_sort_inv.sizePolicy = @sizePolicy
-    @button_sort_inv.maximumSize = Qt::Size.new(40, 16777215)
-    @button_sort_inv.checkable = true
+    @check_sort_inv = Qt::CheckBox.new(@centralwidget)
+    @check_sort_inv.objectName = "check_sort_inv"
+    @sizePolicy.heightForWidth = @check_sort_inv.sizePolicy.hasHeightForWidth
+    @check_sort_inv.sizePolicy = @sizePolicy
 
-    @horizontalLayout_4.addWidget(@button_sort_inv)
+    @horizontalLayout_4.addWidget(@check_sort_inv)
 
 
     @sidebar.addLayout(@horizontalLayout_4)
 
-    @verticalSpacer = Qt::SpacerItem.new(20, 0, Qt::SizePolicy::Minimum, Qt::SizePolicy::Expanding)
+    @verticalSpacer = Qt::SpacerItem.new(20, 50, Qt::SizePolicy::Minimum, Qt::SizePolicy::Expanding)
 
     @sidebar.addItem(@verticalSpacer)
 
     @check_hide_seen = Qt::CheckBox.new(@centralwidget)
     @check_hide_seen.objectName = "check_hide_seen"
-    @sizePolicy5 = Qt::SizePolicy.new(Qt::SizePolicy::Preferred, Qt::SizePolicy::Minimum)
-    @sizePolicy5.setHorizontalStretch(0)
-    @sizePolicy5.setVerticalStretch(0)
-    @sizePolicy5.heightForWidth = @check_hide_seen.sizePolicy.hasHeightForWidth
-    @check_hide_seen.sizePolicy = @sizePolicy5
+    @sizePolicy.heightForWidth = @check_hide_seen.sizePolicy.hasHeightForWidth
+    @check_hide_seen.sizePolicy = @sizePolicy
 
     @sidebar.addWidget(@check_hide_seen)
 
@@ -484,22 +315,10 @@ class Ui_Main_window
 
     @horizontalLayout_5 = Qt::HBoxLayout.new()
     @horizontalLayout_5.objectName = "horizontalLayout_5"
-    @button_clear = Qt::PushButton.new(@centralwidget)
-    @button_clear.objectName = "button_clear"
-    @sizePolicy2.heightForWidth = @button_clear.sizePolicy.hasHeightForWidth
-    @button_clear.sizePolicy = @sizePolicy2
-    @button_clear.maximumSize = Qt::Size.new(16777215, 16777215)
-    @button_clear.icon = icon11
-    @button_clear.iconSize = Qt::Size.new(16, 16)
-    @button_clear.default = false
-    @button_clear.flat = false
-
-    @horizontalLayout_5.addWidget(@button_clear)
-
     @button_find = Qt::PushButton.new(@centralwidget)
     @button_find.objectName = "button_find"
-    @sizePolicy2.heightForWidth = @button_find.sizePolicy.hasHeightForWidth
-    @button_find.sizePolicy = @sizePolicy2
+    @sizePolicy.heightForWidth = @button_find.sizePolicy.hasHeightForWidth
+    @button_find.sizePolicy = @sizePolicy
     @button_find.acceptDrops = false
     @button_find.icon = icon1
     @button_find.iconSize = Qt::Size.new(16, 16)
@@ -513,8 +332,8 @@ class Ui_Main_window
 
     @button_cancel = Qt::PushButton.new(@centralwidget)
     @button_cancel.objectName = "button_cancel"
-    @sizePolicy2.heightForWidth = @button_cancel.sizePolicy.hasHeightForWidth
-    @button_cancel.sizePolicy = @sizePolicy2
+    @sizePolicy.heightForWidth = @button_cancel.sizePolicy.hasHeightForWidth
+    @button_cancel.sizePolicy = @sizePolicy
     @button_cancel.icon = icon3
     @button_cancel.iconSize = Qt::Size.new(16, 16)
 
@@ -531,7 +350,7 @@ class Ui_Main_window
     @scrollarea.widgetResizable = true
     @scrollarea_content = Qt::Widget.new()
     @scrollarea_content.objectName = "scrollarea_content"
-    @scrollarea_content.geometry = Qt::Rect.new(0, 0, 487, 551)
+    @scrollarea_content.geometry = Qt::Rect.new(0, 0, 548, 279)
     @sizePolicy1.heightForWidth = @scrollarea_content.sizePolicy.hasHeightForWidth
     @scrollarea_content.sizePolicy = @sizePolicy1
     @verticalLayout_2 = Qt::VBoxLayout.new(@scrollarea_content)
@@ -553,7 +372,7 @@ class Ui_Main_window
     main_window.centralWidget = @centralwidget
     @menubar = Qt::MenuBar.new(main_window)
     @menubar.objectName = "menubar"
-    @menubar.geometry = Qt::Rect.new(0, 0, 800, 22)
+    @menubar.geometry = Qt::Rect.new(0, 0, 800, 25)
     @menuFile = Qt::Menu.new(@menubar)
     @menuFile.objectName = "menuFile"
     @menuView = Qt::Menu.new(@menubar)
@@ -621,36 +440,10 @@ class Ui_Main_window
     @label_2.text = Qt::Application.translate("main_window", "to", nil, Qt::Application::UnicodeUTF8)
     @label_3.text = Qt::Application.translate("main_window", "Vote", nil, Qt::Application::UnicodeUTF8)
     @label_4.text = Qt::Application.translate("main_window", "to", nil, Qt::Application::UnicodeUTF8)
-    @groupBox.title = Qt::Application.translate("main_window", "Genres", nil, Qt::Application::UnicodeUTF8)
-    @check_genres_all.text = Qt::Application.translate("main_window", "All", nil, Qt::Application::UnicodeUTF8)
-    @check_genres_action.text = Qt::Application.translate("main_window", "Action", nil, Qt::Application::UnicodeUTF8)
-    @check_genres_adventure.text = Qt::Application.translate("main_window", "Adventure", nil, Qt::Application::UnicodeUTF8)
-    @check_genres_animation.text = Qt::Application.translate("main_window", "Animation", nil, Qt::Application::UnicodeUTF8)
-    @check_genres_biography.text = Qt::Application.translate("main_window", "Biography", nil, Qt::Application::UnicodeUTF8)
-    @check_genres_comedy.text = Qt::Application.translate("main_window", "Comedy", nil, Qt::Application::UnicodeUTF8)
-    @check_genres_crime.text = Qt::Application.translate("main_window", "Crime", nil, Qt::Application::UnicodeUTF8)
-    @check_genres_documentary.text = Qt::Application.translate("main_window", "Documentary", nil, Qt::Application::UnicodeUTF8)
-    @check_genres_drama.text = Qt::Application.translate("main_window", "Drama", nil, Qt::Application::UnicodeUTF8)
-    @check_genres_family.text = Qt::Application.translate("main_window", "Family", nil, Qt::Application::UnicodeUTF8)
-    @check_genres_fantasy.text = Qt::Application.translate("main_window", "Fantasy", nil, Qt::Application::UnicodeUTF8)
-    @check_genres_film_noir.text = Qt::Application.translate("main_window", "Film noir", nil, Qt::Application::UnicodeUTF8)
-    @check_genres_game_show.text = Qt::Application.translate("main_window", "Game show", nil, Qt::Application::UnicodeUTF8)
-    @check_genres_history.text = Qt::Application.translate("main_window", "History", nil, Qt::Application::UnicodeUTF8)
-    @check_genres_horror.text = Qt::Application.translate("main_window", "Horror", nil, Qt::Application::UnicodeUTF8)
-    @check_genres_music.text = Qt::Application.translate("main_window", "Music", nil, Qt::Application::UnicodeUTF8)
-    @check_genres_musical.text = Qt::Application.translate("main_window", "Musical", nil, Qt::Application::UnicodeUTF8)
-    @check_genres_mystery.text = Qt::Application.translate("main_window", "Mystery", nil, Qt::Application::UnicodeUTF8)
-    @check_genres_news.text = Qt::Application.translate("main_window", "News", nil, Qt::Application::UnicodeUTF8)
-    @check_genres_romance.text = Qt::Application.translate("main_window", "Romance", nil, Qt::Application::UnicodeUTF8)
-    @check_genres_scifi.text = Qt::Application.translate("main_window", "SciFi", nil, Qt::Application::UnicodeUTF8)
-    @check_genres_sport.text = Qt::Application.translate("main_window", "Sport", nil, Qt::Application::UnicodeUTF8)
-    @check_genres_thriller.text = Qt::Application.translate("main_window", "Thriller", nil, Qt::Application::UnicodeUTF8)
-    @check_genres_war.text = Qt::Application.translate("main_window", "War", nil, Qt::Application::UnicodeUTF8)
-    @check_genres_western.text = Qt::Application.translate("main_window", "Western", nil, Qt::Application::UnicodeUTF8)
+    @label_5.text = Qt::Application.translate("main_window", "Genres", nil, Qt::Application::UnicodeUTF8)
     @label_7.text = Qt::Application.translate("main_window", "Sort", nil, Qt::Application::UnicodeUTF8)
-    @button_sort_inv.text = Qt::Application.translate("main_window", "Inv", nil, Qt::Application::UnicodeUTF8)
+    @check_sort_inv.text = Qt::Application.translate("main_window", "inv", nil, Qt::Application::UnicodeUTF8)
     @check_hide_seen.text = Qt::Application.translate("main_window", "Hide film seen", nil, Qt::Application::UnicodeUTF8)
-    @button_clear.text = Qt::Application.translate("main_window", "C&lear", nil, Qt::Application::UnicodeUTF8)
     @button_find.text = Qt::Application.translate("main_window", "&Find", nil, Qt::Application::UnicodeUTF8)
     @button_cancel.text = Qt::Application.translate("main_window", "&Cancel", nil, Qt::Application::UnicodeUTF8)
     @menuFile.title = Qt::Application.translate("main_window", "File", nil, Qt::Application::UnicodeUTF8)
